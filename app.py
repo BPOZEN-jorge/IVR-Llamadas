@@ -1,4 +1,5 @@
 import sqlite3
+import random
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import pandas as pd
@@ -152,7 +153,6 @@ def registrar_salto_turno(call_id: str) -> tuple[bool, str]:
         )
 
         # 4. Mover al usuario actual al final de la fila
-        # Eliminamos el primer elemento y lo reinsertamos con nueva posición al final
         nuevos_turnos = turnos[1:] + [primer_usuario]
 
         cursor.execute("DELETE FROM turnos_orden")
@@ -174,10 +174,26 @@ def obtener_historial_saltos() -> pd.DataFrame:
     return df
 
 def reiniciar_turnos_originales():
+    """Restablece los turnos a su orden estático original."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM turnos_orden")
         for idx, user in enumerate(USUARIOS_INICIALES, start=1):
+            cursor.execute(
+                "INSERT INTO turnos_orden (posicion, nombre_real, alias) VALUES (?, ?, ?)",
+                (idx, user["real"], user["alias"])
+            )
+        conn.commit()
+
+def reorganizar_turnos_al_azar():
+    """Rebobina y mezcla la fila de turnos completamente al azar."""
+    usuarios_shuffled = USUARIOS_INICIALES.copy()
+    random.shuffle(usuarios_shuffled)
+    
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM turnos_orden")
+        for idx, user in enumerate(usuarios_shuffled, start=1):
             cursor.execute(
                 "INSERT INTO turnos_orden (posicion, nombre_real, alias) VALUES (?, ?, ?)",
                 (idx, user["real"], user["alias"])
@@ -282,10 +298,23 @@ elif opcion_vista == "🛡️ Vista Administrador":
 
         st.markdown("---")
         st.subheader("⚙️ Opciones de Reordenamiento de Fila")
-        st.warning("⚠️ **Atención:** Esto reajustará el orden de la fila al estado original de la lista.")
+        
+        col_admin_1, col_admin_2 = st.columns(2)
 
-        confirm_reset = st.checkbox("Confirmo que deseo reiniciar el orden de la fila de turnos.")
-        if st.button("Restablecer Fila a Estado Inicial", disabled=not confirm_reset, type="primary"):
-            reiniciar_turnos_originales()
-            st.success("✅ Fila de turnos restablecida con éxito.")
-            st.rerun()
+        with col_admin_1:
+            st.markdown("### 🎲 Rebobinar Turnos al Azar")
+            st.caption("Mezcla la lista completa de agentes para generar un orden de inicio totalmente aleatorio.")
+            confirm_random = st.checkbox("Confirmo que deseo mezclar la fila al azar.")
+            if st.button("🔀 Rebobinar Orden (Aleatorio)", disabled=not confirm_random, type="primary", use_container_width=True):
+                reorganizar_turnos_al_azar()
+                st.success("✅ ¡Fila de turnos mezclada al azar con éxito!")
+                st.rerun()
+
+        with col_admin_2:
+            st.markdown("### 🔄 Restablecer Orden Original")
+            st.caption("Restablece el orden de la fila exactamente como estaba en la lista alfabética inicial.")
+            confirm_reset = st.checkbox("Confirmo que deseo reiniciar al orden inicial.")
+            if st.button("Restablecer Fila a Estado Inicial", disabled=not confirm_reset, use_container_width=True):
+                reiniciar_turnos_originales()
+                st.success("✅ Fila de turnos restablecida al orden inicial.")
+                st.rerun()
