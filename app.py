@@ -74,22 +74,30 @@ def init_db():
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         
-        # Tabla de orden actual de turnos
+        # Verificar si la columna 'activo' existe en turnos_orden
+        cursor.execute("PRAGMA table_info(turnos_orden)")
+        columns_turnos = [column[1] for column in cursor.fetchall()]
+        
+        if columns_turnos and "activo" not in columns_turnos:
+            cursor.execute("DROP TABLE turnos_orden")
+        
+        # Tabla de orden actual de turnos con columna 'activo' (1 = Activo, 0 = Ausente)
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS turnos_orden (
                 posicion INTEGER PRIMARY KEY,
                 nombre_real TEXT NOT NULL,
-                alias TEXT NOT NULL
+                alias TEXT NOT NULL,
+                activo INTEGER NOT NULL DEFAULT 1
             )
             """
         )
         
-        # Migración/Verificación de tabla de historial con campo telefono
+        # Verificar tabla historial_saltos
         cursor.execute("PRAGMA table_info(historial_saltos)")
-        columns = [column[1] for column in cursor.fetchall()]
+        columns_hist = [column[1] for column in cursor.fetchall()]
         
-        if columns and "telefono" not in columns:
+        if columns_hist and "telefono" not in columns_hist:
             cursor.execute("DROP TABLE historial_saltos")
         
         # Tabla de historial de saltos / registros de llamadas
@@ -111,20 +119,28 @@ def init_db():
         if cursor.fetchone()[0] == 0:
             for idx, user in enumerate(USUARIOS_INICIALES, start=1):
                 cursor.execute(
-                    "INSERT INTO turnos_orden (posicion, nombre_real, alias) VALUES (?, ?, ?)",
+                    "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, 1)",
                     (idx, user["real"], user["alias"])
                 )
         conn.commit()
 
 def obtener_lista_turnos() -> list:
+    """Devuelve la lista completa de turnos con su estado (Activo/Ausente)."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT posicion, nombre_real, alias FROM turnos_orden ORDER BY posicion ASC")
+        cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden ORDER BY posicion ASC")
         rows = cursor.fetchall()
-        return [{"posicion": r[0], "real": r[1], "alias": r[2]} for r in rows]
+        return [{"posicion": r[0], "real": r[1], "alias": r[2], "activo": bool(r[3])} for r in rows]
+
+def cambiar_estado_agente(posicion: int, activo: bool):
+    """Cambia el estado de un agente entre Activo (1) y Ausente (0)."""
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE turnos_orden SET activo = ? WHERE posicion = ?", (1 if activo else 0, posicion))
+        conn.commit()
 
 def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
-    """Avanza el turno si el ID de llamada y el teléfono son válidos y únicos."""
+    """Avanza el turno del primer agente ACTIVO en la fila."""
     call_id_clean = call_id.strip()
     telefono_clean = telefono.strip()
     
@@ -148,17 +164,21 @@ def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
         if cursor.fetchone()[0] > 0:
             return False, f"❌ El número de teléfono '{telefono_clean}' ya fue atendido previamente."
 
-        # 3. Obtener la lista actual de turnos
-        cursor.execute("SELECT posicion, nombre_real, alias FROM turnos_orden ORDER BY posicion ASC")
+        # 3. Obtener todos los turnos
+        cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden ORDER BY posicion ASC")
         turnos = cursor.fetchall()
 
-        if not turnos:
-            return False, "❌ No hay usuarios en la lista de turnos."
+        # Buscar el primer agente que esté ACTIVO
+        agente_atendiendo = None
+        for t in turnos:
+            if t[3] == 1:  # activo == 1
+                agente_atendiendo = t
+                break
 
-        # Usuario actual (Turno 1)
-        primer_usuario = turnos[0]
-        nombre_real = primer_usuario[1]
-        alias = primer_usuario[2]
+        if not agente_atendiendo:
+            return False, "❌ Todos los agentes están marcados como Ausentes en este momento."
+
+        pos_atendiendo, nombre_real, alias, _ = agente_atendiendo
 
         # 4. Guardar en el historial de registros
         cursor.execute(
@@ -166,14 +186,15 @@ def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
             (call_id_clean, telefono_clean, nombre_real, alias, now_col)
         )
 
-        # 5. Mover al usuario actual al final de la fila
-        nuevos_turnos = turnos[1:] + [primer_usuario]
+        # 5. Mover al agente que atendió al final de la fila de posiciones
+        turnos_sin_atendiendo = [t for t in turnos if t[0] != pos_atendiendo]
+        nuevos_turnos = turnos_sin_atendiendo + [agente_atendiendo]
 
         cursor.execute("DELETE FROM turnos_orden")
         for new_pos, t in enumerate(nuevos_turnos, start=1):
             cursor.execute(
-                "INSERT INTO turnos_orden (posicion, nombre_real, alias) VALUES (?, ?, ?)",
-                (new_pos, t[1], t[2])
+                "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, ?)",
+                (new_pos, t[1], t[2], t[3])
             )
 
         conn.commit()
@@ -187,49 +208,39 @@ def obtener_historial_saltos() -> pd.DataFrame:
         )
     return df
 
-def mover_primero_a_segundo():
-    """Intercambia el turno #1 con el turno #2 sin alterar el resto de la fila."""
+def vaciar_historial_llamadas():
+    """Borra todos los registros del historial de llamadas."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT posicion, nombre_real, alias FROM turnos_orden ORDER BY posicion ASC LIMIT 2")
-        turnos = cursor.fetchall()
-
-        if len(turnos) < 2:
-            return False, "⚠️ Se necesitan al menos 2 personas en la fila para intercambiar turnos."
-
-        t1, t2 = turnos[0], turnos[1]
-
-        # Intercambiar posiciones
-        cursor.execute("UPDATE turnos_orden SET nombre_real = ?, alias = ? WHERE posicion = 1", (t2[1], t2[2]))
-        cursor.execute("UPDATE turnos_orden SET nombre_real = ?, alias = ? WHERE posicion = 2", (t1[1], t1[2]))
-
+        cursor.execute("DELETE FROM historial_saltos")
         conn.commit()
-        return True, f"✅ Se movió a **{t1[2]}** a la posición #2 y **{t2[2]}** asumió el Turno #1."
 
 def reiniciar_turnos_originales():
-    """Restablece los turnos a su orden estático original."""
+    """Restablece los turnos a su orden estático original y todos activos."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM turnos_orden")
         for idx, user in enumerate(USUARIOS_INICIALES, start=1):
             cursor.execute(
-                "INSERT INTO turnos_orden (posicion, nombre_real, alias) VALUES (?, ?, ?)",
+                "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, 1)",
                 (idx, user["real"], user["alias"])
             )
         conn.commit()
 
 def reorganizar_turnos_al_azar():
-    """Rebobina y mezcla la fila de turnos completamente al azar."""
-    usuarios_shuffled = USUARIOS_INICIALES.copy()
-    random.shuffle(usuarios_shuffled)
-    
+    """Mezcla la fila de turnos al azar conservando los estados de actividad."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
+        cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden")
+        turnos = cursor.fetchall()
+        
+        random.shuffle(turnos)
+        
         cursor.execute("DELETE FROM turnos_orden")
-        for idx, user in enumerate(usuarios_shuffled, start=1):
+        for idx, t in enumerate(turnos, start=1):
             cursor.execute(
-                "INSERT INTO turnos_orden (posicion, nombre_real, alias) VALUES (?, ?, ?)",
-                (idx, user["real"], user["alias"])
+                "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, ?)",
+                (idx, t[1], t[2], t[3])
             )
         conn.commit()
 
@@ -250,16 +261,17 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
 
     turnos_actuales = obtener_lista_turnos()
 
-    if turnos_actuales:
-        actual = turnos_actuales[0]
-        
-        # Tarjeta destacada del Turno Actual
+    # Identificar al primer agente ACTIVO
+    actual = next((t for t in turnos_actuales if t["activo"]), None)
+
+    if actual:
         st.markdown("---")
         col_turn_1, col_turn_2 = st.columns([2, 3])
 
         with col_turn_1:
-            st.metric(label="🎯 TURNO ACTUAL (#1)", value=actual["alias"])
+            st.metric(label="🎯 TURNO ACTUAL (ATENDIENDO)", value=actual["alias"])
             st.write(f"👤 **Nombre Real:** {actual['real']}")
+            st.caption(f"Posición Fila: #{actual['posicion']}")
 
         with col_turn_2:
             st.subheader("📞 Completar Turno Actual")
@@ -279,16 +291,25 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
                     st.rerun()
                 else:
                     st.error(mensaje)
+    else:
+        st.error("⚠️ Todos los agentes se encuentran marcados como Ausentes. Contacta al Administrador.")
 
-        st.markdown("---")
-        
-        # Visualización de la Fila Completa de Turnos
-        st.subheader("📋 Fila Actual de Posiciones")
-        
-        df_turnos = pd.DataFrame(turnos_actuales)
-        df_turnos.columns = ["Posición", "Nombre Real", "Alias / Nombre en Sistema"]
-        
-        st.dataframe(df_turnos, use_container_width=True, hide_index=True)
+    st.markdown("---")
+    
+    # Visualización de la Fila Completa de Turnos con etiqueta de estado
+    st.subheader("📋 Fila Actual de Posiciones")
+    
+    tabla_display = []
+    for t in turnos_actuales:
+        tabla_display.append({
+            "Posición": t["posicion"],
+            "Estado": "🟢 Activo" if t["activo"] else "🔴 Ausente",
+            "Nombre Real": t["real"],
+            "Alias / Nombre en Sistema": t["alias"]
+        })
+    
+    df_turnos = pd.DataFrame(tabla_display)
+    st.dataframe(df_turnos, use_container_width=True, hide_index=True)
 
 # ------------------------------------------
 # VISTA 2: ADMINISTRADOR
@@ -317,6 +338,29 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.session_state.admin_logged = False
             st.rerun()
 
+        st.subheader("👥 Control de Ausencias (Activar / Desactivar Agentes)")
+        st.caption("Desactiva un agente cuando esté en descanso, reunión o ausente. El sistema lo saltará automáticamente sin alterar la fila.")
+
+        turnos_admin = obtener_lista_turnos()
+        
+        # Grid para gestión interactiva de ausencias
+        with st.expander("Ver y Gestionar Lista de Ausencias", expanded=True):
+            for t in turnos_admin:
+                col_name, col_status = st.columns([3, 1])
+                with col_name:
+                    st.write(f"#{t['posicion']} - **{t['alias']}** ({t['real']})")
+                with col_status:
+                    nuevo_estado = st.toggle(
+                        "Activo" if t["activo"] else "Ausente",
+                        value=t["activo"],
+                        key=f"toggle_agente_{t['posicion']}"
+                    )
+                    if nuevo_estado != t["activo"]:
+                        cambiar_estado_agente(t["posicion"], nuevo_estado)
+                        st.toast(f"Agente {t['alias']} marcado como {'Activo' if nuevo_estado else 'Ausente'}.")
+                        st.rerun()
+
+        st.markdown("---")
         st.subheader("📊 Historial de Registro de Llamadas y Saltos")
         df_historial = obtener_historial_saltos()
 
@@ -325,47 +369,45 @@ elif opcion_vista == "🛡️ Vista Administrador":
         else:
             st.dataframe(df_historial, use_container_width=True, hide_index=True)
 
-            # Botón de Descarga en CSV
-            csv_data = df_historial.to_csv(index=False).encode("utf-8")
-            st.download_button(
-                label="📥 Descargar Reporte CSV (Hora Colombia)",
-                data=csv_data,
-                file_name=f"reporte_saltos_turnos_{datetime.now(ZoneInfo('America/Bogota')).strftime('%Y%m%d_%H%M')}.csv",
-                mime="text/csv"
-            )
+            col_csv, col_del = st.columns(2)
+            with col_csv:
+                csv_data = df_historial.to_csv(index=False).encode("utf-8")
+                st.download_button(
+                    label="📥 Descargar Reporte CSV (Hora Colombia)",
+                    data=csv_data,
+                    file_name=f"reporte_saltos_turnos_{datetime.now(ZoneInfo('America/Bogota')).strftime('%Y%m%d_%H%M')}.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
 
         st.markdown("---")
-        st.subheader("⚙️ Gestión y Modificación de Fila")
+        st.subheader("⚙️ Opciones de Reordenamiento y Limpieza")
         
-        # Opción para mover Turno #1 al #2
-        st.markdown("### ⏭️ Saltar Primero a Segundo (Agente Ausente)")
-        st.caption("Usa esta opción si el agente en la Posición #1 no está disponible para que el segundo tome el turno.")
-        if st.button("Mover Agente del Turno #1 al Turno #2", type="secondary"):
-            exito, msg = mover_primero_a_segundo()
-            if exito:
-                st.success(msg)
-                st.rerun()
-            else:
-                st.warning(msg)
-
-        st.markdown("---")
-        
-        col_admin_1, col_admin_2 = st.columns(2)
+        col_admin_1, col_admin_2, col_admin_3 = st.columns(3)
 
         with col_admin_1:
-            st.markdown("### 🎲 Rebobinar Turnos al Azar")
-            st.caption("Mezcla la lista completa de agentes para generar un orden de inicio totalmente aleatorio.")
-            confirm_random = st.checkbox("Confirmo que deseo mezclar la fila al azar.")
-            if st.button("🔀 Rebobinar Orden (Aleatorio)", disabled=not confirm_random, type="primary", use_container_width=True):
+            st.markdown("### 🎲 Rebobinar al Azar")
+            st.caption("Mezcla la lista completa de agentes al azar.")
+            confirm_random = st.checkbox("Confirmo mezclar la fila al azar.")
+            if st.button("🔀 Mezclar Orden", disabled=not confirm_random, type="primary", use_container_width=True):
                 reorganizar_turnos_al_azar()
-                st.success("✅ ¡Fila de turnos mezclada al azar con éxito!")
+                st.success("✅ ¡Fila mezclada con éxito!")
                 st.rerun()
 
         with col_admin_2:
-            st.markdown("### 🔄 Restablecer Orden Original")
-            st.caption("Restablece el orden de la fila exactamente como estaba en la lista alfabética inicial.")
-            confirm_reset = st.checkbox("Confirmo que deseo reiniciar al orden inicial.")
-            if st.button("Restablecer Fila a Estado Inicial", disabled=not confirm_reset, use_container_width=True):
+            st.markdown("### 🔄 Restablecer Orden")
+            st.caption("Restablece el orden alfabético inicial.")
+            confirm_reset = st.checkbox("Confirmo reiniciar al orden inicial.")
+            if st.button("Restablecer Fila", disabled=not confirm_reset, use_container_width=True):
                 reiniciar_turnos_originales()
-                st.success("✅ Fila de turnos restablecida al orden inicial.")
+                st.success("✅ Fila de turnos restablecida.")
+                st.rerun()
+
+        with col_admin_3:
+            st.markdown("### 🗑️ Limpiar Historial")
+            st.caption("Borra los registros de llamadas de prueba.")
+            confirm_del_hist = st.checkbox("Confirmo borrar el historial.")
+            if st.button("Vaciar Historial", disabled=not confirm_del_hist, use_container_width=True):
+                vaciar_historial_llamadas()
+                st.success("✅ Historial de llamadas vaciado.")
                 st.rerun()
