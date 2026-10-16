@@ -59,7 +59,6 @@ USUARIOS_INICIALES = [
     {"real": "Yarnedis Cecilia Urruta", "alias": "Cecilia López"},
     {"real": "Yeismer Miranda", "alias": "Leo Miranda"},
     {"real": "Yesica Paola Lopez", "alias": "Yesica López"},
-    {"real": "Michelle Dayanna Villacrez", "alias": "Michelle"},
     {"real": "Yesly Marilyn Carrero", "alias": "Marilyn Carrero"},
 ]
 
