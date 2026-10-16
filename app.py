@@ -41,7 +41,6 @@ USUARIOS_INICIALES = [
     {"real": "Juan Sebastián Serna", "alias": "Juan Sebastian"},
     {"real": "Julián Andrés Osorio", "alias": "Andrés Aristizábal"},
     {"real": "Karen Herrera", "alias": "Karen"},
-    {"real": "Kelly Jhoana Salas", "alias": "Kelly Salas"},
     {"real": "Libia Paola Romero", "alias": "Paola Romero"},
     {"real": "Linda Liceth Pérez", "alias": "Linda Pérez / Elena Pérez"},
     {"real": "Luis Alberto Lozano", "alias": "Luis Lozano"},
@@ -53,7 +52,6 @@ USUARIOS_INICIALES = [
     {"real": "Paula Andrea Guzman", "alias": "Paula"},
     {"real": "Rosa Agamez", "alias": "Flor Lopez"},
     {"real": "Sara Gómez", "alias": "Sara Gómez"},
-    {"real": "Stefany Vanegas", "alias": "Stefany Vanegas"},
     {"real": "Tatiana Magreth Acevedo", "alias": "Tatiana"},
     {"real": "Tomas Castaño", "alias": "Tomas"},
     {"real": "Viviana Pacheco", "alias": "Viviana Gómez"},
@@ -62,7 +60,6 @@ USUARIOS_INICIALES = [
     {"real": "Yeismer Miranda", "alias": "Leo Miranda"},
     {"real": "Yesica Paola Lopez", "alias": "Yesica López"},
     {"real": "Michelle Dayanna Villacrez", "alias": "Michelle"},
-    {"real": "Maria Fernanda Ramirez", "alias": "Maria Fernanda"},
     {"real": "Yesly Marilyn Carrero", "alias": "Marilyn Carrero"},
 ]
 
@@ -88,12 +85,20 @@ def init_db():
             """
         )
         
+        # Migración/Verificación de tabla de historial con campo telefono
+        cursor.execute("PRAGMA table_info(historial_saltos)")
+        columns = [column[1] for column in cursor.fetchall()]
+        
+        if columns and "telefono" not in columns:
+            cursor.execute("DROP TABLE historial_saltos")
+        
         # Tabla de historial de saltos / registros de llamadas
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS historial_saltos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 call_id TEXT NOT NULL UNIQUE,
+                telefono TEXT NOT NULL UNIQUE,
                 nombre_real TEXT NOT NULL,
                 alias TEXT NOT NULL,
                 fecha_hora TEXT NOT NULL
@@ -118,23 +123,32 @@ def obtener_lista_turnos() -> list:
         rows = cursor.fetchall()
         return [{"posicion": r[0], "real": r[1], "alias": r[2]} for r in rows]
 
-def registrar_salto_turno(call_id: str) -> tuple[bool, str]:
-    """Avanza el turno si la ID de llamada es válida y no ha sido usada."""
+def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
+    """Avanza el turno si el ID de llamada y el teléfono son válidos y únicos."""
     call_id_clean = call_id.strip()
+    telefono_clean = telefono.strip()
+    
     if not call_id_clean:
         return False, "⚠️ Debes ingresar un ID de llamada válido."
+    if not telefono_clean:
+        return False, "⚠️ Debes ingresar un número de teléfono válido."
 
     now_col = obtener_hora_colombia()
 
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
 
-        # 1. Validar si la ID ya fue utilizada
+        # 1. Validar si el ID de llamada ya fue utilizado
         cursor.execute("SELECT COUNT(*) FROM historial_saltos WHERE call_id = ?", (call_id_clean,))
         if cursor.fetchone()[0] > 0:
-            return False, f"❌ El ID de llamada '{call_id_clean}' ya fue utilizado previamente. Ingrese uno nuevo."
+            return False, f"❌ El ID de llamada '{call_id_clean}' ya fue registrado previamente."
 
-        # 2. Obtener la lista actual de turnos
+        # 2. Validar si el Teléfono ya fue utilizado
+        cursor.execute("SELECT COUNT(*) FROM historial_saltos WHERE telefono = ?", (telefono_clean,))
+        if cursor.fetchone()[0] > 0:
+            return False, f"❌ El número de teléfono '{telefono_clean}' ya fue atendido previamente."
+
+        # 3. Obtener la lista actual de turnos
         cursor.execute("SELECT posicion, nombre_real, alias FROM turnos_orden ORDER BY posicion ASC")
         turnos = cursor.fetchall()
 
@@ -146,13 +160,13 @@ def registrar_salto_turno(call_id: str) -> tuple[bool, str]:
         nombre_real = primer_usuario[1]
         alias = primer_usuario[2]
 
-        # 3. Guardar en el historial de registros
+        # 4. Guardar en el historial de registros
         cursor.execute(
-            "INSERT INTO historial_saltos (call_id, nombre_real, alias, fecha_hora) VALUES (?, ?, ?, ?)",
-            (call_id_clean, nombre_real, alias, now_col)
+            "INSERT INTO historial_saltos (call_id, telefono, nombre_real, alias, fecha_hora) VALUES (?, ?, ?, ?, ?)",
+            (call_id_clean, telefono_clean, nombre_real, alias, now_col)
         )
 
-        # 4. Mover al usuario actual al final de la fila
+        # 5. Mover al usuario actual al final de la fila
         nuevos_turnos = turnos[1:] + [primer_usuario]
 
         cursor.execute("DELETE FROM turnos_orden")
@@ -163,15 +177,34 @@ def registrar_salto_turno(call_id: str) -> tuple[bool, str]:
             )
 
         conn.commit()
-        return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` guardado con éxito."
+        return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
 
 def obtener_historial_saltos() -> pd.DataFrame:
     with sqlite3.connect(DB_PATH) as conn:
         df = pd.read_sql_query(
-            "SELECT id AS 'ID Reg', call_id AS 'ID Llamada', alias AS 'Alias', nombre_real AS 'Nombre Real', fecha_hora AS 'Fecha / Hora (Colombia)' FROM historial_saltos ORDER BY id DESC",
+            "SELECT id AS 'ID Reg', call_id AS 'ID Llamada', telefono AS 'Teléfono', alias AS 'Alias', nombre_real AS 'Nombre Real', fecha_hora AS 'Fecha / Hora (Colombia)' FROM historial_saltos ORDER BY id DESC",
             conn,
         )
     return df
+
+def mover_primero_a_segundo():
+    """Intercambia el turno #1 con el turno #2 sin alterar el resto de la fila."""
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT posicion, nombre_real, alias FROM turnos_orden ORDER BY posicion ASC LIMIT 2")
+        turnos = cursor.fetchall()
+
+        if len(turnos) < 2:
+            return False, "⚠️ Se necesitan al menos 2 personas en la fila para intercambiar turnos."
+
+        t1, t2 = turnos[0], turnos[1]
+
+        # Intercambiar posiciones
+        cursor.execute("UPDATE turnos_orden SET nombre_real = ?, alias = ? WHERE posicion = 1", (t2[1], t2[2]))
+        cursor.execute("UPDATE turnos_orden SET nombre_real = ?, alias = ? WHERE posicion = 2", (t1[1], t1[2]))
+
+        conn.commit()
+        return True, f"✅ Se movió a **{t1[2]}** a la posición #2 y **{t2[2]}** asumió el Turno #1."
 
 def reiniciar_turnos_originales():
     """Restablece los turnos a su orden estático original."""
@@ -213,7 +246,7 @@ opcion_vista = st.sidebar.radio("Navegación:", ["🎡 Fila de Turnos (Ruleta)",
 # ------------------------------------------
 if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
     st.title("🔄 Control de Turnos y Llamadas")
-    st.caption("Ingresa el ID de la llamada para completar tu turno y ceder el lugar al siguiente agente.")
+    st.caption("Ingresa el ID de la llamada y el Teléfono para completar tu turno y ceder el lugar al siguiente agente.")
 
     turnos_actuales = obtener_lista_turnos()
 
@@ -231,11 +264,16 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
         with col_turn_2:
             st.subheader("📞 Completar Turno Actual")
             with st.form("form_avanzar_turno", clear_on_submit=True):
-                call_id_input = st.text_input("Ingresa el ID de la Llamada:", placeholder="Ej: CALL-9876543")
+                col_f1, col_f2 = st.columns(2)
+                with col_f1:
+                    call_id_input = st.text_input("ID de la Llamada:", placeholder="Ej: CALL-9876543")
+                with col_f2:
+                    telefono_input = st.text_input("Teléfono del Cliente:", placeholder="Ej: 3001234567")
+                    
                 submit_salto = st.form_submit_button("Avanzar Turno ➡️", use_container_width=True, type="primary")
 
             if submit_salto:
-                exito, mensaje = registrar_salto_turno(call_id_input)
+                exito, mensaje = registrar_salto_turno(call_id_input, telefono_input)
                 if exito:
                     st.success(mensaje)
                     st.rerun()
@@ -297,7 +335,20 @@ elif opcion_vista == "🛡️ Vista Administrador":
             )
 
         st.markdown("---")
-        st.subheader("⚙️ Opciones de Reordenamiento de Fila")
+        st.subheader("⚙️ Gestión y Modificación de Fila")
+        
+        # Opción para mover Turno #1 al #2
+        st.markdown("### ⏭️ Saltar Primero a Segundo (Agente Ausente)")
+        st.caption("Usa esta opción si el agente en la Posición #1 no está disponible para que el segundo tome el turno.")
+        if st.button("Mover Agente del Turno #1 al Turno #2", type="secondary"):
+            exito, msg = mover_primero_a_segundo()
+            if exito:
+                st.success(msg)
+                st.rerun()
+            else:
+                st.warning(msg)
+
+        st.markdown("---")
         
         col_admin_1, col_admin_2 = st.columns(2)
 
