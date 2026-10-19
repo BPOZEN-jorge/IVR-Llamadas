@@ -24,7 +24,7 @@
         "manual": false
     },
     "Carlos Alberto Herrera Cardeño": {
-        "activo": true,
+        "activo": false,
         "manual": false
     },
     "Claudia Marcela Manco Vargas": {
@@ -52,7 +52,7 @@
         "manual": false
     },
     "Janis Henao Vasco": {
-        "activo": true,
+        "activo": false,
         "manual": false
     },
     "Johana Osorio Bedoya": {
@@ -88,7 +88,7 @@
         "manual": false
     },
     "Luis Alberto Lozano Ibarra": {
-        "activo": true,
+        "activo": false,
         "manual": false
     },
     "Manuela villegas Giraldo": {
