@@ -16,7 +16,7 @@
             "posicion": 3,
             "real": "Julián Andrés Osorio Aristizabal",
             "alias": "Andrés Aristizábal",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 4,
@@ -40,7 +40,7 @@
             "posicion": 7,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 8,
@@ -58,7 +58,7 @@
             "posicion": 10,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 11,
@@ -136,7 +136,7 @@
             "posicion": 23,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 24,
