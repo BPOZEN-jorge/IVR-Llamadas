@@ -147,7 +147,9 @@ def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
         "configuracion": {"modo_auto": "true"},
         "horario_excel": []
     }
-    def_estados = {u["real"]: True for u in USUARIOS_INICIALES}
+    
+    # Formato compatible con control manual: {"estado": bool, "manual": bool} o bool simple
+    def_estados = {u["real"]: {"activo": True, "manual": False} for u in USUARIOS_INICIALES}
 
     data_turnos = leer_json_github(FILE_TURNOS, def_turnos)
     data_estados = leer_json_github(FILE_ESTADOS, def_estados)
@@ -160,7 +162,14 @@ def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
     # Inyectar el estado activo/ausente más reciente desde data_estados
     for t in turnos_lista:
         nombre = t["real"]
-        t["activo"] = data_estados.get(nombre, True)
+        info_est = data_estados.get(nombre, True)
+        
+        if isinstance(info_est, dict):
+            t["activo"] = info_est.get("activo", True)
+            t["manual"] = info_est.get("manual", False)
+        else:
+            t["activo"] = bool(info_est)
+            t["manual"] = False
 
     st.session_state.data_turnos_cache = data_turnos
     st.session_state.data_estados_cache = data_estados
@@ -182,25 +191,44 @@ def obtener_lista_turnos() -> list:
     turnos, _, _, _ = obtener_estructura_completa_fresca()
     return turnos
 
-def guardar_cambios_masivos_agentes(estados_nuevos: dict):
-    """Guarda Exclusivamente en `agentes_estados.json` sin tocar las posiciones ni el historial."""
-    estados_actuales = leer_json_github(FILE_ESTADOS, {u["real"]: True for u in USUARIOS_INICIALES})
+def guardar_cambios_masivos_agentes(estados_seleccionados: dict):
+    """Guarda Exclusivamente en `agentes_estados.json` marcándolos como manuales."""
+    estados_actuales = leer_json_github(FILE_ESTADOS, {})
     cambios = 0
     
-    # Mapear posicion a nombre_real
     turnos_actuales, _, _, _ = obtener_estructura_completa_fresca()
     mapa_pos_nombre = {t["posicion"]: t["real"] for t in turnos_actuales}
 
     for pos, nuevo_activo in estados_seleccionados.items():
         nombre_real = mapa_pos_nombre.get(pos)
-        if nombre_real and estados_actuales.get(nombre_real) != nuevo_activo:
-            estados_actuales[nombre_real] = nuevo_activo
-            cambios += 1
+        if nombre_real:
+            val_actual = estados_actuales.get(nombre_real)
+            
+            # Normalización del estado anterior
+            est_anterior = val_actual.get("activo") if isinstance(val_actual, dict) else val_actual
+            
+            # Si cambia o si se quiere forzar como control manual
+            if est_anterior != nuevo_activo or not (isinstance(val_actual, dict) and val_actual.get("manual")):
+                estados_actuales[nombre_real] = {
+                    "activo": nuevo_activo,
+                    "manual": True  # Marcamos que la decisión fue tomada manualmente
+                }
+                cambios += 1
 
     if cambios > 0:
-        if escribir_json_github(FILE_ESTADOS, estados_actuales, f"Admin: Actualización de {cambios} estados"):
-            return True, f"✅ ¡Se guardaron correctamente los estados de {cambios} agentes!"
+        if escribir_json_github(FILE_ESTADOS, estados_actuales, f"Admin: Anulación manual de {cambios} estados"):
+            return True, f"✅ ¡Se guardaron correctamente los cambios manuales de {cambios} agentes!"
     return False, "ℹ️ No se detectaron cambios de estado para guardar."
+
+def resetear_bloqueos_manuales():
+    """Limpia los bloqueos manuales permitiendo que el horario automático vuelva a tomar control total."""
+    estados_actuales = leer_json_github(FILE_ESTADOS, {})
+    for nombre in estados_actuales:
+        if isinstance(estados_actuales[nombre], dict):
+            estados_actuales[nombre]["manual"] = False
+        else:
+            estados_actuales[nombre] = {"activo": bool(estados_actuales[nombre]), "manual": False}
+    escribir_json_github(FILE_ESTADOS, estados_actuales, "Admin: Restablecer control automático de horarios")
 
 def guardar_horario_db(df: pd.DataFrame):
     data_turnos = leer_json_github(FILE_TURNOS, {})
@@ -211,7 +239,7 @@ def obtener_horario_db() -> pd.DataFrame:
     _, _, _, horario_excel = obtener_estructura_completa_fresca()
     return pd.DataFrame(horario_excel) if horario_excel else pd.DataFrame()
 
-def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
+def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: bool = False):
     if df_horario.empty:
         return
 
@@ -264,12 +292,24 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
     estados_actuales = leer_json_github(FILE_ESTADOS, {})
     hubo_cambios = False
     
-    for real_name in estados_actuales.keys():
+    for real_name in list(estados_actuales.keys()):
         nombre_norm = real_name.replace('\xa0', ' ').strip().lower()
+        
+        info_actual = estados_actuales[real_name]
+        es_manual = info_actual.get("manual", False) if isinstance(info_actual, dict) else False
+        st_actual = info_actual.get("activo", True) if isinstance(info_actual, dict) else bool(info_actual)
+
+        # SI ES MANUAL Y NO ESTAMOS FORZANDO RE-SINCRONIZACIÓN, RESPETAMOS LA DECISIÓN DEL USUARIO
+        if es_manual and not forzar_resincro:
+            continue
+
         if nombre_norm in agentes_activos_horario:
             nuevo_st = agentes_activos_horario[nombre_norm]
-            if estados_actuales[real_name] != nuevo_st:
-                estados_actuales[real_name] = nuevo_st
+            if st_actual != nuevo_st or es_manual:
+                estados_actuales[real_name] = {
+                    "activo": nuevo_st,
+                    "manual": False  # Se limpia el flag si fue resincronizado por el sistema
+                }
                 hubo_cambios = True
 
     if hubo_cambios:
@@ -328,7 +368,7 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     }
     historial.insert(0, nuevo_registro)
 
-    # Reordenar turnos limpiando la llave 'activo' antes de guardar a JSON (solo guardamos posiciones)
+    # Reordenar turnos limpiando llaves temporales antes de guardar a JSON (solo guardamos posiciones)
     turnos_limpios = [{"posicion": t["posicion"], "real": t["real"], "alias": t["alias"]} for t in turnos]
     agente_limpio = next(t for t in turnos_limpios if t["posicion"] == pos_atendiendo)
     
@@ -443,7 +483,7 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
     tabla_display = [
         {
             "Posición": t["posicion"],
-            "Estado": "🟢 Activo" if t["activo"] else "🔴 Ausente",
+            "Estado": ("🟢 Activo (Manual)" if t.get("manual") else "🟢 Activo") if t["activo"] else ("🔴 Ausente (Manual)" if t.get("manual") else "🔴 Ausente"),
             "Nombre Real": t["real"],
             "Alias / Nombre en Sistema": t["alias"]
         } for t in turnos_actuales
@@ -514,30 +554,39 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.rerun()
 
         if modo_auto:
-            st.info("ℹ️ La activación automática según el Excel está **ACTIVADA** y persistirá tras reinicios.")
+            st.info("ℹ️ La activación automática está **ACTIVADA**. Los cambios manuales mantendrán su prioridad hasta que se resincronice el horario.")
             df_actual = obtener_horario_db()
             if not df_actual.empty:
-                if st.button("🔄 Sincronizar Horario Ahora"):
-                    actualizar_estados_segun_horario(df_actual)
-                    st.success("✅ Agentes sincronizados según la hora actual de Colombia.")
-                    st.rerun()
+                col_sync1, col_sync2 = st.columns(2)
+                with col_sync1:
+                    if st.button("🔄 Sincronizar Horario (Respetar Modificaciones Manuales)"):
+                        actualizar_estados_segun_horario(df_actual, forzar_resincro=False)
+                        st.success("✅ Sincronizado sin alterar cambios manuales.")
+                        st.rerun()
+                with col_sync2:
+                    if st.button("⚡ Restablecer y Forzar Horario de Excel"):
+                        resetear_bloqueos_manuales()
+                        actualizar_estados_segun_horario(df_actual, forzar_resincro=True)
+                        st.success("✅ Todos los estados volvieron a sincronizarse exactamente con el Excel.")
+                        st.rerun()
             else:
                 st.warning("⚠️ No se ha subido ningún archivo de Excel aún.")
         else:
-            st.warning("⚠️ Activación automática **DESACTIVADA**. Se usará la activación manual como opción de respaldo.")
+            st.warning("⚠️ Activación automática **DESACTIVADA**. Se usará únicamente el control manual de estados.")
 
         st.markdown("---")
-        st.subheader("👥 Control Manual de Ausencias (Segunda Opción)")
-        st.caption("Usa estas casillas para activar o desactivar manualmente a un agente y presiona el botón al final para publicar los cambios en GitHub.")
+        st.subheader("👥 Control Manual de Ausencias (Sobrescribe Horario)")
+        st.caption("Al cambiar el toggle de un agente, su estado quedará fijado manualmente hasta que presiones 'Restablecer y Forzar Horario de Excel'.")
 
         turnos_admin = obtener_lista_turnos()
         
-        with st.expander("Ver y Gestionar Lista de Ausencias Manualmente", expanded=not modo_auto):
+        with st.expander("Ver y Gestionar Lista de Ausencias Manualmente", expanded=True):
             estados_seleccionados = {}
             for t in turnos_admin:
                 col_name, col_status = st.columns([3, 1])
                 with col_name:
-                    st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']})")
+                    etiqueta_manual = " 📌 *(Manual)*" if t.get("manual") else ""
+                    st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']}){etiqueta_manual}")
                 with col_status:
                     nuevo_estado = st.toggle(
                         "Activo" if t["activo"] else "Ausente",
