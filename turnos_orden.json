@@ -177,31 +177,39 @@
         },
         {
             "posicion": 36,
-            "real": "Carlos Alberto Herrera Cardeño",
-            "alias": "Carlos Herrera / Alberto Fernandez"
-        },
-        {
-            "posicion": 37,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Janis Henao Vasco",
             "alias": "María José"
+        },
+        {
+            "posicion": 40,
+            "real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez"
         }
     ],
     "historial": [
+        {
+            "id": 23,
+            "call_id": "CA9cae1823a2819e5a008f5a0b5cb8d141",
+            "telefono": "+34666159107",
+            "nombre_real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "fecha_hora": "2026-10-19 13:44:03"
+        },
         {
             "id": 22,
             "call_id": "CA8eca1ee893d10da64eb7d3968ef16ca5",
