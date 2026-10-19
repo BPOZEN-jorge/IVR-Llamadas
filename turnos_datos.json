@@ -100,7 +100,7 @@
             "posicion": 17,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 18,
@@ -118,7 +118,7 @@
             "posicion": 20,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 21,
@@ -160,19 +160,19 @@
             "posicion": 27,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 28,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 29,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 30,
@@ -232,7 +232,7 @@
             "posicion": 39,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 40,
