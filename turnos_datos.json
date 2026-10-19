@@ -4,7 +4,7 @@
             "posicion": 1,
             "real": "Julián Andrés Osorio Aristizabal",
             "alias": "Andrés Aristizábal",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 2,
@@ -28,7 +28,7 @@
             "posicion": 5,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 6,
@@ -124,7 +124,7 @@
             "posicion": 21,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 22,
