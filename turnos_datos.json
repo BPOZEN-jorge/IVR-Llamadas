@@ -94,7 +94,7 @@
             "posicion": 16,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 17,
@@ -106,7 +106,7 @@
             "posicion": 18,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 19,
