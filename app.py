@@ -1,9 +1,10 @@
-import sqlite3
+import json
 import random
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 import pandas as pd
 import streamlit as st
+from github import Github, GithubException
 
 # ==========================================
 # CONFIGURACIÓN DE PÁGINA
@@ -15,52 +16,52 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-DB_PATH = "turnos_llamadas.db"
+DATA_FILE_PATH = "turnos_datos.json"
 
 # ==========================================
-# DATOS INICIALES DE USUARIOS (Solo para la primera creación de BD)
+# DATOS INICIALES DE USUARIOS (Estructura base para JSON)
 # ==========================================
 USUARIOS_INICIALES = [
-    {"real": "Alisson Correa Gaviria", "alias": "Alisson"},
-    {"real": "Ana Maria Sanchez Gamboa", "alias": "Maria Sanchez"},
-    {"real": "Andrea Mileidy londoño Bedoya", "alias": "Andrea Valverde"},
-    {"real": "Angie Valeria Quirama Hernández", "alias": "Valeria Hernandez"},
-    {"real": "Angie Vanessa García", "alias": "Maria Antonia García"},
-    {"real": "Brahyan Steven Moncada Escudero", "alias": "Marcos Garcia"},
-    {"real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez"},
-    {"real": "Claudia Marcela Manco Vargas", "alias": "Marcela"},
-    {"real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez"},
-    {"real": "Dayana Botero Rojas", "alias": "Isabel Botero"},
-    {"real": "Evelin Acevedo Cortés", "alias": "Gabriela"},
-    {"real": "Gustavo Adolfo Barrientos Serna", "alias": "Gustavo"},
-    {"real": "Iris Sabiana Cano Cano", "alias": "Maria Cano"},
-    {"real": "Janis Henao Vasco", "alias": "María José"},
-    {"real": "Johana Osorio Bedoya", "alias": "Johana Sanchez"},
-    {"real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban"},
-    {"real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian"},
-    {"real": "Julián Andrés Osorio Aristizabal", "alias": "Andrés Aristizábal"},
-    {"real": "Karen Herrera Gonzalez", "alias": "Karen"},
-    {"real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas"},
-    {"real": "Libia Paola Romero Cantillo", "alias": "Paola Romero"},
-    {"real": "Linda Liceth Pérez Pineda", "alias": "Linda Pérez / Elena Pérez"},
-    {"real": "Luis Alberto Lozano Ibarra", "alias": "Luis Lozano"},
-    {"real": "Manuela villegas Giraldo", "alias": "Manuela Villegas"},
-    {"real": "María Karolina Viana Cancio", "alias": "Karolina"},
-    {"real": "Mateo Cano Hincapié", "alias": "Antonio de la villa"},
-    {"real": "Omar David Barboza Carbonero", "alias": "Omar"},
-    {"real": "Oscar José Llanos Mendinueta", "alias": "Oscar"},
-    {"real": "Paula Andrea Guzman Jaramillo", "alias": "Paula"},
-    {"real": "Rosa Elvira Agamez López", "alias": "Flor Lopez"},
-    {"real": "Sara Gómez Bayona", "alias": "Sara Gómez"},
-    {"real": "Stefany Vanegas Arbelaez", "alias": "Stefany"},
-    {"real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana"},
-    {"real": "Tomas Castaño Gómez", "alias": "Tomas"},
-    {"real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez"},
-    {"real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez"},
-    {"real": "Yarnedis Cecilia Urrutia Pérez", "alias": "Cecilia López"},
-    {"real": "Yeismer Miranda Ramirez", "alias": "Leo Miranda"},
-    {"real": "Yesica Paola Lopez Arango", "alias": "Yesica López"},
-    {"real": "Yesly Marilyn Carrero Rivera", "alias": "Marilyn Carrero"},
+    {"posicion": 1, "real": "Alisson Correa Gaviria", "alias": "Alisson", "activo": True},
+    {"posicion": 2, "real": "Ana Maria Sanchez Gamboa", "alias": "Maria Sanchez", "activo": True},
+    {"posicion": 3, "real": "Andrea Mileidy londoño Bedoya", "alias": "Andrea Valverde", "activo": True},
+    {"posicion": 4, "real": "Angie Valeria Quirama Hernández", "alias": "Valeria Hernandez", "activo": True},
+    {"posicion": 5, "real": "Angie Vanessa García", "alias": "Maria Antonia García", "activo": True},
+    {"posicion": 6, "real": "Brayan Andrey Bustamante", "alias": "Marcos Garcia", "activo": True},
+    {"posicion": 7, "real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez", "activo": True},
+    {"posicion": 8, "real": "Claudia Marcela Manco Vargas", "alias": "Marcela", "activo": True},
+    {"posicion": 9, "real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez", "activo": True},
+    {"posicion": 10, "real": "Dayana Botero Rojas", "alias": "Isabel Botero", "activo": True},
+    {"posicion": 11, "real": "Evelin Acevedo Cortés", "alias": "Gabriela", "activo": True},
+    {"posicion": 12, "real": "Gustavo Adolfo Barrientos Serna", "alias": "Gustavo", "activo": True},
+    {"posicion": 13, "real": "Iris Sabiana Cano Cano", "alias": "Maria Cano", "activo": True},
+    {"posicion": 14, "real": "Janis Henao Vasco", "alias": "María José", "activo": True},
+    {"posicion": 15, "real": "Johana Osorio Bedoya", "alias": "Johana Sanchez", "activo": True},
+    {"posicion": 16, "real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban", "activo": True},
+    {"posicion": 17, "real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian", "activo": True},
+    {"posicion": 18, "real": "Julián Andrés Osorio Aristizabal", "alias": "Andrés Aristizábal", "activo": True},
+    {"posicion": 19, "real": "Karen Herrera Gonzalez", "alias": "Karen", "activo": True},
+    {"posicion": 20, "real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas", "activo": True},
+    {"posicion": 21, "real": "Libia Paola Romero Cantillo", "alias": "Paola Romero", "activo": True},
+    {"posicion": 22, "real": "Linda Liceth Pérez Pineda", "alias": "Linda Pérez / Elena Pérez", "activo": True},
+    {"posicion": 23, "real": "Luis Alberto Lozano Ibarra", "alias": "Luis Lozano", "activo": True},
+    {"posicion": 24, "real": "Manuela villegas Giraldo", "alias": "Manuela Villegas", "activo": True},
+    {"posicion": 25, "real": "María Karolina Viana Cancio", "alias": "Karolina", "activo": True},
+    {"posicion": 26, "real": "Mateo Cano Hincapié", "alias": "Antonio de la villa", "activo": True},
+    {"posicion": 27, "real": "Omar David Barboza Carbonero", "alias": "Omar", "activo": True},
+    {"posicion": 28, "real": "Oscar José Llanos Mendinueta", "alias": "Oscar", "activo": True},
+    {"posicion": 29, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula", "activo": True},
+    {"posicion": 30, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez", "activo": True},
+    {"posicion": 31, "real": "Sara Gómez Bayona", "alias": "Sara Gómez", "activo": True},
+    {"posicion": 32, "real": "Stefany Vanegas Arbelaez", "alias": "Stefany", "activo": True},
+    {"posicion": 33, "real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana", "activo": True},
+    {"posicion": 34, "real": "Tomas Castaño Gómez", "alias": "Tomas", "activo": True},
+    {"posicion": 35, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez", "activo": True},
+    {"posicion": 36, "real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez", "activo": True},
+    {"posicion": 37, "real": "Yarnedis Cecilia Urrutia Pérez", "alias": "Cecilia López", "activo": True},
+    {"posicion": 38, "real": "Yeismer Miranda Ramirez", "alias": "Leo Miranda", "activo": True},
+    {"posicion": 39, "real": "Yesica Paola Lopez Arango", "alias": "Yesica López", "activo": True},
+    {"posicion": 40, "real": "Yesly Marilyn Carrero Rivera", "alias": "Marilyn Carrero", "activo": True},
 ]
 
 def obtener_fecha_hora_colombia() -> datetime:
@@ -72,99 +73,114 @@ def obtener_hora_colombia_str() -> str:
     return obtener_fecha_hora_colombia().strftime("%Y-%m-%d %H:%M:%S")
 
 # ==========================================
-# BASE DE DATOS Y PERSISTENCIA TOTAL
+# GESTIÓN DE PERSISTENCIA VÍA API DE GITHUB
 # ==========================================
-def init_db():
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        
-        # Tabla de orden actual de turnos con columna 'activo' (1 = Activo, 0 = Ausente)
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS turnos_orden (
-                posicion INTEGER PRIMARY KEY,
-                nombre_real TEXT NOT NULL,
-                alias TEXT NOT NULL,
-                activo INTEGER NOT NULL DEFAULT 1
-            )
-            """
-        )
-        
-        # Tabla de historial de saltos / registros de llamadas
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS historial_saltos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                call_id TEXT NOT NULL UNIQUE,
-                telefono TEXT NOT NULL UNIQUE,
-                nombre_real TEXT NOT NULL,
-                alias TEXT NOT NULL,
-                fecha_hora TEXT NOT NULL
-            )
-            """
-        )
-        
-        # Tabla de configuración persistente
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS configuracion (
-                clave TEXT PRIMARY KEY,
-                valor TEXT NOT NULL
-            )
-            """
-        )
+def obtener_repositorio_github():
+    token = st.secrets.get("github", {}).get("token")
+    repo_name = st.secrets.get("github", {}).get("repo")
+    if not token or not repo_name:
+        st.error("⚠️ Configuración incompleta de GitHub en los secretos (`st.secrets`).")
+        st.stop()
+    g = Github(token)
+    return g.get_repo(repo_name)
 
-        # Cargar usuarios por defecto ÚNICAMENTE si la tabla está completamente vacía
-        cursor.execute("SELECT COUNT(*) FROM turnos_orden")
-        if cursor.fetchone()[0] == 0:
-            for idx, user in enumerate(USUARIOS_INICIALES, start=1):
-                cursor.execute(
-                    "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, 1)",
-                    (idx, user["real"], user["alias"])
-                )
-        conn.commit()
+def cargar_datos_desde_github() -> dict:
+    """Carga el archivo JSON desde GitHub. Si no existe, lo inicializa."""
+    repo = obtener_repositorio_github()
+    branch = st.secrets.get("github", {}).get("branch", "main")
+    try:
+        content = repo.get_contents(DATA_FILE_PATH, ref=branch)
+        data = json.loads(content.decoded_content.decode("utf-8"))
+        return data
+    except GithubException as e:
+        if e.status == 404:
+            # Archivo no existe aún en GitHub: Crear con valores por defecto
+            datos_iniciales = {
+                "turnos": USUARIOS_INICIALES,
+                "historial": [],
+                "configuracion": {"modo_auto": "true"},
+                "horario_excel": []
+            }
+            guardar_datos_en_github(datos_iniciales, "Inicializar base de datos JSON")
+            return datos_iniciales
+        st.error(f"Error al conectar con GitHub: {e}")
+        st.stop()
 
-def guardar_configuracion(clave: str, valor: str):
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("INSERT OR REPLACE INTO configuracion (clave, valor) VALUES (?, ?)", (clave, valor))
-        conn.commit()
+def guardar_datos_en_github(data: dict, mensaje_commit: str):
+    """Guarda los datos en GitHub generando un commit directo."""
+    repo = obtener_repositorio_github()
+    branch = st.secrets.get("github", {}).get("branch", "main")
+    json_str = json.dumps(data, indent=4, ensure_ascii=False)
+
+    try:
+        content = repo.get_contents(DATA_FILE_PATH, ref=branch)
+        repo.update_file(
+            path=DATA_FILE_PATH,
+            message=f"Auto-update: {mensaje_commit}",
+            content=json_str,
+            sha=content.sha,
+            branch=branch
+        )
+    except GithubException as e:
+        if e.status == 404:
+            repo.create_file(
+                path=DATA_FILE_PATH,
+                message=f"Crear archivo: {mensaje_commit}",
+                content=json_str,
+                branch=branch
+            )
+        else:
+            st.error(f"Error guardando cambios en GitHub: {e}")
+
+# ==========================================
+# MANEJO DE ESTADO EN MEMORIA Y CACHÉ
+# ==========================================
+if "db_data" not in st.session_state:
+    st.session_state.db_data = cargar_datos_desde_github()
+
+def sync_data():
+    """Recarga los datos actualizados desde GitHub a la sesión actual."""
+    st.session_state.db_data = cargar_datos_desde_github()
 
 def obtener_configuracion(clave: str, valor_defecto: str = "") -> str:
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT valor FROM configuracion WHERE clave = ?", (clave,))
-        row = cursor.fetchone()
-        return row[0] if row else valor_defecto
+    return st.session_state.db_data.get("configuracion", {}).get(clave, valor_defecto)
 
-def guardar_horario_db(df: pd.DataFrame):
-    with sqlite3.connect(DB_PATH) as conn:
-        df.to_sql("horario_excel", conn, if_exists="replace", index=False)
-
-def obtener_horario_db() -> pd.DataFrame:
-    with sqlite3.connect(DB_PATH) as conn:
-        try:
-            return pd.read_sql_query("SELECT * FROM horario_excel", conn)
-        except Exception:
-            return pd.DataFrame()
+def guardar_configuracion(clave: str, valor: str):
+    data = st.session_state.db_data
+    if "configuracion" not in data:
+        data["configuracion"] = {}
+    data["configuracion"][clave] = valor
+    guardar_datos_en_github(data, f"Actualizar configuracion {clave}={valor}")
+    st.session_state.db_data = data
 
 def obtener_lista_turnos() -> list:
-    """Devuelve la lista completa de turnos tal como está guardada en la base de datos."""
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden ORDER BY posicion ASC")
-        rows = cursor.fetchall()
-        return [{"posicion": r[0], "real": r[1], "alias": r[2], "activo": bool(r[3])} for r in rows]
+    turnos = st.session_state.db_data.get("turnos", [])
+    return sorted(turnos, key=lambda x: x["posicion"])
 
 def cambiar_estado_agente(posicion: int, activo: bool):
-    """Cambia el estado de un agente entre Activo (1) y Ausente (0)."""
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("UPDATE turnos_orden SET activo = ? WHERE posicion = ?", (1 if activo else 0, posicion))
-        conn.commit()
+    data = st.session_state.db_data
+    modificado = False
+    for t in data.get("turnos", []):
+        if t["posicion"] == posicion:
+            if t["activo"] != activo:
+                t["activo"] = activo
+                modificado = True
+            break
+    if modificado:
+        guardar_datos_en_github(data, f"Cambiar estado agente pos {posicion} a {activo}")
+        st.session_state.db_data = data
+
+def guardar_horario_db(df: pd.DataFrame):
+    data = st.session_state.db_data
+    data["horario_excel"] = df.to_dict(orient="records")
+    guardar_datos_en_github(data, "Carga de nuevo horario Excel/CSV")
+    st.session_state.db_data = data
+
+def obtener_horario_db() -> pd.DataFrame:
+    records = st.session_state.db_data.get("horario_excel", [])
+    return pd.DataFrame(records) if records else pd.DataFrame()
 
 def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
-    """Evalúa el horario de Colombia y actualiza automáticamente qué agentes están activos."""
     if df_horario.empty:
         return
 
@@ -214,14 +230,21 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
 
         agentes_activos[nombre.lower()] = esta_activo
 
-    turnos = obtener_lista_turnos()
-    for t in turnos:
+    data = st.session_state.db_data
+    hubo_cambios = False
+    for t in data.get("turnos", []):
         nombre_norm = t["real"].replace('\xa0', ' ').strip().lower()
         if nombre_norm in agentes_activos:
-            cambiar_estado_agente(t["posicion"], agentes_activos[nombre_norm])
+            nuevo_estado = agentes_activos[nombre_norm]
+            if t["activo"] != nuevo_estado:
+                t["activo"] = nuevo_estado
+                hubo_cambios = True
+
+    if hubo_cambios:
+        guardar_datos_en_github(data, "Sincronización automática de estados según horario")
+        st.session_state.db_data = data
 
 def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tuple[bool, str]:
-    """Avanza el turno del primer agente ACTIVO guardando el nuevo orden en la Base de Datos."""
     call_id_clean = call_id.strip()
     telefono_clean = telefono.strip()
     pin_clean = pin_ingresado.strip()
@@ -234,109 +257,106 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
         return False, "⚠️ Debes ingresar tu PIN personal de 4 dígitos."
 
     now_col = obtener_hora_colombia_str()
+    data = st.session_state.db_data
+    historial = data.get("historial", [])
+    turnos = obtener_lista_turnos()
 
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
+    if any(h.get("call_id") == call_id_clean for h in historial):
+        return False, f"❌ El ID de llamada '{call_id_clean}' ya fue registrado previamente."
 
-        cursor.execute("SELECT COUNT(*) FROM historial_saltos WHERE call_id = ?", (call_id_clean,))
-        if cursor.fetchone()[0] > 0:
-            return False, f"❌ El ID de llamada '{call_id_clean}' ya fue registrado previamente."
+    if any(h.get("telefono") == telefono_clean for h in historial):
+        return False, f"❌ El número de teléfono '{telefono_clean}' ya fue atendido previamente."
 
-        cursor.execute("SELECT COUNT(*) FROM historial_saltos WHERE telefono = ?", (telefono_clean,))
-        if cursor.fetchone()[0] > 0:
-            return False, f"❌ El número de teléfono '{telefono_clean}' ya fue atendido previamente."
+    agente_atendiendo = next((t for t in turnos if t["activo"]), None)
 
-        cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden ORDER BY posicion ASC")
-        turnos = cursor.fetchall()
+    if not agente_atendiendo:
+        return False, "❌ Todos los agentes están marcados como Ausentes en este momento."
 
-        agente_atendiendo = None
-        for t in turnos:
-            if t[3] == 1:  # activo == 1
-                agente_atendiendo = t
-                break
+    pos_atendiendo = agente_atendiendo["posicion"]
+    nombre_real = agente_atendiendo["real"]
+    alias = agente_atendiendo["alias"]
 
-        if not agente_atendiendo:
-            return False, "❌ Todos los agentes están marcados como Ausentes en este momento."
+    # VALIDACIÓN DEL PIN SECRETO
+    pins_secretos = st.secrets.get("pins", {})
+    pin_correcto = str(pins_secretos.get(nombre_real, "")).strip()
 
-        pos_atendiendo, nombre_real, alias, _ = agente_atendiendo
+    if not pin_correcto:
+        return False, f"⚠️ No se ha configurado un PIN para **{nombre_real}** en los secretos del sistema."
 
-        # VALIDACIÓN DEL PIN SECRETO
-        pins_secretos = st.secrets.get("pins", {})
-        pin_correcto = str(pins_secretos.get(nombre_real, "")).strip()
+    if pin_clean != pin_correcto:
+        return False, f"🔒 **PIN incorrecto.** No puedes ceder o avanzar el turno de **{alias}**."
 
-        if not pin_correcto:
-            return False, f"⚠️ No se ha configurado un PIN para **{nombre_real}** en los secretos del sistema."
+    # Registrar en historial
+    nuevo_registro = {
+        "id": len(historial) + 1,
+        "call_id": call_id_clean,
+        "telefono": telefono_clean,
+        "nombre_real": nombre_real,
+        "alias": alias,
+        "fecha_hora": now_col
+    }
+    historial.insert(0, nuevo_registro)
 
-        if pin_clean != pin_correcto:
-            return False, f"🔒 **PIN incorrecto.** No puedes ceder o avanzar el turno de **{alias}**."
+    # Reordenar turnos (el que atendió pasa al final)
+    turnos_sin_atendiendo = [t for t in turnos if t["posicion"] != pos_atendiendo]
+    nuevos_turnos = turnos_sin_atendiendo + [agente_atendiendo]
 
-        cursor.execute(
-            "INSERT INTO historial_saltos (call_id, telefono, nombre_real, alias, fecha_hora) VALUES (?, ?, ?, ?, ?)",
-            (call_id_clean, telefono_clean, nombre_real, alias, now_col)
-        )
+    for idx, t in enumerate(nuevos_turnos, start=1):
+        t["posicion"] = idx
 
-        turnos_sin_atendiendo = [t for t in turnos if t[0] != pos_atendiendo]
-        nuevos_turnos = turnos_sin_atendiendo + [agente_atendiendo]
+    data["historial"] = historial
+    data["turnos"] = nuevos_turnos
 
-        cursor.execute("DELETE FROM turnos_orden")
-        for new_pos, t in enumerate(nuevos_turnos, start=1):
-            cursor.execute(
-                "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, ?)",
-                (new_pos, t[1], t[2], t[3])
-            )
+    guardar_datos_en_github(data, f"Salto de turno atendido por {alias} (ID: {call_id_clean})")
+    st.session_state.db_data = data
 
-        conn.commit()
-        return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
+    return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
 
 def obtener_historial_saltos() -> pd.DataFrame:
-    with sqlite3.connect(DB_PATH) as conn:
-        df = pd.read_sql_query(
-            "SELECT id AS 'ID Reg', call_id AS 'ID Llamada', telefono AS 'Teléfono', alias AS 'Alias', nombre_real AS 'Nombre Real', fecha_hora AS 'Fecha / Hora (Colombia)' FROM historial_saltos ORDER BY id DESC",
-            conn,
-        )
+    historial = st.session_state.db_data.get("historial", [])
+    if not historial:
+        return pd.DataFrame()
+    df = pd.DataFrame(historial)
+    df = df.rename(columns={
+        "id": "ID Reg",
+        "call_id": "ID Llamada",
+        "telefono": "Teléfono",
+        "alias": "Alias",
+        "nombre_real": "Nombre Real",
+        "fecha_hora": "Fecha / Hora (Colombia)"
+    })
     return df
 
 def vaciar_historial_llamadas():
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM historial_saltos")
-        conn.commit()
+    data = st.session_state.db_data
+    data["historial"] = []
+    guardar_datos_en_github(data, "Vaciar historial de llamadas")
+    st.session_state.db_data = data
 
 def reiniciar_turnos_originales():
-    """Restablece los turnos al orden alfabético inicial (Solo cuando el Admin lo accione)."""
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM turnos_orden")
-        for idx, user in enumerate(USUARIOS_INICIALES, start=1):
-            cursor.execute(
-                "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, 1)",
-                (idx, user["real"], user["alias"])
-            )
-        conn.commit()
+    data = st.session_state.db_data
+    data["turnos"] = [dict(u) for u in USUARIOS_INICIALES]
+    guardar_datos_en_github(data, "Restablecer turnos al orden inicial")
+    st.session_state.db_data = data
 
 def reorganizar_turnos_al_azar():
-    """Mezcla la fila de turnos al azar y guarda el nuevo orden de forma permanente."""
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden")
-        turnos = cursor.fetchall()
-        
-        random.shuffle(turnos)
-        
-        cursor.execute("DELETE FROM turnos_orden")
-        for idx, t in enumerate(turnos, start=1):
-            cursor.execute(
-                "INSERT INTO turnos_orden (posicion, nombre_real, alias, activo) VALUES (?, ?, ?, ?)",
-                (idx, t[1], t[2], t[3])
-            )
-        conn.commit()
-
-init_db()
+    data = st.session_state.db_data
+    turnos = obtener_lista_turnos()
+    random.shuffle(turnos)
+    for idx, t in enumerate(turnos, start=1):
+        t["posicion"] = idx
+    data["turnos"] = turnos
+    guardar_datos_en_github(data, "Reorganizar turnos al azar")
+    st.session_state.db_data = data
 
 # ==========================================
 # INTERFAZ DE NAVEGACIÓN Y VISTAS
 # ==========================================
 st.sidebar.title("📌 Portal de Turnos")
+if st.sidebar.button("🔄 Sincronizar con GitHub", use_container_width=True):
+    sync_data()
+    st.sidebar.success("Datos actualizados desde el repositorio.")
+
 opcion_vista = st.sidebar.radio("Navegación:", ["🎡 Fila de Turnos (Ruleta)", "🛡️ Vista Administrador"])
 
 # ------------------------------------------
@@ -386,7 +406,7 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
                 else:
                     st.error(mensaje)
     else:
-        st.error("⚠️ Todos los agentes se encuentran marcados como Ausentes. Contacta al Administrador.")
+        st.error("⚠️ Todos los agentes se encuentran marcados como Ausentes en este momento.")
 
     st.markdown("---")
     st.subheader("📋 Fila Actual de Posiciones")
@@ -440,7 +460,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     df_excel = pd.read_excel(uploaded_file)
 
                 guardar_horario_db(df_excel)
-                st.success("✅ Archivo de horarios guardado permanentemente en la base de datos.")
+                st.success("✅ Archivo de horarios guardado permanentemente en GitHub.")
                 with st.expander("Ver Vista Previa del Horario Cargado"):
                     st.dataframe(df_excel.head(10), use_container_width=True)
             except Exception as e:
