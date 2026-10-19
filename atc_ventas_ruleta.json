@@ -203,6 +203,15 @@
     ],
     "historial": [
         {
+            "id": 4,
+            "telefono": "455454",
+            "agente_atc": "Wensly Hurtado",
+            "agente_ventas_real": "Viviana Pacheco Córdoba",
+            "agente_ventas_alias": "Viviana Gómez",
+            "tipo": "Reasignado al Mismo Agente",
+            "fecha_hora": "2026-10-19 12:21:57"
+        },
+        {
             "id": 3,
             "telefono": "455454",
             "agente_atc": "Wensly Hurtado",
