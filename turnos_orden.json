@@ -157,51 +157,59 @@
         },
         {
             "posicion": 32,
-            "real": "Libia Paola Romero Cantillo",
-            "alias": "Paola Romero"
-        },
-        {
-            "posicion": 33,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
+        },
+        {
+            "posicion": 40,
+            "real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero"
         }
     ],
     "historial": [
+        {
+            "id": 20,
+            "call_id": "CA24fd76d25426210a1b0d675e4a9ec5b5",
+            "telefono": "636681257",
+            "nombre_real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero",
+            "fecha_hora": "2026-10-19 13:11:48"
+        },
         {
             "id": 19,
             "call_id": "CA2c2acba70e3a4cad3583fc274ed64650",
