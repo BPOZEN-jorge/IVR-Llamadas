@@ -26,7 +26,7 @@ USUARIOS_INICIALES = [
     {"real": "Andrea Mileidy londoño Bedoya", "alias": "Andrea Valverde"},
     {"real": "Angie Valeria Quirama Hernández", "alias": "Valeria Hernandez"},
     {"real": "Angie Vanessa García", "alias": "Maria Antonia García"},
-    {"real": "Brahyan Steven Moncada Escudero", "alias": "Marcos Garcia"},
+    {"real": "Brayan Andrey Bustamante", "alias": "Marcos Garcia"},
     {"real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez"},
     {"real": "Claudia Marcela Manco Vargas", "alias": "Marcela"},
     {"real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez"},
