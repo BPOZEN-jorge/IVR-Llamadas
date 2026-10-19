@@ -87,121 +87,129 @@
         },
         {
             "posicion": 18,
-            "real": "Janis Henao Vasco",
-            "alias": "María José"
-        },
-        {
-            "posicion": 19,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
+        },
+        {
+            "posicion": 40,
+            "real": "Janis Henao Vasco",
+            "alias": "María José"
         }
     ],
     "historial": [
+        {
+            "id": 22,
+            "call_id": "CA8eca1ee893d10da64eb7d3968ef16ca5",
+            "telefono": "+34601214319",
+            "nombre_real": "Janis Henao Vasco",
+            "alias": "María José",
+            "fecha_hora": "2026-10-19 13:35:18"
+        },
         {
             "id": 21,
             "call_id": "CAab255c28d586a750a33ab2198b1f051f",
