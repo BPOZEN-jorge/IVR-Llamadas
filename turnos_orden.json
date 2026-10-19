@@ -147,61 +147,69 @@
         },
         {
             "posicion": 30,
-            "real": "Luis Alberto Lozano Ibarra",
-            "alias": "Luis Lozano"
-        },
-        {
-            "posicion": 31,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
+        },
+        {
+            "posicion": 40,
+            "real": "Luis Alberto Lozano Ibarra",
+            "alias": "Luis Lozano"
         }
     ],
     "historial": [
+        {
+            "id": 19,
+            "call_id": "CA2c2acba70e3a4cad3583fc274ed64650",
+            "telefono": "607 31 26 35",
+            "nombre_real": "Luis Alberto Lozano Ibarra",
+            "alias": "Luis Lozano",
+            "fecha_hora": "2026-10-19 13:05:51"
+        },
         {
             "id": 18,
             "call_id": "CAd48297efa0c005b601678a66af808a65",
