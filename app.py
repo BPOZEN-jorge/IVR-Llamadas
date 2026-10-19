@@ -167,38 +167,36 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
         h_inicio = parse_time(row.get("Hora incio"))
         h_fin = parse_time(row.get("Hora fin"))
         
-        b1 = parse_time(row.get("Break 1"))
         int_inc = parse_time(row.get("Intermedio inicio"))
         int_fin = parse_time(row.get("Intermedio fin"))
-        b2 = parse_time(row.get("Break 2"))
 
         esta_activo = False
         if h_inicio and h_fin:
-            # Validar si se encuentra dentro de su turno laboral
             if h_inicio <= hora_actual <= h_fin:
                 esta_activo = True
-                # Validar si está en descanso / break
                 if int_inc and int_fin and (int_inc <= hora_actual <= int_fin):
                     esta_activo = False
 
         agentes_activos[nombre.lower()] = esta_activo
 
-    # Aplicar cambios en la Base de Datos
     turnos = obtener_lista_turnos()
     for t in turnos:
         nombre_norm = t["real"].replace('\xa0', ' ').strip().lower()
         if nombre_norm in agentes_activos:
             cambiar_estado_agente(t["posicion"], agentes_activos[nombre_norm])
 
-def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
-    """Avanza el turno del primer agente ACTIVO en la fila."""
+def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tuple[bool, str]:
+    """Avanza el turno del primer agente ACTIVO en la fila previa validación de su PIN de seguridad."""
     call_id_clean = call_id.strip()
     telefono_clean = telefono.strip()
+    pin_clean = pin_ingresado.strip()
     
     if not call_id_clean:
         return False, "⚠️ Debes ingresar un ID de llamada válido."
     if not telefono_clean:
         return False, "⚠️ Debes ingresar un número de teléfono válido."
+    if not pin_clean:
+        return False, "⚠️ Debes ingresar tu PIN personal de 4 dígitos."
 
     now_col = obtener_hora_colombia_str()
 
@@ -226,6 +224,16 @@ def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
             return False, "❌ Todos los agentes están marcados como Ausentes en este momento."
 
         pos_atendiendo, nombre_real, alias, _ = agente_atendiendo
+
+        # VALIDACIÓN DEL PIN SECRETO
+        pins_secretos = st.secrets.get("pins", {})
+        pin_correcto = str(pins_secretos.get(nombre_real, "")).strip()
+
+        if not pin_correcto:
+            return False, f"⚠️ No se ha configurado un PIN para **{nombre_real}** en los secretos del sistema."
+
+        if pin_clean != pin_correcto:
+            return False, f"🔒 **PIN incorrecto.** No puedes ceder o avanzar el turno de **{alias}**."
 
         cursor.execute(
             "INSERT INTO historial_saltos (call_id, telefono, nombre_real, alias, fecha_hora) VALUES (?, ?, ?, ?, ?)",
@@ -300,9 +308,8 @@ opcion_vista = st.sidebar.radio("Navegación:", ["🎡 Fila de Turnos (Ruleta)",
 if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
     st.title("🔄 Control de Turnos y Llamadas")
     st.caption(f"Hora Colombia: `{obtener_hora_colombia_str()}`")
-    st.caption("Ingresa el ID de la llamada y el Teléfono para completar tu turno y ceder el lugar al siguiente agente.")
+    st.caption("Ingresa el ID de la llamada, el Teléfono y tu PIN secreto de 4 dígitos para completar tu turno.")
 
-    # Si hay horario guardado en sesión, sincronizar automáticamente
     if "df_horario_cargado" in st.session_state and st.session_state.get("usar_horario_auto", True):
         actualizar_estados_segun_horario(st.session_state.df_horario_cargado)
 
@@ -326,11 +333,13 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
                     call_id_input = st.text_input("ID de la Llamada:", placeholder="Ej: CALL-9876543")
                 with col_f2:
                     telefono_input = st.text_input("Teléfono del Cliente:", placeholder="Ej: 3001234567")
+                
+                pin_input = st.text_input("🔑 PIN Secreto (4 dígitos):", type="password", max_chars=4, placeholder="****")
                     
                 submit_salto = st.form_submit_button("Avanzar Turno ➡️", use_container_width=True, type="primary")
 
             if submit_salto:
-                exito, mensaje = registrar_salto_turno(call_id_input, telefono_input)
+                exito, mensaje = registrar_salto_turno(call_id_input, telefono_input, pin_input)
                 if exito:
                     st.success(mensaje)
                     st.rerun()
