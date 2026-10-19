@@ -16,7 +16,7 @@
             "posicion": 3,
             "real": "Julián Andrés Osorio Aristizabal",
             "alias": "Andrés Aristizábal",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 4,
@@ -40,7 +40,7 @@
             "posicion": 7,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 8,
