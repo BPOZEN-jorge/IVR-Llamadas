@@ -16,7 +16,7 @@
             "posicion": 3,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 4,
@@ -76,7 +76,7 @@
             "posicion": 13,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -94,7 +94,7 @@
             "posicion": 16,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 17,
@@ -136,19 +136,19 @@
             "posicion": 23,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 24,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 26,
@@ -178,7 +178,7 @@
             "posicion": 30,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 31,
@@ -208,13 +208,13 @@
             "posicion": 35,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 36,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 37,
