@@ -201,33 +201,5 @@
             "alias": "Tomas"
         }
     ],
-    "historial": [
-        {
-            "id": 3,
-            "telefono": "455454",
-            "agente_atc": "Wensly Hurtado",
-            "agente_ventas_real": "Tomas Castaño Gómez",
-            "agente_ventas_alias": "Tomas",
-            "tipo": "Siguiente en Ruleta",
-            "fecha_hora": "2026-10-19 12:33:03"
-        },
-        {
-            "id": 2,
-            "telefono": "455454",
-            "agente_atc": "Wensly Hurtado",
-            "agente_ventas_real": "Janis Henao Vasco",
-            "agente_ventas_alias": "María José",
-            "tipo": "Reasignado al Mismo Agente",
-            "fecha_hora": "2026-10-19 12:32:51"
-        },
-        {
-            "id": 1,
-            "telefono": "455454",
-            "agente_atc": "Wensly Hurtado",
-            "agente_ventas_real": "Janis Henao Vasco",
-            "agente_ventas_alias": "María José",
-            "tipo": "Siguiente en Ruleta",
-            "fecha_hora": "2026-10-19 12:32:28"
-        }
-    ]
+    "historial": []
 }
