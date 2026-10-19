@@ -4,7 +4,7 @@
             "posicion": 1,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 2,
@@ -76,7 +76,7 @@
             "posicion": 13,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 14,
@@ -88,13 +88,13 @@
             "posicion": 15,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 16,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 17,
@@ -106,7 +106,7 @@
             "posicion": 18,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 19,
@@ -136,13 +136,13 @@
             "posicion": 23,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 24,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 25,
@@ -154,13 +154,13 @@
             "posicion": 26,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 27,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 28,
@@ -208,7 +208,7 @@
             "posicion": 35,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 36,
@@ -220,7 +220,7 @@
             "posicion": 37,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 38,
