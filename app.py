@@ -1,5 +1,6 @@
 import json
 import random
+import time as time_lib
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 import pandas as pd
@@ -16,52 +17,54 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-DATA_FILE_PATH = "turnos_datos.json"
+# SEPARACIÓN DE ARCHIVOS PARA PREVENIR CONFLICTOS CONCURRENTES
+FILE_TURNOS = "turnos_orden.json"     # Maneja posiciones e historial
+FILE_ESTADOS = "agentes_estados.json" # Maneja únicamente toggles activo/ausente
 
 # ==========================================
-# DATOS INICIALES DE USUARIOS (Estructura base para JSON)
+# DATOS INICIALES DE USUARIOS
 # ==========================================
 USUARIOS_INICIALES = [
-    {"posicion": 1, "real": "Alisson Correa Gaviria", "alias": "Alisson", "activo": True},
-    {"posicion": 2, "real": "Ana Maria Sanchez Gamboa", "alias": "Maria Sanchez", "activo": True},
-    {"posicion": 3, "real": "Andrea Mileidy londoño Bedoya", "alias": "Andrea Valverde", "activo": True},
-    {"posicion": 4, "real": "Angie Valeria Quirama Hernández", "alias": "Valeria Hernandez", "activo": True},
-    {"posicion": 5, "real": "Angie Vanessa García", "alias": "Maria Antonia García", "activo": True},
-    {"posicion": 6, "real": "Brayan Andrey Bustamante", "alias": "Marcos Garcia", "activo": True},
-    {"posicion": 7, "real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez", "activo": True},
-    {"posicion": 8, "real": "Claudia Marcela Manco Vargas", "alias": "Marcela", "activo": True},
-    {"posicion": 9, "real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez", "activo": True},
-    {"posicion": 10, "real": "Dayana Botero Rojas", "alias": "Isabel Botero", "activo": True},
-    {"posicion": 11, "real": "Evelin Acevedo Cortés", "alias": "Gabriela", "activo": True},
-    {"posicion": 12, "real": "Gustavo Adolfo Barrientos Serna", "alias": "Gustavo", "activo": True},
-    {"posicion": 13, "real": "Iris Sabiana Cano Cano", "alias": "Maria Cano", "activo": True},
-    {"posicion": 14, "real": "Janis Henao Vasco", "alias": "María José", "activo": True},
-    {"posicion": 15, "real": "Johana Osorio Bedoya", "alias": "Johana Sanchez", "activo": True},
-    {"posicion": 16, "real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban", "activo": True},
-    {"posicion": 17, "real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian", "activo": True},
-    {"posicion": 18, "real": "Julián Andrés Osorio Aristizabal", "alias": "Andrés Aristizábal", "activo": True},
-    {"posicion": 19, "real": "Karen Herrera Gonzalez", "alias": "Karen", "activo": True},
-    {"posicion": 20, "real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas", "activo": True},
-    {"posicion": 21, "real": "Libia Paola Romero Cantillo", "alias": "Paola Romero", "activo": True},
-    {"posicion": 22, "real": "Linda Liceth Pérez Pineda", "alias": "Linda Pérez / Elena Pérez", "activo": True},
-    {"posicion": 23, "real": "Luis Alberto Lozano Ibarra", "alias": "Luis Lozano", "activo": True},
-    {"posicion": 24, "real": "Manuela villegas Giraldo", "alias": "Manuela Villegas", "activo": True},
-    {"posicion": 25, "real": "María Karolina Viana Cancio", "alias": "Karolina", "activo": True},
-    {"posicion": 26, "real": "Mateo Cano Hincapié", "alias": "Antonio de la villa", "activo": True},
-    {"posicion": 27, "real": "Omar David Barboza Carbonero", "alias": "Omar", "activo": True},
-    {"posicion": 28, "real": "Oscar José Llanos Mendinueta", "alias": "Oscar", "activo": True},
-    {"posicion": 29, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula", "activo": True},
-    {"posicion": 30, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez", "activo": True},
-    {"posicion": 31, "real": "Sara Gómez Bayona", "alias": "Sara Gómez", "activo": True},
-    {"posicion": 32, "real": "Stefany Vanegas Arbelaez", "alias": "Stefany", "activo": True},
-    {"posicion": 33, "real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana", "activo": True},
-    {"posicion": 34, "real": "Tomas Castaño Gómez", "alias": "Tomas", "activo": True},
-    {"posicion": 35, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez", "activo": True},
-    {"posicion": 36, "real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez", "activo": True},
-    {"posicion": 37, "real": "Yarnedis Cecilia Urrutia Pérez", "alias": "Cecilia López", "activo": True},
-    {"posicion": 38, "real": "Yeismer Miranda Ramirez", "alias": "Leo Miranda", "activo": True},
-    {"posicion": 39, "real": "Yesica Paola Lopez Arango", "alias": "Yesica López", "activo": True},
-    {"posicion": 40, "real": "Yesly Marilyn Carrero Rivera", "alias": "Marilyn Carrero", "activo": True},
+    {"posicion": 1, "real": "Alisson Correa Gaviria", "alias": "Alisson"},
+    {"posicion": 2, "real": "Ana Maria Sanchez Gamboa", "alias": "Maria Sanchez"},
+    {"posicion": 3, "real": "Andrea Mileidy londoño Bedoya", "alias": "Andrea Valverde"},
+    {"posicion": 4, "real": "Angie Valeria Quirama Hernández", "alias": "Valeria Hernandez"},
+    {"posicion": 5, "real": "Angie Vanessa García", "alias": "Maria Antonia García"},
+    {"posicion": 6, "real": "Brayan Andrey Bustamante", "alias": "Marcos Garcia"},
+    {"posicion": 7, "real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez"},
+    {"posicion": 8, "real": "Claudia Marcela Manco Vargas", "alias": "Marcela"},
+    {"posicion": 9, "real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez"},
+    {"posicion": 10, "real": "Dayana Botero Rojas", "alias": "Isabel Botero"},
+    {"posicion": 11, "real": "Evelin Acevedo Cortés", "alias": "Gabriela"},
+    {"posicion": 12, "real": "Gustavo Adolfo Barrientos Serna", "alias": "Gustavo"},
+    {"posicion": 13, "real": "Iris Sabiana Cano Cano", "alias": "Maria Cano"},
+    {"posicion": 14, "real": "Janis Henao Vasco", "alias": "María José"},
+    {"posicion": 15, "real": "Johana Osorio Bedoya", "alias": "Johana Sanchez"},
+    {"posicion": 16, "real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban"},
+    {"posicion": 17, "real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian"},
+    {"posicion": 18, "real": "Julián Andrés Osorio Aristizabal", "alias": "Andrés Aristizábal"},
+    {"posicion": 19, "real": "Karen Herrera Gonzalez", "alias": "Karen"},
+    {"posicion": 20, "real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas"},
+    {"posicion": 21, "real": "Libia Paola Romero Cantillo", "alias": "Paola Romero"},
+    {"posicion": 22, "real": "Linda Liceth Pérez Pineda", "alias": "Linda Pérez / Elena Pérez"},
+    {"posicion": 23, "real": "Luis Alberto Lozano Ibarra", "alias": "Luis Lozano"},
+    {"posicion": 24, "real": "Manuela villegas Giraldo", "alias": "Manuela Villegas"},
+    {"posicion": 25, "real": "María Karolina Viana Cancio", "alias": "Karolina"},
+    {"posicion": 26, "real": "Mateo Cano Hincapié", "alias": "Antonio de la villa"},
+    {"posicion": 27, "real": "Omar David Barboza Carbonero", "alias": "Omar"},
+    {"posicion": 28, "real": "Oscar José Llanos Mendinueta", "alias": "Oscar"},
+    {"posicion": 29, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula"},
+    {"posicion": 30, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez"},
+    {"posicion": 31, "real": "Sara Gómez Bayona", "alias": "Sara Gómez"},
+    {"posicion": 32, "real": "Stefany Vanegas Arbelaez", "alias": "Stefany"},
+    {"posicion": 33, "real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana"},
+    {"posicion": 34, "real": "Tomas Castaño Gómez", "alias": "Tomas"},
+    {"posicion": 35, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez"},
+    {"posicion": 36, "real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez"},
+    {"posicion": 37, "real": "Yarnedis Cecilia Urrutia Pérez", "alias": "Cecilia López"},
+    {"posicion": 38, "real": "Yeismer Miranda Ramirez", "alias": "Leo Miranda"},
+    {"posicion": 39, "real": "Yesica Paola Lopez Arango", "alias": "Yesica López"},
+    {"posicion": 40, "real": "Yesly Marilyn Carrero Rivera", "alias": "Marilyn Carrero"},
 ]
 
 def obtener_fecha_hora_colombia() -> datetime:
@@ -73,7 +76,7 @@ def obtener_hora_colombia_str() -> str:
     return obtener_fecha_hora_colombia().strftime("%Y-%m-%d %H:%M:%S")
 
 # ==========================================
-# GESTIÓN DE PERSISTENCIA VÍA API DE GITHUB
+# CONEXIÓN Y OPERACIONES ATÓMICAS EN GITHUB
 # ==========================================
 def obtener_repositorio_github():
     token = st.secrets.get("github", {}).get("token")
@@ -84,109 +87,129 @@ def obtener_repositorio_github():
     g = Github(token)
     return g.get_repo(repo_name)
 
-def cargar_datos_desde_github() -> dict:
-    """Descarga siempre los datos directamente desde GitHub para garantizar la versión más reciente."""
+def leer_json_github(file_path: str, default_payload: dict) -> dict:
+    """Lee un archivo JSON individual directamente desde GitHub."""
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
     try:
-        content = repo.get_contents(DATA_FILE_PATH, ref=branch)
-        data = json.loads(content.decoded_content.decode("utf-8"))
-        return data
+        content = repo.get_contents(file_path, ref=branch)
+        return json.loads(content.decoded_content.decode("utf-8"))
     except GithubException as e:
         if e.status == 404:
-            datos_iniciales = {
-                "turnos": USUARIOS_INICIALES,
-                "historial": [],
-                "configuracion": {"modo_auto": "true"},
-                "horario_excel": []
-            }
-            guardar_datos_en_github(datos_iniciales, "Inicializar base de datos JSON")
-            return datos_iniciales
-        st.error(f"Error al conectar con GitHub: {e}")
+            escribir_json_github(file_path, default_payload, f"Inicializar {file_path}")
+            return default_payload
+        st.error(f"Error leyendo {file_path}: {e}")
         st.stop()
 
-def guardar_datos_en_github(data: dict, mensaje_commit: str):
-    """Guarda los datos en GitHub generando un commit directo inmediato."""
+def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, retries: int = 3):
+    """Guarda un JSON en GitHub reintentando automáticamente en caso de colisión de hash (commit concurrente)."""
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
-    json_str = json.dumps(data, indent=4, ensure_ascii=False)
+    json_str = json.dumps(payload, indent=4, ensure_ascii=False)
 
-    try:
-        content = repo.get_contents(DATA_FILE_PATH, ref=branch)
-        repo.update_file(
-            path=DATA_FILE_PATH,
-            message=f"Auto-update: {mensaje_commit}",
-            content=json_str,
-            sha=content.sha,
-            branch=branch
-        )
-    except GithubException as e:
-        if e.status == 404:
-            repo.create_file(
-                path=DATA_FILE_PATH,
-                message=f"Crear archivo: {mensaje_commit}",
-                content=json_str,
-                branch=branch
-            )
-        else:
-            st.error(f"Error guardando cambios en GitHub: {e}")
+    for intento in range(retries):
+        try:
+            try:
+                content = repo.get_contents(file_path, ref=branch)
+                repo.update_file(
+                    path=file_path,
+                    message=f"Auto-update: {mensaje_commit}",
+                    content=json_str,
+                    sha=content.sha,
+                    branch=branch
+                )
+            except GithubException as ex:
+                if ex.status == 404:
+                    repo.create_file(
+                        path=file_path,
+                        message=f"Crear archivo: {mensaje_commit}",
+                        content=json_str,
+                        branch=branch
+                    )
+                else:
+                    raise ex
+            return True
+        except GithubException as e:
+            if intento < retries - 1:
+                time_lib.sleep(0.5)  # Esperar medio segundo antes de reintentar
+            else:
+                st.error(f"❌ Error al guardar en {file_path} tras varios intentos: {e}")
+                return False
 
 # ==========================================
-# OPERACIONES DE LECTURA Y ESCRITURA EN VIVO
+# LOGICA DE LECTURA Y MEZCLA DE DATOS (READ-ON-MERGE)
 # ==========================================
-def obtener_data_fresca() -> dict:
-    """Carga siempre la última copia existente en GitHub en el estado de la sesión."""
-    st.session_state.db_data = cargar_datos_desde_github()
-    return st.session_state.db_data
+def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
+    """Carga de forma independiente el orden/historial y los estados de los agentes, mezclándolos en vivo."""
+    def_turnos = {
+        "turnos": USUARIOS_INICIALES,
+        "historial": [],
+        "configuracion": {"modo_auto": "true"},
+        "horario_excel": []
+    }
+    def_estados = {u["real"]: True for u in USUARIOS_INICIALES}
 
-# Inicialización
-if "db_data" not in st.session_state:
-    obtener_data_fresca()
+    data_turnos = leer_json_github(FILE_TURNOS, def_turnos)
+    data_estados = leer_json_github(FILE_ESTADOS, def_estados)
+
+    turnos_lista = sorted(data_turnos.get("turnos", USUARIOS_INICIALES), key=lambda x: x["posicion"])
+    historial = data_turnos.get("historial", [])
+    config = data_turnos.get("configuracion", {"modo_auto": "true"})
+    horario_excel = data_turnos.get("horario_excel", [])
+
+    # Inyectar el estado activo/ausente más reciente desde data_estados
+    for t in turnos_lista:
+        nombre = t["real"]
+        t["activo"] = data_estados.get(nombre, True)
+
+    st.session_state.data_turnos_cache = data_turnos
+    st.session_state.data_estados_cache = data_estados
+
+    return turnos_lista, historial, config, horario_excel
 
 def obtener_configuracion(clave: str, valor_defecto: str = "") -> str:
-    data = st.session_state.db_data
-    return data.get("configuracion", {}).get(clave, valor_defecto)
+    _, _, config, _ = obtener_estructura_completa_fresca()
+    return config.get(clave, valor_defecto)
 
 def guardar_configuracion(clave: str, valor: str):
-    """Actualiza configuración y hace commit inmediato en GitHub."""
-    data = obtener_data_fresca()
-    if "configuracion" not in data:
-        data["configuracion"] = {}
-    data["configuracion"][clave] = valor
-    guardar_datos_en_github(data, f"Admin: Cambiar configuracion {clave}={valor}")
-    st.session_state.db_data = data
+    data_turnos = leer_json_github(FILE_TURNOS, {})
+    if "configuracion" not in data_turnos:
+        data_turnos["configuracion"] = {}
+    data_turnos["configuracion"][clave] = valor
+    escribir_json_github(FILE_TURNOS, data_turnos, f"Configuración {clave}={valor}")
 
 def obtener_lista_turnos() -> list:
-    turnos = st.session_state.db_data.get("turnos", [])
-    return sorted(turnos, key=lambda x: x["posicion"])
+    turnos, _, _, _ = obtener_estructura_completa_fresca()
+    return turnos
 
 def guardar_cambios_masivos_agentes(estados_nuevos: dict):
-    """Guarda en lote todos los cambios de activos/ausentes hechos en el panel de control."""
-    data = obtener_data_fresca()
+    """Guarda Exclusivamente en `agentes_estados.json` sin tocar las posiciones ni el historial."""
+    estados_actuales = leer_json_github(FILE_ESTADOS, {u["real"]: True for u in USUARIOS_INICIALES})
     cambios = 0
-    for t in data.get("turnos", []):
-        pos = t["posicion"]
-        if pos in estados_nuevos and t["activo"] != estados_nuevos[pos]:
-            t["activo"] = estados_nuevos[pos]
+    
+    # Mapear posicion a nombre_real
+    turnos_actuales, _, _, _ = obtener_estructura_completa_fresca()
+    mapa_pos_nombre = {t["posicion"]: t["real"] for t in turnos_actuales}
+
+    for pos, nuevo_activo in estados_seleccionados.items():
+        nombre_real = mapa_pos_nombre.get(pos)
+        if nombre_real and estados_actuales.get(nombre_real) != nuevo_activo:
+            estados_actuales[nombre_real] = nuevo_activo
             cambios += 1
-            
+
     if cambios > 0:
-        guardar_datos_en_github(data, f"Admin: Actualización masiva de estados ({cambios} cambios)")
-        st.session_state.db_data = data
-        return True, f"✅ ¡Se guardaron e integraron en GitHub los cambios de {cambios} agentes!"
+        if escribir_json_github(FILE_ESTADOS, estados_actuales, f"Admin: Actualización de {cambios} estados"):
+            return True, f"✅ ¡Se guardaron correctamente los estados de {cambios} agentes!"
     return False, "ℹ️ No se detectaron cambios de estado para guardar."
 
 def guardar_horario_db(df: pd.DataFrame):
-    """Guarda el horario Excel subido e impacta inmediatamente GitHub."""
-    data = obtener_data_fresca()
-    data["horario_excel"] = df.to_dict(orient="records")
-    guardar_datos_en_github(data, "Admin: Carga de nuevo horario Excel/CSV")
-    st.session_state.db_data = data
+    data_turnos = leer_json_github(FILE_TURNOS, {})
+    data_turnos["horario_excel"] = df.to_dict(orient="records")
+    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Carga de horario Excel")
 
 def obtener_horario_db() -> pd.DataFrame:
-    data = st.session_state.db_data
-    records = data.get("horario_excel", [])
-    return pd.DataFrame(records) if records else pd.DataFrame()
+    _, _, _, horario_excel = obtener_estructura_completa_fresca()
+    return pd.DataFrame(horario_excel) if horario_excel else pd.DataFrame()
 
 def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
     if df_horario.empty:
@@ -220,7 +243,7 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
             except ValueError:
                 return None
 
-    agentes_activos = {}
+    agentes_activos_horario = {}
     for _, row in df_hoy.iterrows():
         nombre = str(row.get("Nombre", "")).replace('\xa0', ' ').strip()
         h_inicio = parse_time(row.get("Hora incio"))
@@ -236,21 +259,21 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
                 if int_inc and int_fin and (int_inc <= hora_actual <= int_fin):
                     esta_activo = False
 
-        agentes_activos[nombre.lower()] = esta_activo
+        agentes_activos_horario[nombre.lower()] = esta_activo
 
-    data = obtener_data_fresca()
+    estados_actuales = leer_json_github(FILE_ESTADOS, {})
     hubo_cambios = False
-    for t in data.get("turnos", []):
-        nombre_norm = t["real"].replace('\xa0', ' ').strip().lower()
-        if nombre_norm in agentes_activos:
-            nuevo_estado = agentes_activos[nombre_norm]
-            if t["activo"] != nuevo_estado:
-                t["activo"] = nuevo_estado
+    
+    for real_name in estados_actuales.keys():
+        nombre_norm = real_name.replace('\xa0', ' ').strip().lower()
+        if nombre_norm in agentes_activos_horario:
+            nuevo_st = agentes_activos_horario[nombre_norm]
+            if estados_actuales[real_name] != nuevo_st:
+                estados_actuales[real_name] = nuevo_st
                 hubo_cambios = True
 
     if hubo_cambios:
-        guardar_datos_en_github(data, "Sincronización automática de estados según horario")
-        st.session_state.db_data = data
+        escribir_json_github(FILE_ESTADOS, estados_actuales, "Auto: Sync de estados por horario")
 
 def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tuple[bool, str]:
     call_id_clean = call_id.strip()
@@ -266,10 +289,8 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
 
     now_col = obtener_hora_colombia_str()
     
-    # 1. Traer la versión más reciente directamente desde GitHub antes de procesar
-    data = obtener_data_fresca()
-    historial = data.get("historial", [])
-    turnos = sorted(data.get("turnos", []), key=lambda x: x["posicion"])
+    # Cargar versión más reciente mezclada
+    turnos, historial, _, _ = obtener_estructura_completa_fresca()
 
     if any(h.get("call_id") == call_id_clean for h in historial):
         return False, f"❌ El ID de llamada '{call_id_clean}' ya fue registrado previamente."
@@ -307,25 +328,28 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     }
     historial.insert(0, nuevo_registro)
 
-    # Reordenar turnos (el agente que atendió se mueve al final)
-    turnos_sin_atendiendo = [t for t in turnos if t["posicion"] != pos_atendiendo]
-    nuevos_turnos = turnos_sin_atendiendo + [agente_atendiendo]
+    # Reordenar turnos limpiando la llave 'activo' antes de guardar a JSON (solo guardamos posiciones)
+    turnos_limpios = [{"posicion": t["posicion"], "real": t["real"], "alias": t["alias"]} for t in turnos]
+    agente_limpio = next(t for t in turnos_limpios if t["posicion"] == pos_atendiendo)
+    
+    turnos_sin_atendiendo = [t for t in turnos_limpios if t["posicion"] != pos_atendiendo]
+    nuevos_turnos = turnos_sin_atendiendo + [agente_limpio]
 
     for idx, t in enumerate(nuevos_turnos, start=1):
         t["posicion"] = idx
 
-    data["historial"] = historial
-    data["turnos"] = nuevos_turnos
+    data_turnos = leer_json_github(FILE_TURNOS, {})
+    data_turnos["historial"] = historial
+    data_turnos["turnos"] = nuevos_turnos
 
-    # 2. Hacer commit directo e inmediato a GitHub
-    guardar_datos_en_github(data, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})")
-    st.session_state.db_data = data
-
-    return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
+    # GUARDAR ÚNICAMENTE EN FILE_TURNOS (Sin colisión con cambios de estado en FILE_ESTADOS)
+    if escribir_json_github(FILE_TURNOS, data_turnos, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})"):
+        return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
+    else:
+        return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
 
 def obtener_historial_saltos() -> pd.DataFrame:
-    data = obtener_data_fresca()
-    historial = data.get("historial", [])
+    _, historial, _, _ = obtener_estructura_completa_fresca()
     if not historial:
         return pd.DataFrame()
     df = pd.DataFrame(historial)
@@ -340,26 +364,23 @@ def obtener_historial_saltos() -> pd.DataFrame:
     return df
 
 def vaciar_historial_llamadas():
-    data = obtener_data_fresca()
-    data["historial"] = []
-    guardar_datos_en_github(data, "Admin: Vaciar historial de llamadas")
-    st.session_state.db_data = data
+    data_turnos = leer_json_github(FILE_TURNOS, {})
+    data_turnos["historial"] = []
+    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Vaciar historial de llamadas")
 
 def reiniciar_turnos_originales():
-    data = obtener_data_fresca()
-    data["turnos"] = [dict(u) for u in USUARIOS_INICIALES]
-    guardar_datos_en_github(data, "Admin: Restablecer turnos al orden inicial")
-    st.session_state.db_data = data
+    data_turnos = leer_json_github(FILE_TURNOS, {})
+    data_turnos["turnos"] = [dict(u) for u in USUARIOS_INICIALES]
+    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Restablecer turnos al orden inicial")
 
 def reorganizar_turnos_al_azar():
-    data = obtener_data_fresca()
-    turnos = obtener_lista_turnos()
+    data_turnos = leer_json_github(FILE_TURNOS, {})
+    turnos = data_turnos.get("turnos", USUARIOS_INICIALES)
     random.shuffle(turnos)
     for idx, t in enumerate(turnos, start=1):
         t["posicion"] = idx
-    data["turnos"] = turnos
-    guardar_datos_en_github(data, "Admin: Reorganizar turnos al azar")
-    st.session_state.db_data = data
+    data_turnos["turnos"] = turnos
+    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
 
 # ==========================================
 # INTERFAZ DE NAVEGACIÓN Y VISTAS
@@ -518,7 +539,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 with col_name:
                     st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']})")
                 with col_status:
-                    # El toggle solo edita el valor en memoria temporal sin invocar a GitHub en cada clic
                     nuevo_estado = st.toggle(
                         "Activo" if t["activo"] else "Ausente",
                         value=t["activo"],
