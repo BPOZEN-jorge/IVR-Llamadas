@@ -106,7 +106,7 @@ def cargar_datos_desde_github() -> dict:
         st.stop()
 
 def guardar_datos_en_github(data: dict, mensaje_commit: str):
-    """Guarda los datos en GitHub generando un commit directo."""
+    """Guarda los datos en GitHub generando un commit directo inmediato."""
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
     json_str = json.dumps(data, indent=4, ensure_ascii=False)
@@ -148,11 +148,12 @@ def obtener_configuracion(clave: str, valor_defecto: str = "") -> str:
     return data.get("configuracion", {}).get(clave, valor_defecto)
 
 def guardar_configuracion(clave: str, valor: str):
+    """Actualiza configuración y hace commit inmediato en GitHub."""
     data = obtener_data_fresca()
     if "configuracion" not in data:
         data["configuracion"] = {}
     data["configuracion"][clave] = valor
-    guardar_datos_en_github(data, f"Actualizar configuracion {clave}={valor}")
+    guardar_datos_en_github(data, f"Admin: Cambiar configuracion {clave}={valor}")
     st.session_state.db_data = data
 
 def obtener_lista_turnos() -> list:
@@ -161,22 +162,26 @@ def obtener_lista_turnos() -> list:
     return sorted(turnos, key=lambda x: x["posicion"])
 
 def cambiar_estado_agente(posicion: int, activo: bool):
+    """Actualiza el estado de un agente y fuerza el commit inmediato a GitHub."""
     data = obtener_data_fresca()
     modificado = False
+    alias_agente = ""
     for t in data.get("turnos", []):
         if t["posicion"] == posicion:
             if t["activo"] != activo:
                 t["activo"] = activo
+                alias_agente = t.get("alias", f"Pos #{posicion}")
                 modificado = True
             break
     if modificado:
-        guardar_datos_en_github(data, f"Cambiar estado agente pos {posicion} a {activo}")
+        guardar_datos_en_github(data, f"Admin: Cambiar estado de {alias_agente} a {'Activo' if activo else 'Ausente'}")
         st.session_state.db_data = data
 
 def guardar_horario_db(df: pd.DataFrame):
+    """Guarda el horario Excel subido e impacta inmediatamente GitHub."""
     data = obtener_data_fresca()
     data["horario_excel"] = df.to_dict(orient="records")
-    guardar_datos_en_github(data, "Carga de nuevo horario Excel/CSV")
+    guardar_datos_en_github(data, "Admin: Carga de nuevo horario Excel/CSV")
     st.session_state.db_data = data
 
 def obtener_horario_db() -> pd.DataFrame:
@@ -338,13 +343,13 @@ def obtener_historial_saltos() -> pd.DataFrame:
 def vaciar_historial_llamadas():
     data = obtener_data_fresca()
     data["historial"] = []
-    guardar_datos_en_github(data, "Vaciar historial de llamadas")
+    guardar_datos_en_github(data, "Admin: Vaciar historial de llamadas")
     st.session_state.db_data = data
 
 def reiniciar_turnos_originales():
     data = obtener_data_fresca()
     data["turnos"] = [dict(u) for u in USUARIOS_INICIALES]
-    guardar_datos_en_github(data, "Restablecer turnos al orden inicial")
+    guardar_datos_en_github(data, "Admin: Restablecer turnos al orden inicial")
     st.session_state.db_data = data
 
 def reorganizar_turnos_al_azar():
@@ -354,7 +359,7 @@ def reorganizar_turnos_al_azar():
     for idx, t in enumerate(turnos, start=1):
         t["posicion"] = idx
     data["turnos"] = turnos
-    guardar_datos_en_github(data, "Reorganizar turnos al azar")
+    guardar_datos_en_github(data, "Admin: Reorganizar turnos al azar")
     st.session_state.db_data = data
 
 # ==========================================
