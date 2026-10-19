@@ -300,7 +300,7 @@
         }
     ],
     "configuracion": {
-        "modo_auto": "true"
+        "modo_auto": "false"
     },
     "horario_excel": [
         {
