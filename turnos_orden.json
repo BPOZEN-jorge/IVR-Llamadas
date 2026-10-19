@@ -57,151 +57,159 @@
         },
         {
             "posicion": 12,
-            "real": "Sara Gómez Bayona",
-            "alias": "Sara Gómez"
-        },
-        {
-            "posicion": 13,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas"
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Julián Andrés Osorio Aristizabal",
             "alias": "Andrés Aristizábal"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
+        },
+        {
+            "posicion": 40,
+            "real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez"
         }
     ],
     "historial": [
+        {
+            "id": 11,
+            "call_id": "CAc1b3f0a2e9dfea507e3330e5bca3ad9e",
+            "telefono": "603219963",
+            "nombre_real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "fecha_hora": "2026-10-19 11:33:25"
+        },
         {
             "id": 10,
             "call_id": "CA05d23c6f2030cee67a41b17efa7c6395",
