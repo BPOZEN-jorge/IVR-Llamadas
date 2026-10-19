@@ -85,7 +85,7 @@ def obtener_repositorio_github():
     return g.get_repo(repo_name)
 
 def cargar_datos_desde_github() -> dict:
-    """Carga el archivo JSON desde GitHub. Si no existe, lo inicializa."""
+    """Descarga siempre los datos directamente desde GitHub para garantizar la versión más reciente."""
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
     try:
@@ -94,7 +94,6 @@ def cargar_datos_desde_github() -> dict:
         return data
     except GithubException as e:
         if e.status == 404:
-            # Archivo no existe aún en GitHub: Crear con valores por defecto
             datos_iniciales = {
                 "turnos": USUARIOS_INICIALES,
                 "historial": [],
@@ -133,20 +132,23 @@ def guardar_datos_en_github(data: dict, mensaje_commit: str):
             st.error(f"Error guardando cambios en GitHub: {e}")
 
 # ==========================================
-# MANEJO DE ESTADO EN MEMORIA Y CACHÉ
+# OPERACIONES DE LECTURA Y ESCRITURA EN VIVO
 # ==========================================
-if "db_data" not in st.session_state:
+def obtener_data_fresca() -> dict:
+    """Carga siempre la última copia existente en GitHub en el estado de la sesión."""
     st.session_state.db_data = cargar_datos_desde_github()
+    return st.session_state.db_data
 
-def sync_data():
-    """Recarga los datos actualizados desde GitHub a la sesión actual."""
-    st.session_state.db_data = cargar_datos_desde_github()
+# Inicialización
+if "db_data" not in st.session_state:
+    obtener_data_fresca()
 
 def obtener_configuracion(clave: str, valor_defecto: str = "") -> str:
-    return st.session_state.db_data.get("configuracion", {}).get(clave, valor_defecto)
+    data = obtener_data_fresca()
+    return data.get("configuracion", {}).get(clave, valor_defecto)
 
 def guardar_configuracion(clave: str, valor: str):
-    data = st.session_state.db_data
+    data = obtener_data_fresca()
     if "configuracion" not in data:
         data["configuracion"] = {}
     data["configuracion"][clave] = valor
@@ -154,11 +156,12 @@ def guardar_configuracion(clave: str, valor: str):
     st.session_state.db_data = data
 
 def obtener_lista_turnos() -> list:
-    turnos = st.session_state.db_data.get("turnos", [])
+    data = obtener_data_fresca()
+    turnos = data.get("turnos", [])
     return sorted(turnos, key=lambda x: x["posicion"])
 
 def cambiar_estado_agente(posicion: int, activo: bool):
-    data = st.session_state.db_data
+    data = obtener_data_fresca()
     modificado = False
     for t in data.get("turnos", []):
         if t["posicion"] == posicion:
@@ -171,13 +174,14 @@ def cambiar_estado_agente(posicion: int, activo: bool):
         st.session_state.db_data = data
 
 def guardar_horario_db(df: pd.DataFrame):
-    data = st.session_state.db_data
+    data = obtener_data_fresca()
     data["horario_excel"] = df.to_dict(orient="records")
     guardar_datos_en_github(data, "Carga de nuevo horario Excel/CSV")
     st.session_state.db_data = data
 
 def obtener_horario_db() -> pd.DataFrame:
-    records = st.session_state.db_data.get("horario_excel", [])
+    data = obtener_data_fresca()
+    records = data.get("horario_excel", [])
     return pd.DataFrame(records) if records else pd.DataFrame()
 
 def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
@@ -230,7 +234,7 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
 
         agentes_activos[nombre.lower()] = esta_activo
 
-    data = st.session_state.db_data
+    data = obtener_data_fresca()
     hubo_cambios = False
     for t in data.get("turnos", []):
         nombre_norm = t["real"].replace('\xa0', ' ').strip().lower()
@@ -257,9 +261,11 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
         return False, "⚠️ Debes ingresar tu PIN personal de 4 dígitos."
 
     now_col = obtener_hora_colombia_str()
-    data = st.session_state.db_data
+    
+    # 1. Traer la versión más reciente directamente desde GitHub antes de procesar
+    data = obtener_data_fresca()
     historial = data.get("historial", [])
-    turnos = obtener_lista_turnos()
+    turnos = sorted(data.get("turnos", []), key=lambda x: x["posicion"])
 
     if any(h.get("call_id") == call_id_clean for h in historial):
         return False, f"❌ El ID de llamada '{call_id_clean}' ya fue registrado previamente."
@@ -297,7 +303,7 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     }
     historial.insert(0, nuevo_registro)
 
-    # Reordenar turnos (el que atendió pasa al final)
+    # Reordenar turnos (el agente que atendió se mueve al final)
     turnos_sin_atendiendo = [t for t in turnos if t["posicion"] != pos_atendiendo]
     nuevos_turnos = turnos_sin_atendiendo + [agente_atendiendo]
 
@@ -307,13 +313,15 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     data["historial"] = historial
     data["turnos"] = nuevos_turnos
 
-    guardar_datos_en_github(data, f"Salto de turno atendido por {alias} (ID: {call_id_clean})")
+    # 2. Hacer commit directo e inmediato a GitHub
+    guardar_datos_en_github(data, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})")
     st.session_state.db_data = data
 
     return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
 
 def obtener_historial_saltos() -> pd.DataFrame:
-    historial = st.session_state.db_data.get("historial", [])
+    data = obtener_data_fresca()
+    historial = data.get("historial", [])
     if not historial:
         return pd.DataFrame()
     df = pd.DataFrame(historial)
@@ -328,19 +336,19 @@ def obtener_historial_saltos() -> pd.DataFrame:
     return df
 
 def vaciar_historial_llamadas():
-    data = st.session_state.db_data
+    data = obtener_data_fresca()
     data["historial"] = []
     guardar_datos_en_github(data, "Vaciar historial de llamadas")
     st.session_state.db_data = data
 
 def reiniciar_turnos_originales():
-    data = st.session_state.db_data
+    data = obtener_data_fresca()
     data["turnos"] = [dict(u) for u in USUARIOS_INICIALES]
     guardar_datos_en_github(data, "Restablecer turnos al orden inicial")
     st.session_state.db_data = data
 
 def reorganizar_turnos_al_azar():
-    data = st.session_state.db_data
+    data = obtener_data_fresca()
     turnos = obtener_lista_turnos()
     random.shuffle(turnos)
     for idx, t in enumerate(turnos, start=1):
@@ -353,10 +361,6 @@ def reorganizar_turnos_al_azar():
 # INTERFAZ DE NAVEGACIÓN Y VISTAS
 # ==========================================
 st.sidebar.title("📌 Portal de Turnos")
-if st.sidebar.button("🔄 Sincronizar con GitHub", use_container_width=True):
-    sync_data()
-    st.sidebar.success("Datos actualizados desde el repositorio.")
-
 opcion_vista = st.sidebar.radio("Navegación:", ["🎡 Fila de Turnos (Ruleta)", "🛡️ Vista Administrador"])
 
 # ------------------------------------------
