@@ -4,7 +4,7 @@
             "posicion": 1,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 2,
@@ -76,7 +76,7 @@
             "posicion": 13,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -88,7 +88,7 @@
             "posicion": 15,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 16,
