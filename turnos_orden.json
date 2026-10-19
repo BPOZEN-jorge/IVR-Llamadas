@@ -162,46 +162,54 @@
         },
         {
             "posicion": 33,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez"
-        },
-        {
-            "posicion": 34,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
+        },
+        {
+            "posicion": 40,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez"
         }
     ],
     "historial": [
+        {
+            "id": 21,
+            "call_id": "CAab255c28d586a750a33ab2198b1f051f",
+            "telefono": "+34604225032",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "fecha_hora": "2026-10-19 13:21:37"
+        },
         {
             "id": 20,
             "call_id": "CA24fd76d25426210a1b0d675e4a9ec5b5",
