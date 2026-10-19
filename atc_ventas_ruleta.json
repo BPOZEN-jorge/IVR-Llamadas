@@ -2,8 +2,8 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Libia Paola Romero Cantillo",
-            "alias": "Paola Romero"
+            "real": "Janis Henao Vasco",
+            "alias": "María José"
         },
         {
             "posicion": 2,
@@ -12,193 +12,193 @@
         },
         {
             "posicion": 3,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda"
-        },
-        {
-            "posicion": 4,
-            "real": "Sara Gómez Bayona",
-            "alias": "Sara Gómez"
-        },
-        {
-            "posicion": 5,
-            "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez"
-        },
-        {
-            "posicion": 6,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 7,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez"
-        },
-        {
-            "posicion": 8,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López"
-        },
-        {
-            "posicion": 9,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez"
-        },
-        {
-            "posicion": 10,
-            "real": "Iris Sabiana Cano Cano",
-            "alias": "Maria Cano"
-        },
-        {
-            "posicion": 11,
-            "real": "Janis Henao Vasco",
-            "alias": "María José"
-        },
-        {
-            "posicion": 12,
-            "real": "Stefany Vanegas Arbelaez",
-            "alias": "Stefany"
-        },
-        {
-            "posicion": 13,
-            "real": "Paula Andrea Guzman Jaramillo",
-            "alias": "Paula"
-        },
-        {
-            "posicion": 14,
-            "real": "Cristian David Acosta Montoya",
-            "alias": "Manuel Vasquez"
-        },
-        {
-            "posicion": 15,
-            "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López"
-        },
-        {
-            "posicion": 16,
-            "real": "Yesly Marilyn Carrero Rivera",
-            "alias": "Marilyn Carrero"
-        },
-        {
-            "posicion": 17,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban"
-        },
-        {
-            "posicion": 18,
-            "real": "Gustavo Adolfo Barrientos Serna",
-            "alias": "Gustavo"
-        },
-        {
-            "posicion": 19,
-            "real": "Dayana Botero Rojas",
-            "alias": "Isabel Botero"
-        },
-        {
-            "posicion": 20,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen"
-        },
-        {
-            "posicion": 21,
-            "real": "Oscar José Llanos Mendinueta",
-            "alias": "Oscar"
-        },
-        {
-            "posicion": 22,
-            "real": "Kelly Jhoana Salas Ibarguen",
-            "alias": "Kelly Salas"
-        },
-        {
-            "posicion": 23,
-            "real": "Luis Alberto Lozano Ibarra",
-            "alias": "Luis Lozano"
-        },
-        {
-            "posicion": 24,
-            "real": "Evelin Acevedo Cortés",
-            "alias": "Gabriela"
-        },
-        {
-            "posicion": 25,
-            "real": "Andrea Mileidy londoño Bedoya",
-            "alias": "Andrea Valverde"
-        },
-        {
-            "posicion": 26,
-            "real": "Claudia Marcela Manco Vargas",
-            "alias": "Marcela"
-        },
-        {
-            "posicion": 27,
-            "real": "Tatiana Magreth Acevedo Marín",
-            "alias": "Tatiana"
-        },
-        {
-            "posicion": 28,
-            "real": "Carlos Alberto Herrera Cardeño",
-            "alias": "Carlos Herrera / Alberto Fernandez"
-        },
-        {
-            "posicion": 29,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez"
-        },
-        {
-            "posicion": 30,
+            "posicion": 4,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 31,
-            "real": "Mateo Cano Hincapié",
-            "alias": "Antonio de la villa"
+            "posicion": 5,
+            "real": "Kelly Jhoana Salas Ibarguen",
+            "alias": "Kelly Salas"
         },
         {
-            "posicion": 32,
+            "posicion": 6,
+            "real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero"
+        },
+        {
+            "posicion": 7,
+            "real": "Cristian David Acosta Montoya",
+            "alias": "Manuel Vasquez"
+        },
+        {
+            "posicion": 8,
+            "real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez"
+        },
+        {
+            "posicion": 9,
+            "real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López"
+        },
+        {
+            "posicion": 10,
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban"
+        },
+        {
+            "posicion": 11,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez"
         },
         {
-            "posicion": 33,
-            "real": "Alisson Correa Gaviria",
-            "alias": "Alisson"
+            "posicion": 12,
+            "real": "Luis Alberto Lozano Ibarra",
+            "alias": "Luis Lozano"
         },
         {
-            "posicion": 34,
-            "real": "Manuela villegas Giraldo",
-            "alias": "Manuela Villegas"
+            "posicion": 13,
+            "real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez"
         },
         {
-            "posicion": 35,
-            "real": "Julián Andrés Osorio Aristizabal",
-            "alias": "Andrés Aristizábal"
+            "posicion": 14,
+            "real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez"
         },
         {
-            "posicion": 36,
-            "real": "Juan Sebastian Serna Sepulveda",
-            "alias": "Juan Sebastian"
+            "posicion": 15,
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 37,
-            "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez"
+            "posicion": 16,
+            "real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela"
         },
         {
-            "posicion": 38,
+            "posicion": 17,
+            "real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez"
+        },
+        {
+            "posicion": 18,
+            "real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano"
+        },
+        {
+            "posicion": 19,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 39,
+            "posicion": 20,
+            "real": "Mateo Cano Hincapié",
+            "alias": "Antonio de la villa"
+        },
+        {
+            "posicion": 21,
+            "real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez"
+        },
+        {
+            "posicion": 22,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 40,
+            "posicion": 23,
+            "real": "Tatiana Magreth Acevedo Marín",
+            "alias": "Tatiana"
+        },
+        {
+            "posicion": 24,
+            "real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo"
+        },
+        {
+            "posicion": 25,
+            "real": "Stefany Vanegas Arbelaez",
+            "alias": "Stefany"
+        },
+        {
+            "posicion": 26,
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López"
+        },
+        {
+            "posicion": 27,
+            "real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero"
+        },
+        {
+            "posicion": 28,
+            "real": "Julián Andrés Osorio Aristizabal",
+            "alias": "Andrés Aristizábal"
+        },
+        {
+            "posicion": 29,
+            "real": "Alisson Correa Gaviria",
+            "alias": "Alisson"
+        },
+        {
+            "posicion": 30,
+            "real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas"
+        },
+        {
+            "posicion": 31,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez"
+        },
+        {
+            "posicion": 32,
+            "real": "Juan Sebastian Serna Sepulveda",
+            "alias": "Juan Sebastian"
+        },
+        {
+            "posicion": 33,
+            "real": "Andrea Mileidy londoño Bedoya",
+            "alias": "Andrea Valverde"
+        },
+        {
+            "posicion": 34,
+            "real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula"
+        },
+        {
+            "posicion": 35,
+            "real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero"
+        },
+        {
+            "posicion": 36,
+            "real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela"
+        },
+        {
+            "posicion": 37,
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen"
+        },
+        {
+            "posicion": 38,
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda"
+        },
+        {
+            "posicion": 39,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
+        },
+        {
+            "posicion": 40,
+            "real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar"
         }
     ],
     "historial": []
