@@ -18,7 +18,7 @@ st.set_page_config(
 DB_PATH = "turnos_llamadas.db"
 
 # ==========================================
-# DATOS INICIALES DE USUARIOS (Nombres ajustados según Excel)
+# DATOS INICIALES DE USUARIOS
 # ==========================================
 USUARIOS_INICIALES = [
     {"real": "Alisson Correa Gaviria", "alias": "Alisson"},
@@ -26,7 +26,7 @@ USUARIOS_INICIALES = [
     {"real": "Andrea Mileidy londoño Bedoya", "alias": "Andrea Valverde"},
     {"real": "Angie Valeria Quirama Hernández", "alias": "Valeria Hernandez"},
     {"real": "Angie Vanessa García", "alias": "Maria Antonia García"},
-    {"real": "Brayan Andrey Bustamante", "alias": "Marcos Garcia"},
+    {"real": "Brahyan Steven Moncada Escudero", "alias": "Marcos Garcia"},
     {"real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez"},
     {"real": "Claudia Marcela Manco Vargas", "alias": "Marcela"},
     {"real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez"},
@@ -72,7 +72,7 @@ def obtener_hora_colombia_str() -> str:
     return obtener_fecha_hora_colombia().strftime("%Y-%m-%d %H:%M:%S")
 
 # ==========================================
-# BASE DE DATOS Y PERSISTENCIA
+# BASE DE DATOS Y PERSISTENCIA TOTAL
 # ==========================================
 def init_db():
     with sqlite3.connect(DB_PATH) as conn:
@@ -104,7 +104,17 @@ def init_db():
             """
         )
         
-        # Cargar usuarios por defecto si la tabla está vacía
+        # Tabla de configuración persistente (para guardar el modo de activación)
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS configuracion (
+                clave TEXT PRIMARY KEY,
+                valor TEXT NOT NULL
+            )
+            """
+        )
+
+        # Cargar usuarios por defecto solo si la tabla está completamente vacía
         cursor.execute("SELECT COUNT(*) FROM turnos_orden")
         if cursor.fetchone()[0] == 0:
             for idx, user in enumerate(USUARIOS_INICIALES, start=1):
@@ -114,8 +124,32 @@ def init_db():
                 )
         conn.commit()
 
+def guardar_configuracion(clave: str, valor: str):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT OR REPLACE INTO configuracion (clave, valor) VALUES (?, ?)", (clave, valor))
+        conn.commit()
+
+def obtener_configuracion(clave: str, valor_defecto: str = "") -> str:
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT valor FROM configuracion WHERE clave = ?", (clave,))
+        row = cursor.fetchone()
+        return row[0] if row else valor_defecto
+
+def guardar_horario_db(df: pd.DataFrame):
+    with sqlite3.connect(DB_PATH) as conn:
+        df.to_sql("horario_excel", conn, if_exists="replace", index=False)
+
+def obtener_horario_db() -> pd.DataFrame:
+    with sqlite3.connect(DB_PATH) as conn:
+        try:
+            return pd.read_sql_query("SELECT * FROM horario_excel", conn)
+        except Exception:
+            return pd.DataFrame()
+
 def obtener_lista_turnos() -> list:
-    """Devuelve la lista completa de turnos con su estado (Activo/Ausente)."""
+    """Devuelve la lista completa de turnos con su estado persistente (Activo/Ausente)."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden ORDER BY posicion ASC")
@@ -131,11 +165,13 @@ def cambiar_estado_agente(posicion: int, activo: bool):
 
 def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
     """Evalúa el horario de Colombia y actualiza automáticamente qué agentes están activos."""
+    if df_horario.empty:
+        return
+
     now_col = obtener_fecha_hora_colombia()
     fecha_hoy_str = now_col.strftime("%Y-%m-%d")
     hora_actual = now_col.time()
 
-    # Normalizar columnas y nombres
     df_horario = df_horario.copy()
     df_horario.columns = [str(c).strip() for c in df_horario.columns]
     
@@ -160,7 +196,6 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
             except ValueError:
                 return None
 
-    # Mapeo de estado por agente
     agentes_activos = {}
     for _, row in df_hoy.iterrows():
         nombre = str(row.get("Nombre", "")).replace('\xa0', ' ').strip()
@@ -186,7 +221,7 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
             cambiar_estado_agente(t["posicion"], agentes_activos[nombre_norm])
 
 def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tuple[bool, str]:
-    """Avanza el turno del primer agente ACTIVO en la fila previa validación de su PIN de seguridad."""
+    """Avanza el turno del primer agente ACTIVO guardando el nuevo orden en la Base de Datos."""
     call_id_clean = call_id.strip()
     telefono_clean = telefono.strip()
     pin_clean = pin_ingresado.strip()
@@ -310,8 +345,11 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
     st.caption(f"Hora Colombia: `{obtener_hora_colombia_str()}`")
     st.caption("Ingresa el ID de la llamada, el Teléfono y tu PIN secreto de 4 dígitos para completar tu turno.")
 
-    if "df_horario_cargado" in st.session_state and st.session_state.get("usar_horario_auto", True):
-        actualizar_estados_segun_horario(st.session_state.df_horario_cargado)
+    usar_horario_auto = obtener_configuracion("modo_auto", "true") == "true"
+    if usar_horario_auto:
+        df_excel = obtener_horario_db()
+        if not df_excel.empty:
+            actualizar_estados_segun_horario(df_excel)
 
     turnos_actuales = obtener_lista_turnos()
     actual = next((t for t in turnos_actuales if t["activo"]), None)
@@ -399,27 +437,37 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 else:
                     df_excel = pd.read_excel(uploaded_file)
 
-                st.session_state.df_horario_cargado = df_excel
-                st.success("✅ Archivo de horarios cargado exitosamente.")
+                guardar_horario_db(df_excel)
+                st.success("✅ Archivo de horarios guardado permanentemente en la base de datos.")
                 with st.expander("Ver Vista Previa del Horario Cargado"):
                     st.dataframe(df_excel.head(10), use_container_width=True)
             except Exception as e:
                 st.error(f"Error al leer el archivo: {e}")
+        else:
+            df_guardado = obtener_horario_db()
+            if not df_guardado.empty:
+                st.info("ℹ️ Ya existe un horario cargado en la base de datos.")
 
         st.markdown("---")
         st.subheader("⚙️ Modo de Activación de Agentes")
         
+        modo_auto_actual = obtener_configuracion("modo_auto", "true") == "true"
         modo_auto = st.toggle(
             "Usar Activación Automática por Horario (Hora Colombia)",
-            value=st.session_state.get("usar_horario_auto", True),
+            value=modo_auto_actual,
             key="usar_horario_auto"
         )
 
+        if modo_auto != modo_auto_actual:
+            guardar_configuracion("modo_auto", "true" if modo_auto else "false")
+            st.rerun()
+
         if modo_auto:
-            st.info("ℹ️ La activación automática según el Excel está **ACTIVADA**. El sistema cambiará el estado según la hora de Colombia.")
-            if "df_horario_cargado" in st.session_state:
+            st.info("ℹ️ La activación automática según el Excel está **ACTIVADA** y persistirá tras reinicios.")
+            df_actual = obtener_horario_db()
+            if not df_actual.empty:
                 if st.button("🔄 Sincronizar Horario Ahora"):
-                    actualizar_estados_segun_horario(st.session_state.df_horario_cargado)
+                    actualizar_estados_segun_horario(df_actual)
                     st.success("✅ Agentes sincronizados según la hora actual de Colombia.")
                     st.rerun()
             else:
