@@ -97,111 +97,119 @@
         },
         {
             "posicion": 20,
-            "real": "Manuela villegas Giraldo",
-            "alias": "Manuela Villegas"
-        },
-        {
-            "posicion": 21,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
+        },
+        {
+            "posicion": 40,
+            "real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas"
         }
     ],
     "historial": [
+        {
+            "id": 17,
+            "call_id": "CA99d609f4f72a477feeffab8cb866f729",
+            "telefono": "+34624124639",
+            "nombre_real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "fecha_hora": "2026-10-19 13:00:00"
+        },
         {
             "id": 16,
             "call_id": "CA3819e78ffdbc809a9198c13078de3943",
