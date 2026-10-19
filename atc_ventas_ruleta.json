@@ -201,42 +201,5 @@
             "alias": "Viviana Gómez"
         }
     ],
-    "historial": [
-        {
-            "id": 4,
-            "telefono": "455454",
-            "agente_atc": "Wensly Hurtado",
-            "agente_ventas_real": "Viviana Pacheco Córdoba",
-            "agente_ventas_alias": "Viviana Gómez",
-            "tipo": "Reasignado al Mismo Agente",
-            "fecha_hora": "2026-10-19 12:21:57"
-        },
-        {
-            "id": 3,
-            "telefono": "455454",
-            "agente_atc": "Wensly Hurtado",
-            "agente_ventas_real": "Viviana Pacheco Córdoba",
-            "agente_ventas_alias": "Viviana Gómez",
-            "tipo": "Siguiente en Ruleta",
-            "fecha_hora": "2026-10-19 12:21:45"
-        },
-        {
-            "id": 2,
-            "telefono": "455454",
-            "agente_atc": "Lizeth Vanessa Cifuentes",
-            "agente_ventas_real": "María Karolina Viana Cancio",
-            "agente_ventas_alias": "Karolina",
-            "tipo": "Reasignado al Mismo Agente",
-            "fecha_hora": "2026-10-19 12:20:54"
-        },
-        {
-            "id": 1,
-            "telefono": "455454",
-            "agente_atc": "Wensly Hurtado",
-            "agente_ventas_real": "María Karolina Viana Cancio",
-            "agente_ventas_alias": "Karolina",
-            "tipo": "Siguiente en Ruleta",
-            "fecha_hora": "2026-10-19 12:18:02"
-        }
-    ]
+    "historial": []
 }
