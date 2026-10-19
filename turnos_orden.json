@@ -27,189 +27,181 @@
         },
         {
             "posicion": 6,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez"
+        },
+        {
+            "posicion": 7,
             "real": "Julián Andrés Osorio Aristizabal",
             "alias": "Andrés Aristizábal"
         },
         {
-            "posicion": 7,
+            "posicion": 8,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 8,
+            "posicion": 9,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 9,
+            "posicion": 10,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 10,
+            "posicion": 11,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 11,
+            "posicion": 12,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 12,
+            "posicion": 13,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 13,
+            "posicion": 14,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano"
         },
         {
-            "posicion": 14,
+            "posicion": 15,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 15,
+            "posicion": 16,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 16,
+            "posicion": 17,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 17,
+            "posicion": 18,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany"
         },
         {
-            "posicion": 18,
+            "posicion": 19,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 19,
+            "posicion": 20,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 20,
+            "posicion": 21,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas"
         },
         {
-            "posicion": 21,
+            "posicion": 22,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 22,
+            "posicion": 23,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 23,
+            "posicion": 24,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 24,
+            "posicion": 25,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 25,
+            "posicion": 26,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 26,
+            "posicion": 27,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 27,
+            "posicion": 28,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 28,
+            "posicion": 29,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 29,
+            "posicion": 30,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 30,
+            "posicion": 31,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 33,
+            "posicion": 34,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 34,
+            "posicion": 35,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 35,
+            "posicion": 36,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 36,
+            "posicion": 37,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 37,
+            "posicion": 38,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 38,
+            "posicion": 39,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 39,
+            "posicion": 40,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
-        },
-        {
-            "posicion": 40,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez"
         }
     ],
     "historial": [
-        {
-            "id": 13,
-            "call_id": "CA92dded3a2c37a220957e8baf4c1d0800",
-            "telefono": "645520474",
-            "nombre_real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "fecha_hora": "2026-10-19 12:12:21"
-        },
         {
             "id": 12,
             "call_id": "CA173ca9ee5b7861fcf72d9e8d5dad1ca8",
@@ -308,7 +300,7 @@
         }
     ],
     "configuracion": {
-        "modo_auto": "false"
+        "modo_auto": "true"
     },
     "horario_excel": [
         {
