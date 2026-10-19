@@ -144,7 +144,7 @@ if "db_data" not in st.session_state:
     obtener_data_fresca()
 
 def obtener_configuracion(clave: str, valor_defecto: str = "") -> str:
-    data = obtener_data_fresca()
+    data = st.session_state.db_data
     return data.get("configuracion", {}).get(clave, valor_defecto)
 
 def guardar_configuracion(clave: str, valor: str):
@@ -157,25 +157,24 @@ def guardar_configuracion(clave: str, valor: str):
     st.session_state.db_data = data
 
 def obtener_lista_turnos() -> list:
-    data = obtener_data_fresca()
-    turnos = data.get("turnos", [])
+    turnos = st.session_state.db_data.get("turnos", [])
     return sorted(turnos, key=lambda x: x["posicion"])
 
-def cambiar_estado_agente(posicion: int, activo: bool):
-    """Actualiza el estado de un agente y fuerza el commit inmediato a GitHub."""
+def guardar_cambios_masivos_agentes(estados_nuevos: dict):
+    """Guarda en lote todos los cambios de activos/ausentes hechos en el panel de control."""
     data = obtener_data_fresca()
-    modificado = False
-    alias_agente = ""
+    cambios = 0
     for t in data.get("turnos", []):
-        if t["posicion"] == posicion:
-            if t["activo"] != activo:
-                t["activo"] = activo
-                alias_agente = t.get("alias", f"Pos #{posicion}")
-                modificado = True
-            break
-    if modificado:
-        guardar_datos_en_github(data, f"Admin: Cambiar estado de {alias_agente} a {'Activo' if activo else 'Ausente'}")
+        pos = t["posicion"]
+        if pos in estados_nuevos and t["activo"] != estados_nuevos[pos]:
+            t["activo"] = estados_nuevos[pos]
+            cambios += 1
+            
+    if cambios > 0:
+        guardar_datos_en_github(data, f"Admin: Actualización masiva de estados ({cambios} cambios)")
         st.session_state.db_data = data
+        return True, f"✅ ¡Se guardaron e integraron en GitHub los cambios de {cambios} agentes!"
+    return False, "ℹ️ No se detectaron cambios de estado para guardar."
 
 def guardar_horario_db(df: pd.DataFrame):
     """Guarda el horario Excel subido e impacta inmediatamente GitHub."""
@@ -185,7 +184,7 @@ def guardar_horario_db(df: pd.DataFrame):
     st.session_state.db_data = data
 
 def obtener_horario_db() -> pd.DataFrame:
-    data = obtener_data_fresca()
+    data = st.session_state.db_data
     records = data.get("horario_excel", [])
     return pd.DataFrame(records) if records else pd.DataFrame()
 
@@ -508,25 +507,33 @@ elif opcion_vista == "🛡️ Vista Administrador":
 
         st.markdown("---")
         st.subheader("👥 Control Manual de Ausencias (Segunda Opción)")
-        st.caption("Usa estas casillas para activar o desactivar manualmente a un agente.")
+        st.caption("Usa estas casillas para activar o desactivar manualmente a un agente y presiona el botón al final para publicar los cambios en GitHub.")
 
         turnos_admin = obtener_lista_turnos()
         
         with st.expander("Ver y Gestionar Lista de Ausencias Manualmente", expanded=not modo_auto):
+            estados_seleccionados = {}
             for t in turnos_admin:
                 col_name, col_status = st.columns([3, 1])
                 with col_name:
                     st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']})")
                 with col_status:
+                    # El toggle solo edita el valor en memoria temporal sin invocar a GitHub en cada clic
                     nuevo_estado = st.toggle(
                         "Activo" if t["activo"] else "Ausente",
                         value=t["activo"],
                         key=f"toggle_agente_{t['posicion']}"
                     )
-                    if nuevo_estado != t["activo"]:
-                        cambiar_estado_agente(t["posicion"], nuevo_estado)
-                        st.toast(f"Agente {t['alias']} marcado como {'Activo' if nuevo_estado else 'Ausente'}.")
-                        st.rerun()
+                    estados_seleccionados[t["posicion"]] = nuevo_estado
+
+            st.markdown("---")
+            if st.button("💾 Guardar y Publicar Cambios de Estado", type="primary", use_container_width=True):
+                exito, msj = guardar_cambios_masivos_agentes(estados_seleccionados)
+                if exito:
+                    st.success(msj)
+                    st.rerun()
+                else:
+                    st.info(msj)
 
         st.markdown("---")
         st.subheader("📊 Historial de Registro de Llamadas y Saltos")
