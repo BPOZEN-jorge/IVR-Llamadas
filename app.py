@@ -1,6 +1,6 @@
 import sqlite3
 import random
-from datetime import datetime
+from datetime import datetime, time
 from zoneinfo import ZoneInfo
 import pandas as pd
 import streamlit as st
@@ -18,53 +18,58 @@ st.set_page_config(
 DB_PATH = "turnos_llamadas.db"
 
 # ==========================================
-# DATOS INICIALES DE USUARIOS
+# DATOS INICIALES DE USUARIOS (Nombres ajustados según Excel)
 # ==========================================
 USUARIOS_INICIALES = [
-    {"real": "Alisson Correa", "alias": "Alisson"},
-    {"real": "Ana María Sánchez", "alias": "Maria Sanchez"},
-    {"real": "Andrea Londoño", "alias": "Andrea Valverde"},
-    {"real": "Angie Valeria Quirama", "alias": "Valeria Hernandez"},
+    {"real": "Alisson Correa Gaviria", "alias": "Alisson"},
+    {"real": "Ana Maria Sanchez Gamboa", "alias": "Maria Sanchez"},
+    {"real": "Andrea Mileidy londoño Bedoya", "alias": "Andrea Valverde"},
+    {"real": "Angie Valeria Quirama Hernández", "alias": "Valeria Hernandez"},
     {"real": "Angie Vanessa García", "alias": "Maria Antonia García"},
-    {"real": "Brayan Andrey Bustamante", "alias": "Marcos Garcia"},
-    {"real": "Carlos Alberto Herrera", "alias": "Carlos Herrera / Alberto Fernandez"},
-    {"real": "Claudia Marcela Manco", "alias": "Marcela"},
-    {"real": "Cristian David Acosta", "alias": "Manuel Vasquez"},
-    {"real": "Dayana Botero", "alias": "Isabel Botero"},
-    {"real": "Edisson Andrés Díaz", "alias": "Andres"},
-    {"real": "Evelin Acevedo", "alias": "Gabriela"},
-    {"real": "Gustavo Adolfo Barrientos", "alias": "Gustavo"},
-    {"real": "Iris Sabiana Cano", "alias": "Maria Cano"},
-    {"real": "Janis Henao", "alias": "María José"},
-    {"real": "Johana Osorio", "alias": "Johana Sanchez"},
-    {"real": "Juan Esteban Acevedo", "alias": "Juan Esteban"},
-    {"real": "Juan Sebastián Serna", "alias": "Juan Sebastian"},
-    {"real": "Julián Andrés Osorio", "alias": "Andrés Aristizábal"},
-    {"real": "Karen Herrera", "alias": "Karen"},
-    {"real": "Libia Paola Romero", "alias": "Paola Romero"},
-    {"real": "Linda Liceth Pérez", "alias": "Linda Pérez / Elena Pérez"},
-    {"real": "Luis Alberto Lozano", "alias": "Luis Lozano"},
-    {"real": "Manuela Villegas", "alias": "Manuela Villegas"},
-    {"real": "María Karolina Viana", "alias": "Karolina"},
-    {"real": "Mateo Cano", "alias": "Antonio de la villa"},
-    {"real": "Omar David Barboza", "alias": "Omar"},
-    {"real": "Oscar Jose Llanos", "alias": "Oscar"},
-    {"real": "Paula Andrea Guzman", "alias": "Paula"},
-    {"real": "Rosa Agamez", "alias": "Flor Lopez"},
-    {"real": "Sara Gómez", "alias": "Sara Gómez"},
-    {"real": "Tatiana Magreth Acevedo", "alias": "Tatiana"},
-    {"real": "Tomas Castaño", "alias": "Tomas"},
-    {"real": "Viviana Pacheco", "alias": "Viviana Gómez"},
-    {"real": "Yarlen Biviana Son", "alias": "Maria Rodriguez"},
-    {"real": "Yarnedis Cecilia Urruta", "alias": "Cecilia López"},
-    {"real": "Yeismer Miranda", "alias": "Leo Miranda"},
-    {"real": "Yesica Paola Lopez", "alias": "Yesica López"},
-    {"real": "Yesly Marilyn Carrero", "alias": "Marilyn Carrero"},
+    {"real": "Brahyan Steven Moncada Escudero", "alias": "Marcos Garcia"},
+    {"real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez"},
+    {"real": "Claudia Marcela Manco Vargas", "alias": "Marcela"},
+    {"real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez"},
+    {"real": "Dayana Botero Rojas", "alias": "Isabel Botero"},
+    {"real": "Evelin Acevedo Cortés", "alias": "Gabriela"},
+    {"real": "Gustavo Adolfo Barrientos Serna", "alias": "Gustavo"},
+    {"real": "Iris Sabiana Cano Cano", "alias": "Maria Cano"},
+    {"real": "Janis Henao Vasco", "alias": "María José"},
+    {"real": "Johana Osorio Bedoya", "alias": "Johana Sanchez"},
+    {"real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban"},
+    {"real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian"},
+    {"real": "Julián Andrés Osorio Aristizabal", "alias": "Andrés Aristizábal"},
+    {"real": "Karen Herrera Gonzalez", "alias": "Karen"},
+    {"real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas"},
+    {"real": "Libia Paola Romero Cantillo", "alias": "Paola Romero"},
+    {"real": "Linda Liceth Pérez Pineda", "alias": "Linda Pérez / Elena Pérez"},
+    {"real": "Luis Alberto Lozano Ibarra", "alias": "Luis Lozano"},
+    {"real": "Manuela villegas Giraldo", "alias": "Manuela Villegas"},
+    {"real": "María Karolina Viana Cancio", "alias": "Karolina"},
+    {"real": "Mateo Cano Hincapié", "alias": "Antonio de la villa"},
+    {"real": "Omar David Barboza Carbonero", "alias": "Omar"},
+    {"real": "Oscar José Llanos Mendinueta", "alias": "Oscar"},
+    {"real": "Paula Andrea Guzman Jaramillo", "alias": "Paula"},
+    {"real": "Rosa Elvira Agamez López", "alias": "Flor Lopez"},
+    {"real": "Sara Gómez Bayona", "alias": "Sara Gómez"},
+    {"real": "Stefany Vanegas Arbelaez", "alias": "Stefany"},
+    {"real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana"},
+    {"real": "Tomas Castaño Gómez", "alias": "Tomas"},
+    {"real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez"},
+    {"real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez"},
+    {"real": "Yarnedis Cecilia Urrutia Pérez", "alias": "Cecilia López"},
+    {"real": "Yeismer Miranda Ramirez", "alias": "Leo Miranda"},
+    {"real": "Yesica Paola Lopez Arango", "alias": "Yesica López"},
+    {"real": "Yesly Marilyn Carrero Rivera", "alias": "Marilyn Carrero"},
 ]
 
-def obtener_hora_colombia() -> str:
+def obtener_fecha_hora_colombia() -> datetime:
+    """Retorna objeto datetime actual en Zona Horaria de Colombia."""
+    return datetime.now(ZoneInfo("America/Bogota"))
+
+def obtener_hora_colombia_str() -> str:
     """Retorna la fecha y hora actual formateada en hora de Colombia (America/Bogota)."""
-    return datetime.now(ZoneInfo("America/Bogota")).strftime("%Y-%m-%d %H:%M:%S")
+    return obtener_fecha_hora_colombia().strftime("%Y-%m-%d %H:%M:%S")
 
 # ==========================================
 # BASE DE DATOS Y PERSISTENCIA
@@ -72,13 +77,6 @@ def obtener_hora_colombia() -> str:
 def init_db():
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
-        
-        # Verificar si la columna 'activo' existe en turnos_orden
-        cursor.execute("PRAGMA table_info(turnos_orden)")
-        columns_turnos = [column[1] for column in cursor.fetchall()]
-        
-        if columns_turnos and "activo" not in columns_turnos:
-            cursor.execute("DROP TABLE turnos_orden")
         
         # Tabla de orden actual de turnos con columna 'activo' (1 = Activo, 0 = Ausente)
         cursor.execute(
@@ -91,13 +89,6 @@ def init_db():
             )
             """
         )
-        
-        # Verificar tabla historial_saltos
-        cursor.execute("PRAGMA table_info(historial_saltos)")
-        columns_hist = [column[1] for column in cursor.fetchall()]
-        
-        if columns_hist and "telefono" not in columns_hist:
-            cursor.execute("DROP TABLE historial_saltos")
         
         # Tabla de historial de saltos / registros de llamadas
         cursor.execute(
@@ -113,7 +104,7 @@ def init_db():
             """
         )
         
-        # Cargar usuarios por defecto si la tabla de turnos está vacía
+        # Cargar usuarios por defecto si la tabla está vacía
         cursor.execute("SELECT COUNT(*) FROM turnos_orden")
         if cursor.fetchone()[0] == 0:
             for idx, user in enumerate(USUARIOS_INICIALES, start=1):
@@ -138,6 +129,67 @@ def cambiar_estado_agente(posicion: int, activo: bool):
         cursor.execute("UPDATE turnos_orden SET activo = ? WHERE posicion = ?", (1 if activo else 0, posicion))
         conn.commit()
 
+def actualizar_estados_segun_horario(df_horario: pd.DataFrame):
+    """Evalúa el horario de Colombia y actualiza automáticamente qué agentes están activos."""
+    now_col = obtener_fecha_hora_colombia()
+    fecha_hoy_str = now_col.strftime("%Y-%m-%d")
+    hora_actual = now_col.time()
+
+    # Normalizar columnas y nombres
+    df_horario = df_horario.copy()
+    df_horario.columns = [str(c).strip() for c in df_horario.columns]
+    
+    if "Fecha" in df_horario.columns:
+        df_horario["Fecha"] = pd.to_datetime(df_horario["Fecha"]).dt.strftime("%Y-%m-%d")
+        df_hoy = df_horario[df_horario["Fecha"] == fecha_hoy_str]
+    else:
+        df_hoy = df_horario
+
+    def parse_time(val):
+        if pd.isna(val) or str(val).strip() in ["", "nan", "None", "00:00:00"]:
+            return None
+        if isinstance(val, time):
+            return val
+        if isinstance(val, datetime):
+            return val.time()
+        try:
+            return datetime.strptime(str(val).strip(), "%H:%M:%S").time()
+        except ValueError:
+            try:
+                return datetime.strptime(str(val).strip(), "%H:%M").time()
+            except ValueError:
+                return None
+
+    # Mapeo de estado por agente
+    agentes_activos = {}
+    for _, row in df_hoy.iterrows():
+        nombre = str(row.get("Nombre", "")).replace('\xa0', ' ').strip()
+        h_inicio = parse_time(row.get("Hora incio"))
+        h_fin = parse_time(row.get("Hora fin"))
+        
+        b1 = parse_time(row.get("Break 1"))
+        int_inc = parse_time(row.get("Intermedio inicio"))
+        int_fin = parse_time(row.get("Intermedio fin"))
+        b2 = parse_time(row.get("Break 2"))
+
+        esta_activo = False
+        if h_inicio and h_fin:
+            # Validar si se encuentra dentro de su turno laboral
+            if h_inicio <= hora_actual <= h_fin:
+                esta_activo = True
+                # Validar si está en descanso / break
+                if int_inc and int_fin and (int_inc <= hora_actual <= int_fin):
+                    esta_activo = False
+
+        agentes_activos[nombre.lower()] = esta_activo
+
+    # Aplicar cambios en la Base de Datos
+    turnos = obtener_lista_turnos()
+    for t in turnos:
+        nombre_norm = t["real"].replace('\xa0', ' ').strip().lower()
+        if nombre_norm in agentes_activos:
+            cambiar_estado_agente(t["posicion"], agentes_activos[nombre_norm])
+
 def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
     """Avanza el turno del primer agente ACTIVO en la fila."""
     call_id_clean = call_id.strip()
@@ -148,26 +200,22 @@ def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
     if not telefono_clean:
         return False, "⚠️ Debes ingresar un número de teléfono válido."
 
-    now_col = obtener_hora_colombia()
+    now_col = obtener_hora_colombia_str()
 
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
 
-        # 1. Validar si el ID de llamada ya fue utilizado
         cursor.execute("SELECT COUNT(*) FROM historial_saltos WHERE call_id = ?", (call_id_clean,))
         if cursor.fetchone()[0] > 0:
             return False, f"❌ El ID de llamada '{call_id_clean}' ya fue registrado previamente."
 
-        # 2. Validar si el Teléfono ya fue utilizado
         cursor.execute("SELECT COUNT(*) FROM historial_saltos WHERE telefono = ?", (telefono_clean,))
         if cursor.fetchone()[0] > 0:
             return False, f"❌ El número de teléfono '{telefono_clean}' ya fue atendido previamente."
 
-        # 3. Obtener todos los turnos
         cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden ORDER BY posicion ASC")
         turnos = cursor.fetchall()
 
-        # Buscar el primer agente que esté ACTIVO
         agente_atendiendo = None
         for t in turnos:
             if t[3] == 1:  # activo == 1
@@ -179,13 +227,11 @@ def registrar_salto_turno(call_id: str, telefono: str) -> tuple[bool, str]:
 
         pos_atendiendo, nombre_real, alias, _ = agente_atendiendo
 
-        # 4. Guardar en el historial de registros
         cursor.execute(
             "INSERT INTO historial_saltos (call_id, telefono, nombre_real, alias, fecha_hora) VALUES (?, ?, ?, ?, ?)",
             (call_id_clean, telefono_clean, nombre_real, alias, now_col)
         )
 
-        # 5. Mover al agente que atendió al final de la fila de posiciones
         turnos_sin_atendiendo = [t for t in turnos if t[0] != pos_atendiendo]
         nuevos_turnos = turnos_sin_atendiendo + [agente_atendiendo]
 
@@ -208,14 +254,12 @@ def obtener_historial_saltos() -> pd.DataFrame:
     return df
 
 def vaciar_historial_llamadas():
-    """Borra todos los registros del historial de llamadas."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM historial_saltos")
         conn.commit()
 
 def reiniciar_turnos_originales():
-    """Restablece los turnos a su orden estático original y todos activos."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM turnos_orden")
@@ -227,7 +271,6 @@ def reiniciar_turnos_originales():
         conn.commit()
 
 def reorganizar_turnos_al_azar():
-    """Mezcla la fila de turnos al azar conservando los estados de actividad."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden")
@@ -256,11 +299,14 @@ opcion_vista = st.sidebar.radio("Navegación:", ["🎡 Fila de Turnos (Ruleta)",
 # ------------------------------------------
 if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
     st.title("🔄 Control de Turnos y Llamadas")
+    st.caption(f"Hora Colombia: `{obtener_hora_colombia_str()}`")
     st.caption("Ingresa el ID de la llamada y el Teléfono para completar tu turno y ceder el lugar al siguiente agente.")
 
-    turnos_actuales = obtener_lista_turnos()
+    # Si hay horario guardado en sesión, sincronizar automáticamente
+    if "df_horario_cargado" in st.session_state and st.session_state.get("usar_horario_auto", True):
+        actualizar_estados_segun_horario(st.session_state.df_horario_cargado)
 
-    # Identificar al primer agente ACTIVO
+    turnos_actuales = obtener_lista_turnos()
     actual = next((t for t in turnos_actuales if t["activo"]), None)
 
     if actual:
@@ -294,21 +340,18 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
         st.error("⚠️ Todos los agentes se encuentran marcados como Ausentes. Contacta al Administrador.")
 
     st.markdown("---")
-    
-    # Visualización de la Fila Completa de Turnos con etiqueta de estado
     st.subheader("📋 Fila Actual de Posiciones")
     
-    tabla_display = []
-    for t in turnos_actuales:
-        tabla_display.append({
+    tabla_display = [
+        {
             "Posición": t["posicion"],
             "Estado": "🟢 Activo" if t["activo"] else "🔴 Ausente",
             "Nombre Real": t["real"],
             "Alias / Nombre en Sistema": t["alias"]
-        })
+        } for t in turnos_actuales
+    ]
     
-    df_turnos = pd.DataFrame(tabla_display)
-    st.dataframe(df_turnos, use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(tabla_display), use_container_width=True, hide_index=True)
 
 # ------------------------------------------
 # VISTA 2: ADMINISTRADOR
@@ -325,7 +368,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
             btn_admin = st.form_submit_button("Ingresar", use_container_width=True)
 
         if btn_admin:
-            if admin_pass == st.secrets["passwords"]["admin_password"]:
+            if admin_pass == st.secrets.get("passwords", {}).get("admin_password", "admin123"):
                 st.session_state.admin_logged = True
                 st.success("✅ Acceso concedido.")
                 st.rerun()
@@ -337,17 +380,55 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.session_state.admin_logged = False
             st.rerun()
 
-        st.subheader("👥 Control de Ausencias (Activar / Desactivar Agentes)")
-        st.caption("Desactiva un agente cuando esté en descanso, reunión o ausente. El sistema lo saltará automáticamente sin alterar la fila.")
+        st.subheader("📅 Carga e Integración de Horario Excel")
+        uploaded_file = st.file_uploader("Subir archivo de horarios (.xlsx, .csv)", type=["xlsx", "csv"])
+
+        if uploaded_file is not None:
+            try:
+                if uploaded_file.name.endswith(".csv"):
+                    df_excel = pd.read_csv(uploaded_file)
+                else:
+                    df_excel = pd.read_excel(uploaded_file)
+
+                st.session_state.df_horario_cargado = df_excel
+                st.success("✅ Archivo de horarios cargado exitosamente.")
+                with st.expander("Ver Vista Previa del Horario Cargado"):
+                    st.dataframe(df_excel.head(10), use_container_width=True)
+            except Exception as e:
+                st.error(f"Error al leer el archivo: {e}")
+
+        st.markdown("---")
+        st.subheader("⚙️ Modo de Activación de Agentes")
+        
+        modo_auto = st.toggle(
+            "Usar Activación Automática por Horario (Hora Colombia)",
+            value=st.session_state.get("usar_horario_auto", True),
+            key="usar_horario_auto"
+        )
+
+        if modo_auto:
+            st.info("ℹ️ La activación automática según el Excel está **ACTIVADA**. El sistema cambiará el estado según la hora de Colombia.")
+            if "df_horario_cargado" in st.session_state:
+                if st.button("🔄 Sincronizar Horario Ahora"):
+                    actualizar_estados_segun_horario(st.session_state.df_horario_cargado)
+                    st.success("✅ Agentes sincronizados según la hora actual de Colombia.")
+                    st.rerun()
+            else:
+                st.warning("⚠️ No se ha subido ningún archivo de Excel aún.")
+        else:
+            st.warning("⚠️ Activación automática **DESACTIVADA**. Se usará la activación manual como opción de respaldo.")
+
+        st.markdown("---")
+        st.subheader("👥 Control Manual de Ausencias (Segunda Opción)")
+        st.caption("Usa estas casillas para activar o desactivar manualmente a un agente.")
 
         turnos_admin = obtener_lista_turnos()
         
-        # Grid para gestión interactiva de ausencias
-        with st.expander("Ver y Gestionar Lista de Ausencias", expanded=True):
+        with st.expander("Ver y Gestionar Lista de Ausencias Manualmente", expanded=not modo_auto):
             for t in turnos_admin:
                 col_name, col_status = st.columns([3, 1])
                 with col_name:
-                    st.write(f"#{t['posicion']} - **{t['alias']}** ({t['real']})")
+                    st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']})")
                 with col_status:
                     nuevo_estado = st.toggle(
                         "Activo" if t["activo"] else "Ausente",
@@ -374,7 +455,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 st.download_button(
                     label="📥 Descargar Reporte CSV (Hora Colombia)",
                     data=csv_data,
-                    file_name=f"reporte_saltos_turnos_{datetime.now(ZoneInfo('America/Bogota')).strftime('%Y%m%d_%H%M')}.csv",
+                    file_name=f"reporte_saltos_turnos_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
                     mime="text/csv",
                     use_container_width=True
                 )
