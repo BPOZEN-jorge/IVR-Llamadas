@@ -18,7 +18,7 @@ st.set_page_config(
 DB_PATH = "turnos_llamadas.db"
 
 # ==========================================
-# DATOS INICIALES DE USUARIOS
+# DATOS INICIALES DE USUARIOS (Solo para la primera creación de BD)
 # ==========================================
 USUARIOS_INICIALES = [
     {"real": "Alisson Correa Gaviria", "alias": "Alisson"},
@@ -104,7 +104,7 @@ def init_db():
             """
         )
         
-        # Tabla de configuración persistente (para guardar el modo de activación)
+        # Tabla de configuración persistente
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS configuracion (
@@ -114,7 +114,7 @@ def init_db():
             """
         )
 
-        # Cargar usuarios por defecto solo si la tabla está completamente vacía
+        # Cargar usuarios por defecto ÚNICAMENTE si la tabla está completamente vacía
         cursor.execute("SELECT COUNT(*) FROM turnos_orden")
         if cursor.fetchone()[0] == 0:
             for idx, user in enumerate(USUARIOS_INICIALES, start=1):
@@ -149,7 +149,7 @@ def obtener_horario_db() -> pd.DataFrame:
             return pd.DataFrame()
 
 def obtener_lista_turnos() -> list:
-    """Devuelve la lista completa de turnos con su estado persistente (Activo/Ausente)."""
+    """Devuelve la lista completa de turnos tal como está guardada en la base de datos."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden ORDER BY posicion ASC")
@@ -303,6 +303,7 @@ def vaciar_historial_llamadas():
         conn.commit()
 
 def reiniciar_turnos_originales():
+    """Restablece los turnos al orden alfabético inicial (Solo cuando el Admin lo accione)."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM turnos_orden")
@@ -314,6 +315,7 @@ def reiniciar_turnos_originales():
         conn.commit()
 
 def reorganizar_turnos_al_azar():
+    """Mezcla la fila de turnos al azar y guarda el nuevo orden de forma permanente."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT posicion, nombre_real, alias, activo FROM turnos_orden")
