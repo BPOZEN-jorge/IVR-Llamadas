@@ -1,42 +1,162 @@
 {
-    "Alisson Correa Gaviria": false,
-    "Ana Maria Sanchez Gamboa": false,
-    "Andrea Mileidy londoño Bedoya": false,
-    "Angie Valeria Quirama Hernández": false,
-    "Angie Vanessa García": true,
-    "Brayan Andrey Bustamante": false,
-    "Carlos Alberto Herrera Cardeño": true,
-    "Claudia Marcela Manco Vargas": false,
-    "Cristian David Acosta Montoya": true,
-    "Dayana Botero Rojas": false,
-    "Evelin Acevedo Cortés": true,
-    "Gustavo Adolfo Barrientos Serna": true,
-    "Iris Sabiana Cano Cano": false,
-    "Janis Henao Vasco": true,
-    "Johana Osorio Bedoya": false,
-    "Juan Esteban Acevedo Garces": true,
-    "Juan Sebastian Serna Sepulveda": true,
-    "Julián Andrés Osorio Aristizabal": true,
-    "Karen Herrera Gonzalez": false,
-    "Kelly Jhoana Salas Ibarguen": true,
-    "Libia Paola Romero Cantillo": true,
-    "Linda Liceth Pérez Pineda": false,
-    "Luis Alberto Lozano Ibarra": true,
-    "Manuela villegas Giraldo": true,
-    "María Karolina Viana Cancio": false,
-    "Mateo Cano Hincapié": true,
-    "Omar David Barboza Carbonero": true,
-    "Oscar José Llanos Mendinueta": false,
-    "Paula Andrea Guzman Jaramillo": false,
-    "Rosa Elvira Agamez López": false,
-    "Sara Gómez Bayona": false,
-    "Stefany Vanegas Arbelaez": false,
-    "Tatiana Magreth Acevedo Marín": true,
-    "Tomas Castaño Gómez": true,
-    "Viviana Pacheco Córdoba": false,
-    "Yarlen Biviana Son Cedeño": true,
-    "Yarnedis Cecilia Urrutia Pérez": false,
-    "Yeismer Miranda Ramirez": false,
-    "Yesica Paola Lopez Arango": false,
-    "Yesly Marilyn Carrero Rivera": false
+    "Alisson Correa Gaviria": {
+        "activo": false,
+        "manual": true
+    },
+    "Ana Maria Sanchez Gamboa": {
+        "activo": false,
+        "manual": true
+    },
+    "Andrea Mileidy londoño Bedoya": {
+        "activo": false,
+        "manual": true
+    },
+    "Angie Valeria Quirama Hernández": {
+        "activo": false,
+        "manual": true
+    },
+    "Angie Vanessa García": {
+        "activo": true,
+        "manual": true
+    },
+    "Brayan Andrey Bustamante": {
+        "activo": false,
+        "manual": true
+    },
+    "Carlos Alberto Herrera Cardeño": {
+        "activo": true,
+        "manual": true
+    },
+    "Claudia Marcela Manco Vargas": {
+        "activo": false,
+        "manual": true
+    },
+    "Cristian David Acosta Montoya": {
+        "activo": true,
+        "manual": true
+    },
+    "Dayana Botero Rojas": {
+        "activo": false,
+        "manual": true
+    },
+    "Evelin Acevedo Cortés": {
+        "activo": true,
+        "manual": true
+    },
+    "Gustavo Adolfo Barrientos Serna": {
+        "activo": true,
+        "manual": true
+    },
+    "Iris Sabiana Cano Cano": {
+        "activo": false,
+        "manual": true
+    },
+    "Janis Henao Vasco": {
+        "activo": false,
+        "manual": true
+    },
+    "Johana Osorio Bedoya": {
+        "activo": false,
+        "manual": true
+    },
+    "Juan Esteban Acevedo Garces": {
+        "activo": false,
+        "manual": true
+    },
+    "Juan Sebastian Serna Sepulveda": {
+        "activo": false,
+        "manual": true
+    },
+    "Julián Andrés Osorio Aristizabal": {
+        "activo": false,
+        "manual": true
+    },
+    "Karen Herrera Gonzalez": {
+        "activo": false,
+        "manual": true
+    },
+    "Kelly Jhoana Salas Ibarguen": {
+        "activo": false,
+        "manual": true
+    },
+    "Libia Paola Romero Cantillo": {
+        "activo": true,
+        "manual": true
+    },
+    "Linda Liceth Pérez Pineda": {
+        "activo": false,
+        "manual": true
+    },
+    "Luis Alberto Lozano Ibarra": {
+        "activo": true,
+        "manual": true
+    },
+    "Manuela villegas Giraldo": {
+        "activo": true,
+        "manual": true
+    },
+    "María Karolina Viana Cancio": {
+        "activo": false,
+        "manual": true
+    },
+    "Mateo Cano Hincapié": {
+        "activo": false,
+        "manual": true
+    },
+    "Omar David Barboza Carbonero": {
+        "activo": true,
+        "manual": true
+    },
+    "Oscar José Llanos Mendinueta": {
+        "activo": false,
+        "manual": true
+    },
+    "Paula Andrea Guzman Jaramillo": {
+        "activo": false,
+        "manual": true
+    },
+    "Rosa Elvira Agamez López": {
+        "activo": false,
+        "manual": true
+    },
+    "Sara Gómez Bayona": {
+        "activo": false,
+        "manual": true
+    },
+    "Stefany Vanegas Arbelaez": {
+        "activo": false,
+        "manual": true
+    },
+    "Tatiana Magreth Acevedo Marín": {
+        "activo": true,
+        "manual": true
+    },
+    "Tomas Castaño Gómez": {
+        "activo": false,
+        "manual": true
+    },
+    "Viviana Pacheco Córdoba": {
+        "activo": false,
+        "manual": true
+    },
+    "Yarlen Biviana Son Cedeño": {
+        "activo": true,
+        "manual": true
+    },
+    "Yarnedis Cecilia Urrutia Pérez": {
+        "activo": false,
+        "manual": true
+    },
+    "Yeismer Miranda Ramirez": {
+        "activo": false,
+        "manual": true
+    },
+    "Yesica Paola Lopez Arango": {
+        "activo": false,
+        "manual": true
+    },
+    "Yesly Marilyn Carrero Rivera": {
+        "activo": false,
+        "manual": true
+    }
 }
