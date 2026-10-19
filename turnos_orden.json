@@ -132,76 +132,84 @@
         },
         {
             "posicion": 27,
-            "real": "Carlos Alberto Herrera Cardeño",
-            "alias": "Carlos Herrera / Alberto Fernandez"
-        },
-        {
-            "posicion": 28,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
+        },
+        {
+            "posicion": 40,
+            "real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez"
         }
     ],
     "historial": [
+        {
+            "id": 18,
+            "call_id": "CAd48297efa0c005b601678a66af808a65",
+            "telefono": "642890249",
+            "nombre_real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "fecha_hora": "2026-10-19 13:04:23"
+        },
         {
             "id": 17,
             "call_id": "CA99d609f4f72a477feeffab8cb866f729",
