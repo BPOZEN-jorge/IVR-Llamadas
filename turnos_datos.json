@@ -16,7 +16,7 @@
             "posicion": 3,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 4,
@@ -34,7 +34,7 @@
             "posicion": 6,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 7,
@@ -112,7 +112,7 @@
             "posicion": 19,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 20,
@@ -148,7 +148,7 @@
             "posicion": 25,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 26,
@@ -232,7 +232,7 @@
             "posicion": 39,
             "real": "Julián Andrés Osorio Aristizabal",
             "alias": "Andrés Aristizábal",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 40,
