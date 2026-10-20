@@ -1,5 +1,6 @@
 import json
 import random
+import re
 import time as time_lib
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
@@ -132,7 +133,7 @@ def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, ret
             return True
         except GithubException as e:
             if intento < retries - 1:
-                time_lib.sleep(0.5)  # Esperar medio segundo antes de reintentar
+                time_lib.sleep(0.5)
             else:
                 st.error(f"❌ Error al guardar en {file_path} tras varios intentos: {e}")
                 return False
@@ -469,6 +470,154 @@ def reorganizar_turnos_al_azar():
     escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
 
 # ==========================================
+# LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR
+# ==========================================
+def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filtro=""):
+    try:
+        df1 = pd.read_csv(file1)
+        df2 = pd.read_csv(file2)
+
+        # Cargar planilla de saltos/historial guardada internamente en GitHub
+        df3 = obtener_historial_saltos()
+        raw_log_saltos = leer_json_github(FILE_LOG_SALTOS, {"saltos": []}).get("saltos", [])
+
+        # 1. Filtrado Exclusivo de Llamadas Perdidas en IVR
+        mask_inbound_missed = (df1['direction'] == 'inbound') & (df1['answered'] == 'No')
+        
+        mask_ivr = (
+            df1['line'].astype(str).str.contains('IVR', case=False, na=False) |
+            df1['ivr branch'].notna() |
+            df1['ivr widget'].notna() |
+            (df1['time in ivr'].notna() & (df1['time in ivr'] != '00:00:00'))
+        )
+        
+        if rama_filtro.strip():
+            mask_ivr = mask_ivr & (df1['ivr branch'].astype(str).str.contains(rama_filtro.strip(), case=False, na=False))
+        if widget_filtro.strip():
+            mask_ivr = mask_ivr & (df1['ivr widget'].astype(str).str.contains(widget_filtro.strip(), case=False, na=False))
+
+        df_perdidas_ivr = df1[mask_inbound_missed & mask_ivr].copy()
+
+        if df_perdidas_ivr.empty:
+            return pd.DataFrame(), "No se encontraron llamadas perdidas que cumplan con los criterios de IVR especificados."
+
+        df_perdidas_ivr['num_limpio'] = df_perdidas_ivr['customer number'].astype(str).str.replace(r'\D', '', regex=True)
+
+        # 2. Llamadas salientes (Outbound Aircall)
+        df_salientes = df2[df2['direction'] == 'outbound'].copy()
+        df_salientes['num_limpio'] = df_salientes['customer number'].astype(str).str.replace(r'\D', '', regex=True)
+
+        # 3. Datos del historial interno de turnos y log de saltos
+        if not df3.empty:
+            col_tel3 = 'Teléfono' if 'Teléfono' in df3.columns else df3.columns[2]
+            col_nom3 = 'Nombre Real' if 'Nombre Real' in df3.columns else df3.columns[3]
+            col_fecha3 = 'Fecha / Hora (Colombia)' if 'Fecha / Hora (Colombia)' in df3.columns else df3.columns[5]
+            df3['num_limpio'] = df3[col_tel3].astype(str).str.replace(r'\D', '', regex=True)
+            df3['dt_turno'] = pd.to_datetime(df3[col_fecha3])
+        else:
+            df3 = pd.DataFrame(columns=['num_limpio', 'dt_turno', 'Nombre Real', 'Alias'])
+
+        col_fecha1 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df1.columns else 'call start time'
+        col_fecha2 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df2.columns else 'call start time'
+
+        df_perdidas_ivr['dt_perdida'] = pd.to_datetime(df_perdidas_ivr[col_fecha1])
+        df_salientes['dt_saliente'] = pd.to_datetime(df_salientes[col_fecha2])
+
+        set_perdidos_ivr = set(df_perdidas_ivr['num_limpio'])
+        set_salientes = set(df_salientes['num_limpio'])
+        numeros_devueltos = set_perdidos_ivr.intersection(set_salientes)
+
+        if not numeros_devueltos:
+            return pd.DataFrame(), "No se encontraron devoluciones a las llamadas perdidas de IVR."
+
+        filas_resumen = []
+
+        for num in numeros_devueltos:
+            sub_perdidas = df_perdidas_ivr[df_perdidas_ivr['num_limpio'] == num].sort_values('dt_perdida')
+            sub_salientes = df_salientes[df_salientes['num_limpio'] == num].sort_values('dt_saliente')
+            sub_turnos = df3[df3['num_limpio'] == num].sort_values('dt_turno') if not df3.empty else pd.DataFrame()
+
+            num_cliente = sub_perdidas['customer number'].iloc[0]
+            fechas_perdidas_str = " | ".join(sub_perdidas['dt_perdida'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist())
+            tot_perdidas = len(sub_perdidas)
+            
+            linea_ivr = " | ".join(sub_perdidas['line'].astype(str).unique().tolist())
+            motivos_perdida = " | ".join(sub_perdidas['missed_call_reason'].astype(str).unique().tolist())
+            rama_ivr = " | ".join(sub_perdidas['ivr branch'].dropna().astype(str).unique().tolist()) or "N/A"
+            widget_ivr = " | ".join(sub_perdidas['ivr widget'].dropna().astype(str).unique().tolist()) or "N/A"
+
+            tot_salientes = len(sub_salientes)
+            horarios_salientes_str = " | ".join(sub_salientes['dt_saliente'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist())
+            asesores_salientes_str = " | ".join(sub_salientes['user'].astype(str).unique().tolist())
+
+            tot_turnos = len(sub_turnos) if not sub_turnos.empty else 0
+            registrado_flag = "Sí" if tot_turnos > 0 else "NO REGISTRADO"
+            horarios_turnos_str = " | ".join(sub_turnos['dt_turno'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist()) if tot_turnos > 0 else "N/A"
+            asesores_turnos_str = " | ".join(sub_turnos[col_nom3].astype(str).unique().tolist()) if tot_turnos > 0 else "N/A"
+
+            # MAPEO TEMPORAL DE TURNO: Evaluar quién estaba primero al momento de la llamada perdida
+            primera_fecha_perdida = sub_perdidas['dt_perdida'].iloc[0]
+            agente_que_tocaba = "Desconocido (Sin snapshot)"
+            coincidio_turno = "N/A"
+
+            # Buscar snapshot más cercano previo en saltos_log.json
+            saltos_previos = [
+                s for s in raw_log_saltos 
+                if pd.to_datetime(s.get('fecha_hora')) <= primera_fecha_perdida
+            ]
+            if saltos_previos:
+                ultimo_salto = min(saltos_previos, key=lambda x: abs(pd.to_datetime(x.get('fecha_hora')) - primera_fecha_perdida))
+                snapshot = ultimo_salto.get("orden_previo_snapshot", [])
+                activos_snapshot = [ag for ag in snapshot if ag.get("activo")]
+                if activos_snapshot:
+                    agente_que_tocaba = activos_snapshot[0].get("alias", "Desconocido")
+
+            if agente_que_tocaba != "Desconocido (Sin snapshot)" and asesores_salientes_str != "N/A":
+                if agente_que_tocaba.lower() in asesores_salientes_str.lower():
+                    coincidio_turno = "✅ COINCIDE (Atendió quien le tocaba)"
+                else:
+                    coincidio_turno = f"⚠️ NO COINCIDE (Tocaba: {agente_que_tocaba} | Devolvió: {asesores_salientes_str})"
+
+            # Diagnóstico de Auditoría
+            if tot_turnos > 0 and tot_salientes == 1:
+                diagnostico = "✅ Devuelta IVR y Registrada en Saltos (1 sola vez)"
+            elif tot_turnos > 0 and tot_salientes > 1:
+                diagnostico = "🔄 Devuelta IVR y Registrada pero con MÚLTIPLES llamadas en Aircall"
+            elif tot_turnos == 0 and tot_salientes > 1:
+                diagnostico = "🔴 CRÍTICO: Múltiples Devoluciones a IVR en Aircall y NO Registrada en Saltos"
+            else:
+                diagnostico = "⚠️ INCONSISTENCIA: Devuelta en Aircall pero NO Registrada en Saltos"
+
+            filas_resumen.append({
+                'Número Cliente': num_cliente,
+                'Línea IVR': linea_ivr,
+                'Rama IVR': rama_ivr,
+                'Widget IVR': widget_ivr,
+                'Motivo Pérdida IVR': motivos_perdida,
+                'Perdidas en IVR': tot_perdidas,
+                'Horario Llamada Perdida IVR': fechas_perdidas_str,
+                'Cant. Devoluciones (Aircall)': tot_salientes,
+                'Horarios Devolución (Aircall)': horarios_salientes_str,
+                'Asesor que Devolvió (Aircall)': asesores_salientes_str,
+                'Agente que le Tocaba (Snapshot)': agente_que_tocaba,
+                'Validación de Turno': coincidio_turno,
+                'Registrado en Saltos': registrado_flag,
+                'Cant. Registros Saltos': tot_turnos,
+                'Horarios Registro Saltos': horarios_turnos_str,
+                'Asesores Registro Saltos': asesores_turnos_str,
+                'Estado Auditoría': diagnostico
+            })
+
+        df_resultado = pd.DataFrame(filas_resumen).sort_values(
+            by=['Cant. Devoluciones (Aircall)', 'Registrado en Saltos'],
+            ascending=[False, True]
+        )
+
+        return df_resultado, None
+    except Exception as e:
+        return None, str(e)
+
+# ==========================================
 # INTERFAZ DE NAVEGACIÓN Y VISTAS
 # ==========================================
 st.sidebar.title("📌 Portal de Turnos")
@@ -564,103 +713,148 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.session_state.admin_logged = False
             st.rerun()
 
-        st.subheader("📅 Carga e Integración de Horario Excel")
-        uploaded_file = st.file_uploader("Subir archivo de horarios (.xlsx, .csv)", type=["xlsx", "csv"])
+        # PESTAÑAS DENTRO DEL PANEL ADMINISTRADOR
+        tab_gestion, tab_historial, tab_log_saltos, tab_auditoria_ivr = st.tabs([
+            "⚙️ Gestión General y Horarios",
+            "📊 Historial de Llamadas",
+            "📜 Log de Saltos y Mapeo Temporal",
+            "🤖 Auditoría Devoluciones IVR"
+        ])
 
-        if uploaded_file is not None:
-            try:
-                if uploaded_file.name.endswith(".csv"):
-                    df_excel = pd.read_csv(uploaded_file)
-                else:
-                    df_excel = pd.read_excel(uploaded_file)
+        # ------------------------------------------
+        # TAB 1: GESTIÓN GENERAL Y HORARIOS
+        # ------------------------------------------
+        with tab_gestion:
+            st.subheader("📅 Carga e Integración de Horario Excel")
+            uploaded_file = st.file_uploader("Subir archivo de horarios (.xlsx, .csv)", type=["xlsx", "csv"])
 
-                guardar_horario_db(df_excel)
-                st.success("✅ Archivo de horarios guardado permanentemente en GitHub.")
-                with st.expander("Ver Vista Previa del Horario Cargado"):
-                    st.dataframe(df_excel.head(10), use_container_width=True)
-            except Exception as e:
-                st.error(f"Error al leer el archivo: {e}")
-        else:
-            df_guardado = obtener_horario_db()
-            if not df_guardado.empty:
-                st.info("ℹ️ Ya existe un horario cargado en la base de datos.")
+            if uploaded_file is not None:
+                try:
+                    if uploaded_file.name.endswith(".csv"):
+                        df_excel = pd.read_csv(uploaded_file)
+                    else:
+                        df_excel = pd.read_excel(uploaded_file)
 
-        st.markdown("---")
-        st.subheader("⚙️ Modo de Activación de Agentes")
-        
-        modo_auto_actual = obtener_configuracion("modo_auto", "true") == "true"
-        modo_auto = st.toggle(
-            "Usar Activación Automática por Horario (Hora Colombia)",
-            value=modo_auto_actual,
-            key="usar_horario_auto"
-        )
-
-        if modo_auto != modo_auto_actual:
-            guardar_configuracion("modo_auto", "true" if modo_auto else "false")
-            st.rerun()
-
-        if modo_auto:
-            st.info("ℹ️ La activación automática está **ACTIVADA**. Los cambios manuales mantendrán su prioridad hasta que se resincronice el horario.")
-            df_actual = obtener_horario_db()
-            if not df_actual.empty:
-                col_sync1, col_sync2 = st.columns(2)
-                with col_sync1:
-                    if st.button("🔄 Sincronizar Horario (Respetar Modificaciones Manuales)"):
-                        actualizar_estados_segun_horario(df_actual, forzar_resincro=False)
-                        st.success("✅ Sincronizado sin alterar cambios manuales.")
-                        st.rerun()
-                with col_sync2:
-                    if st.button("⚡ Restablecer y Forzar Horario de Excel"):
-                        resetear_bloqueos_manuales()
-                        actualizar_estados_segun_horario(df_actual, forzar_resincro=True)
-                        st.success("✅ Todos los estados volvieron a sincronizarse exactamente con el Excel.")
-                        st.rerun()
+                    guardar_horario_db(df_excel)
+                    st.success("✅ Archivo de horarios guardado permanentemente en GitHub.")
+                    with st.expander("Ver Vista Previa del Horario Cargado"):
+                        st.dataframe(df_excel.head(10), use_container_width=True)
+                except Exception as e:
+                    st.error(f"Error al leer el archivo: {e}")
             else:
-                st.warning("⚠️ No se ha subido ningún archivo de Excel aún.")
-        else:
-            st.warning("⚠️ Activación automática **DESACTIVADA**. Se usará únicamente el control manual de estados.")
-
-        st.markdown("---")
-        st.subheader("👥 Control Manual de Ausencias (Sobrescribe Horario)")
-        st.caption("Al cambiar el toggle de un agente, su estado quedará fijado manualmente hasta que presiones 'Restablecer y Forzar Horario de Excel'.")
-
-        turnos_admin = obtener_lista_turnos()
-        
-        with st.expander("Ver y Gestionar Lista de Ausencias Manualmente", expanded=True):
-            estados_seleccionados = {}
-            for t in turnos_admin:
-                col_name, col_status = st.columns([3, 1])
-                with col_name:
-                    etiqueta_manual = " 📌 *(Manual)*" if t.get("manual") else ""
-                    st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']}){etiqueta_manual}")
-                with col_status:
-                    nuevo_estado = st.toggle(
-                        "Activo" if t["activo"] else "Ausente",
-                        value=t["activo"],
-                        key=f"toggle_agente_{t['posicion']}"
-                    )
-                    estados_seleccionados[t["posicion"]] = nuevo_estado
+                df_guardado = obtener_horario_db()
+                if not df_guardado.empty:
+                    st.info("ℹ️ Ya existe un horario cargado en la base de datos.")
 
             st.markdown("---")
-            if st.button("💾 Guardar y Publicar Cambios de Estado", type="primary", use_container_width=True):
-                exito, msj = guardar_cambios_masivos_agentes(estados_seleccionados)
-                if exito:
-                    st.success(msj)
-                    st.rerun()
+            st.subheader("⚙️ Modo de Activación de Agentes")
+            
+            modo_auto_actual = obtener_configuracion("modo_auto", "true") == "true"
+            modo_auto = st.toggle(
+                "Usar Activación Automática por Horario (Hora Colombia)",
+                value=modo_auto_actual,
+                key="usar_horario_auto"
+            )
+
+            if modo_auto != modo_auto_actual:
+                guardar_configuracion("modo_auto", "true" if modo_auto else "false")
+                st.rerun()
+
+            if modo_auto:
+                st.info("ℹ️ La activación automática está **ACTIVADA**. Los cambios manuales mantendrán su prioridad hasta que se resincronice el horario.")
+                df_actual = obtener_horario_db()
+                if not df_actual.empty:
+                    col_sync1, col_sync2 = st.columns(2)
+                    with col_sync1:
+                        if st.button("🔄 Sincronizar Horario (Respetar Modificaciones Manuales)"):
+                            actualizar_estados_segun_horario(df_actual, forzar_resincro=False)
+                            st.success("✅ Sincronizado sin alterar cambios manuales.")
+                            st.rerun()
+                    with col_sync2:
+                        if st.button("⚡ Restablecer y Forzar Horario de Excel"):
+                            resetear_bloqueos_manuales()
+                            actualizar_estados_segun_horario(df_actual, forzar_resincro=True)
+                            st.success("✅ Todos los estados volvieron a sincronizarse exactamente con el Excel.")
+                            st.rerun()
                 else:
-                    st.info(msj)
+                    st.warning("⚠️ No se ha subido ningún archivo de Excel aún.")
+            else:
+                st.warning("⚠️ Activación automática **DESACTIVADA**. Se usará únicamente el control manual de estados.")
 
-        st.markdown("---")
-        st.subheader("📊 Historial de Registro de Llamadas")
-        df_historial = obtener_historial_saltos()
+            st.markdown("---")
+            st.subheader("👥 Control Manual de Ausencias (Sobrescribe Horario)")
+            st.caption("Al cambiar el toggle de un agente, su estado quedará fijado manualmente hasta que presiones 'Restablecer y Forzar Horario de Excel'.")
 
-        if df_historial.empty:
-            st.info("Aún no se han registrado llamadas.")
-        else:
-            st.dataframe(df_historial, use_container_width=True, hide_index=True)
+            turnos_admin = obtener_lista_turnos()
+            
+            with st.expander("Ver y Gestionar Lista de Ausencias Manualmente", expanded=True):
+                estados_seleccionados = {}
+                for t in turnos_admin:
+                    col_name, col_status = st.columns([3, 1])
+                    with col_name:
+                        etiqueta_manual = " 📌 *(Manual)*" if t.get("manual") else ""
+                        st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']}){etiqueta_manual}")
+                    with col_status:
+                        nuevo_estado = st.toggle(
+                            "Activo" if t["activo"] else "Ausente",
+                            value=t["activo"],
+                            key=f"toggle_agente_{t['posicion']}"
+                        )
+                        estados_seleccionados[t["posicion"]] = nuevo_estado
 
-            col_csv, col_del = st.columns(2)
-            with col_csv:
+                st.markdown("---")
+                if st.button("💾 Guardar y Publicar Cambios de Estado", type="primary", use_container_width=True):
+                    exito, msj = guardar_cambios_masivos_agentes(estados_seleccionados)
+                    if exito:
+                        st.success(msj)
+                        st.rerun()
+                    else:
+                        st.info(msj)
+
+            st.markdown("---")
+            st.subheader("⚙️ Opciones de Reordenamiento y Limpieza")
+            
+            col_admin_1, col_admin_2, col_admin_3 = st.columns(3)
+
+            with col_admin_1:
+                st.markdown("### 🎲 Rebobinar al Azar")
+                st.caption("Mezcla la lista completa de agentes al azar.")
+                confirm_random = st.checkbox("Confirmo mezclar la fila al azar.")
+                if st.button("🔀 Mezclar Orden", disabled=not confirm_random, type="primary", use_container_width=True):
+                    reorganizar_turnos_al_azar()
+                    st.success("✅ ¡Fila mezclada con éxito!")
+                    st.rerun()
+
+            with col_admin_2:
+                st.markdown("### 🔄 Restablecer Orden")
+                st.caption("Restablece el orden alfabético inicial.")
+                confirm_reset = st.checkbox("Confirmo reiniciar al orden inicial.")
+                if st.button("Restablecer Fila", disabled=not confirm_reset, use_container_width=True):
+                    reiniciar_turnos_originales()
+                    st.success("✅ Fila de turnos restablecida.")
+                    st.rerun()
+
+            with col_admin_3:
+                st.markdown("### 🗑️ Limpiar Historial")
+                st.caption("Borra los registros de llamadas de prueba.")
+                confirm_del_hist = st.checkbox("Confirmo borrar el historial.")
+                if st.button("Vaciar Historial", disabled=not confirm_del_hist, use_container_width=True):
+                    vaciar_historial_llamadas()
+                    st.success("✅ Historial de llamadas vaciado.")
+                    st.rerun()
+
+        # ------------------------------------------
+        # TAB 2: HISTORIAL DE LLAMADAS
+        # ------------------------------------------
+        with tab_historial:
+            st.subheader("📊 Historial de Registro de Llamadas")
+            df_historial = obtener_historial_saltos()
+
+            if df_historial.empty:
+                st.info("Aún no se han registrado llamadas.")
+            else:
+                st.dataframe(df_historial, use_container_width=True, hide_index=True)
+
                 csv_data = df_historial.to_csv(index=False).encode("utf-8")
                 st.download_button(
                     label="📥 Descargar Reporte Llamadas CSV",
@@ -670,71 +864,118 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     use_container_width=True
                 )
 
-        st.markdown("---")
-        # ==========================================
-        # NUEVA SECCIÓN: LOG DE SALTOS Y MAPEO TEMPORAL
-        # ==========================================
-        st.subheader("📜 Log de Saltos y Mapeo Temporal (`saltos_log.json`)")
-        st.caption("Registro histórico independiente para verificar quién estaba en qué posición antes de cada salto.")
-        
-        df_log_saltos = obtener_log_saltos_df()
-        
-        if df_log_saltos.empty:
-            st.info("Aún no se han generado registros en el log independiente de saltos.")
-        else:
-            st.dataframe(df_log_saltos, use_container_width=True, hide_index=True)
+        # ------------------------------------------
+        # TAB 3: LOG DE SALTOS Y MAPEO TEMPORAL
+        # ------------------------------------------
+        with tab_log_saltos:
+            st.subheader("📜 Log de Saltos y Mapeo Temporal (`saltos_log.json`)")
+            st.caption("Registro histórico independiente para verificar quién estaba en qué posición antes de cada salto.")
             
-            col_log_csv, col_log_json = st.columns(2)
+            df_log_saltos = obtener_log_saltos_df()
             
-            with col_log_csv:
-                csv_log_bytes = df_log_saltos.to_csv(index=False).encode("utf-8")
-                st.download_button(
-                    label="📥 Descargar Log de Saltos (CSV)",
-                    data=csv_log_bytes,
-                    file_name=f"log_saltos_mapeo_temporal_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
-                    mime="text/csv",
-                    use_container_width=True
-                )
+            if df_log_saltos.empty:
+                st.info("Aún no se han generado registros en el log independiente de saltos.")
+            else:
+                st.dataframe(df_log_saltos, use_container_width=True, hide_index=True)
                 
-            with col_log_json:
-                raw_log_json = leer_json_github(FILE_LOG_SALTOS, {"saltos": []})
-                json_log_bytes = json.dumps(raw_log_json, indent=4, ensure_ascii=False).encode("utf-8")
-                st.download_button(
-                    label="📥 Descargar Log de Saltos (JSON)",
-                    data=json_log_bytes,
-                    file_name=f"saltos_log_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.json",
-                    mime="application/json",
-                    use_container_width=True
+                col_log_csv, col_log_json = st.columns(2)
+                
+                with col_log_csv:
+                    csv_log_bytes = df_log_saltos.to_csv(index=False).encode("utf-8")
+                    st.download_button(
+                        label="📥 Descargar Log de Saltos (CSV)",
+                        data=csv_log_bytes,
+                        file_name=f"log_saltos_mapeo_temporal_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
+                    
+                with col_log_json:
+                    raw_log_json = leer_json_github(FILE_LOG_SALTOS, {"saltos": []})
+                    json_log_bytes = json.dumps(raw_log_json, indent=4, ensure_ascii=False).encode("utf-8")
+                    st.download_button(
+                        label="📥 Descargar Log de Saltos (JSON)",
+                        data=json_log_bytes,
+                        file_name=f"saltos_log_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.json",
+                        mime="application/json",
+                        use_container_width=True
+                    )
+
+        # ------------------------------------------
+        # TAB 4: AUDITORÍA DE DEVOLUCIONES IVR Y CRUCE CON SALTOS
+        # ------------------------------------------
+        with tab_auditoria_ivr:
+            st.subheader("🤖 Consolidado y Auditoría de Devoluciones IVR vs. Saltos")
+            st.markdown("""
+            **Lógica de Análisis:**
+            1. **Carga los 2 archivos de Aircall** (Llamadas Perdidas Inbound y Devoluciones Outbound).
+            2. **Usa el registro de turnos y log de saltos guardado internamente** (sin necesidad de subir un 3er archivo).
+            3. **Analiza el mapeo temporal** para validar si el asesor que devolvió la llamada coincidía con el turno asignado en ese momento.
+            """)
+
+            col_u1, col_u2 = st.columns(2)
+            with col_u1:
+                file_perdidas = st.file_uploader("1. CSV Llamadas Perdidas (Inbound)", type=["csv"], key="audit_p1")
+            with col_u2:
+                file_callbacks = st.file_uploader("2. CSV Devoluciones / Salientes (Aircall Outbound)", type=["csv"], key="audit_p2")
+
+            with st.expander("⚙️ Filtros Avanzados de IVR (Opcionales)"):
+                col_f_ivr1, col_f_ivr2 = st.columns(2)
+                with col_f_ivr1:
+                    filtro_rama_ivr = st.text_input("Rama IVR especifica (ej: ATC):", value="", key="audit_f1")
+                with col_f_ivr2:
+                    filtro_widget_ivr = st.text_input("Widget IVR específico (ej: Ventas):", value="", key="audit_f2")
+
+            if file_perdidas is not None and file_callbacks is not None:
+                df_res_ivr, err_ivr = analizar_devoluciones_ivr_y_saltos(
+                    file_perdidas, file_callbacks, 
+                    rama_filtro=filtro_rama_ivr, 
+                    widget_filtro=filtro_widget_ivr
                 )
 
-        st.markdown("---")
-        st.subheader("⚙️ Opciones de Reordenamiento y Limpieza")
-        
-        col_admin_1, col_admin_2, col_admin_3 = st.columns(3)
+                if err_ivr:
+                    st.error(f"Error al procesar la auditoría: {err_ivr}")
+                elif df_res_ivr.empty:
+                    st.warning("No se encontraron números perdidos de IVR que hayan recibido llamadas salientes de devolución.")
+                else:
+                    total_numeros_devueltos = len(df_res_ivr)
+                    no_registrados_saltos = len(df_res_ivr[df_res_ivr['Registrado en Saltos'] == 'NO REGISTRADO'])
+                    multiples_llamadas = len(df_res_ivr[df_res_ivr['Cant. Devoluciones (Aircall)'] > 1])
+                    registrados_ok = total_numeros_devueltos - no_registrados_saltos
 
-        with col_admin_1:
-            st.markdown("### 🎲 Rebobinar al Azar")
-            st.caption("Mezcla la lista completa de agentes al azar.")
-            confirm_random = st.checkbox("Confirmo mezclar la fila al azar.")
-            if st.button("🔀 Mezclar Orden", disabled=not confirm_random, type="primary", use_container_width=True):
-                reorganizar_turnos_al_azar()
-                st.success("✅ ¡Fila mezclada con éxito!")
-                st.rerun()
+                    c1, c2, c3, c4 = st.columns(4)
+                    c1.metric("Clientes IVR Devueltos", total_numeros_devueltos)
+                    c2.metric("✅ Registrados en Saltos", registrados_ok)
+                    c3.metric("🚨 Sin Registro en Saltos", no_registrados_saltos, delta=f"{(no_registrados_saltos/total_numeros_devueltos*100):.1f}% Omisión" if total_numeros_devueltos>0 else "0%", delta_color="inverse")
+                    c4.metric("🔄 Marcaciones Múltiples (>1)", multiples_llamadas)
 
-        with col_admin_2:
-            st.markdown("### 🔄 Restablecer Orden")
-            st.caption("Restablece el orden alfabético inicial.")
-            confirm_reset = st.checkbox("Confirmo reiniciar al orden inicial.")
-            if st.button("Restablecer Fila", disabled=not confirm_reset, use_container_width=True):
-                reiniciar_turnos_originales()
-                st.success("✅ Fila de turnos restablecida.")
-                st.rerun()
+                    st.markdown("---")
+                    st.subheader("📊 Consolidado Completo")
 
-        with col_admin_3:
-            st.markdown("### 🗑️ Limpiar Historial")
-            st.caption("Borra los registros de llamadas de prueba.")
-            confirm_del_hist = st.checkbox("Confirmo borrar el historial.")
-            if st.button("Vaciar Historial", disabled=not confirm_del_hist, use_container_width=True):
-                vaciar_historial_llamadas()
-                st.success("✅ Historial de llamadas vaciado.")
-                st.rerun()
+                    filtro_estado = st.selectbox(
+                        "Filtrar Resultados por Estado:",
+                        ["Todos los Devueltos de IVR", "Solo NO Registrados en Saltos", "Solo Múltiples Llamadas en Aircall", "Solo Registrados Correctamente en Saltos"],
+                        key="filtro_estado_auditoria"
+                    )
+
+                    if filtro_estado == "Solo NO Registrados en Saltos":
+                        df_mostrar_ivr = df_res_ivr[df_res_ivr['Registrado en Saltos'] == 'NO REGISTRADO']
+                    elif filtro_estado == "Solo Múltiples Llamadas en Aircall":
+                        df_mostrar_ivr = df_res_ivr[df_res_ivr['Cant. Devoluciones (Aircall)'] > 1]
+                    elif filtro_estado == "Solo Registrados Correctamente en Saltos":
+                        df_mostrar_ivr = df_res_ivr[df_res_ivr['Registrado en Saltos'] == 'Sí']
+                    else:
+                        df_mostrar_ivr = df_res_ivr
+
+                    st.dataframe(df_mostrar_ivr, use_container_width=True, hide_index=True)
+
+                    csv_download_ivr = df_res_ivr.to_csv(index=False).encode('utf-8')
+                    st.download_button(
+                        label="📥 Descargar Reporte Consolidado IVR (CSV)",
+                        data=csv_download_ivr,
+                        file_name=f"reporte_devoluciones_ivr_vs_saltos_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
+            else:
+                st.info("👈 Adjunta los dos archivos CSV de Aircall (Inbound y Outbound) para ejecutar la auditoría.")
