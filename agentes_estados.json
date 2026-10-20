@@ -64,7 +64,7 @@
         "manual": true
     },
     "Juan Sebastian Serna Sepulveda": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Julián Andrés Osorio Aristizabal": {
@@ -84,7 +84,7 @@
         "manual": true
     },
     "Linda Liceth Pérez Pineda": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Luis Alberto Lozano Ibarra": {
@@ -92,11 +92,11 @@
         "manual": true
     },
     "Manuela villegas Giraldo": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "María Karolina Viana Cancio": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Mateo Cano Hincapié": {
@@ -140,7 +140,7 @@
         "manual": true
     },
     "Yarlen Biviana Son Cedeño": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Yarnedis Cecilia Urrutia Pérez": {
