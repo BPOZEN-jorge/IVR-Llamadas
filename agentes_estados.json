@@ -1,6 +1,6 @@
 {
     "Alisson Correa Gaviria": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Ana Maria Sanchez Gamboa": {
@@ -8,11 +8,11 @@
         "manual": false
     },
     "Andrea Mileidy londoño Bedoya": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Angie Valeria Quirama Hernández": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Angie Vanessa García": {
@@ -48,7 +48,7 @@
         "manual": false
     },
     "Iris Sabiana Cano Cano": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Janis Henao Vasco": {
@@ -56,7 +56,7 @@
         "manual": false
     },
     "Johana Osorio Bedoya": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Juan Esteban Acevedo Garces": {
@@ -120,11 +120,11 @@
         "manual": false
     },
     "Sara Gómez Bayona": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Stefany Vanegas Arbelaez": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Tatiana Magreth Acevedo Marín": {
@@ -144,19 +144,19 @@
         "manual": false
     },
     "Yarnedis Cecilia Urrutia Pérez": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Yeismer Miranda Ramirez": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Yesica Paola Lopez Arango": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Yesly Marilyn Carrero Rivera": {
-        "activo": false,
+        "activo": true,
         "manual": false
     }
 }
