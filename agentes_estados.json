@@ -1,162 +1,162 @@
 {
     "Alisson Correa Gaviria": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Ana Maria Sanchez Gamboa": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Andrea Mileidy londoño Bedoya": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Angie Valeria Quirama Hernández": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Angie Vanessa García": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Brayan Andrey Bustamante": {
-        "activo": false,
-        "manual": false
+        "activo": true,
+        "manual": true
     },
     "Carlos Alberto Herrera Cardeño": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Claudia Marcela Manco Vargas": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Cristian David Acosta Montoya": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Dayana Botero Rojas": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Evelin Acevedo Cortés": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Gustavo Adolfo Barrientos Serna": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Iris Sabiana Cano Cano": {
-        "activo": true,
-        "manual": false
+        "activo": false,
+        "manual": true
     },
     "Janis Henao Vasco": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Johana Osorio Bedoya": {
-        "activo": true,
-        "manual": false
+        "activo": false,
+        "manual": true
     },
     "Juan Esteban Acevedo Garces": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Juan Sebastian Serna Sepulveda": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Julián Andrés Osorio Aristizabal": {
-        "activo": true,
-        "manual": false
+        "activo": false,
+        "manual": true
     },
     "Karen Herrera Gonzalez": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Kelly Jhoana Salas Ibarguen": {
-        "activo": true,
-        "manual": false
+        "activo": false,
+        "manual": true
     },
     "Libia Paola Romero Cantillo": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Linda Liceth Pérez Pineda": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Luis Alberto Lozano Ibarra": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Manuela villegas Giraldo": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "María Karolina Viana Cancio": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Mateo Cano Hincapié": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Omar David Barboza Carbonero": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Oscar José Llanos Mendinueta": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Paula Andrea Guzman Jaramillo": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Rosa Elvira Agamez López": {
-        "activo": false,
-        "manual": false
+        "activo": true,
+        "manual": true
     },
     "Sara Gómez Bayona": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Stefany Vanegas Arbelaez": {
-        "activo": true,
-        "manual": false
+        "activo": false,
+        "manual": true
     },
     "Tatiana Magreth Acevedo Marín": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Tomas Castaño Gómez": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Viviana Pacheco Córdoba": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Yarlen Biviana Son Cedeño": {
         "activo": false,
-        "manual": false
+        "manual": true
     },
     "Yarnedis Cecilia Urrutia Pérez": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Yeismer Miranda Ramirez": {
         "activo": true,
-        "manual": false
+        "manual": true
     },
     "Yesica Paola Lopez Arango": {
-        "activo": true,
-        "manual": false
+        "activo": false,
+        "manual": true
     },
     "Yesly Marilyn Carrero Rivera": {
         "activo": true,
-        "manual": false
+        "manual": true
     }
 }
