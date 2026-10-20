@@ -434,16 +434,30 @@ def reorganizar_turnos_al_azar():
     escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
 
 # ==========================================
-# FUNCIONES AUXILIARES DE ZONAS HORARIAS
+# FUNCIONES AUXILIARES DE ZONAS HORARIAS ROBUSTAS
 # ==========================================
-def convertir_a_colombia(columna_fechas: pd.Series) -> pd.Series:
+def convertir_a_colombia_robust(columna_fechas: pd.Series, es_aircall: bool = True) -> pd.Series:
     """
-    Convierte una serie de Pandas con fechas (Aircall en Hora España / UTC o App en Hora Colombia)
-    a la zona horaria estándar 'America/Bogota'.
+    Convierte una serie de fechas a 'America/Bogota'.
+    Si la serie proviene de Aircall (es_aircall=True) y no trae zona horaria explícita,
+    asume 'Europe/Madrid' (España UTC+2) y resta las 7 horas a Colombia.
+    Si proviene del sistema de saltos (es_aircall=False), asume 'America/Bogota'.
     """
-    dt_parsed = pd.to_datetime(columna_fechas, errors='coerce', utc=True)
-    dt_parsed = dt_parsed.dt.tz_convert('America/Bogota')
-    return dt_parsed
+    def parse_fecha(val):
+        if pd.isna(val) or str(val).strip() in ["", "nan", "None", "N/A"]:
+            return pd.NaT
+        try:
+            dt = pd.to_datetime(val)
+            if dt.tzinfo is None:
+                if es_aircall:
+                    dt = dt.tz_localize('Europe/Madrid')
+                else:
+                    dt = dt.tz_localize('America/Bogota')
+            return dt.tz_convert('America/Bogota')
+        except Exception:
+            return pd.NaT
+
+    return columna_fechas.apply(parse_fecha)
 
 # ==========================================
 # LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR
@@ -481,19 +495,19 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
         df_salientes = df2[df2['direction'] == 'outbound'].copy()
         df_salientes['num_limpio'] = df_salientes['customer number'].astype(str).str.replace(r'\D', '', regex=True)
 
-        # 3. Conversión de Fechas a Zona Horaria Colombia (America/Bogota)
+        # 3. Conversión Homogénea de Fechas (España -> Colombia)
         col_fecha1 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df1.columns else 'call start time'
         col_fecha2 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df2.columns else 'call start time'
 
-        df_perdidas_ivr['dt_perdida'] = convertir_a_colombia(df_perdidas_ivr[col_fecha1])
-        df_salientes['dt_saliente'] = convertir_a_colombia(df_salientes[col_fecha2])
+        df_perdidas_ivr['dt_perdida'] = convertir_a_colombia_robust(df_perdidas_ivr[col_fecha1], es_aircall=True)
+        df_salientes['dt_saliente'] = convertir_a_colombia_robust(df_salientes[col_fecha2], es_aircall=True)
 
         if not df3.empty:
             col_tel3 = 'Teléfono' if 'Teléfono' in df3.columns else df3.columns[2]
             col_nom3 = 'Nombre Real' if 'Nombre Real' in df3.columns else df3.columns[3]
             col_fecha3 = 'Fecha / Hora (Colombia)' if 'Fecha / Hora (Colombia)' in df3.columns else df3.columns[5]
             df3['num_limpio'] = df3[col_tel3].astype(str).str.replace(r'\D', '', regex=True)
-            df3['dt_turno'] = pd.to_datetime(df3[col_fecha3]).dt.tz_localize('America/Bogota')
+            df3['dt_turno'] = convertir_a_colombia_robust(df3[col_fecha3], es_aircall=False)
         else:
             df3 = pd.DataFrame(columns=['num_limpio', 'dt_turno', 'Nombre Real', 'Alias'])
 
@@ -528,29 +542,29 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             horarios_turnos_str = " | ".join(sub_turnos['dt_turno'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist()) if tot_turnos > 0 else "N/A"
             asesores_turnos_str = " | ".join(sub_turnos[col_nom3].astype(str).unique().tolist()) if tot_turnos > 0 else "N/A"
 
-            # MAPEO TEMPORAL DE TURNO: Evaluar quién estaba de primero activo en el snapshot al momento del salto/devolución
-            primera_fecha_perdida = sub_perdidas['dt_perdida'].iloc[0]
+            # MAPEO TEMPORAL DE TURNO: Evaluar en Hora Colombia quién estaba de primero activo al momento del evento
+            primera_fecha_saliente = sub_salientes['dt_saliente'].iloc[0]
             agente_que_tocaba = "Desconocido (Sin snapshot)"
             coincidio_turno = "N/A"
 
-            # Filtrar snapshots previos en saltos_log.json
+            # Filtrar snapshots de saltos con hora normalizada a Colombia
             saltos_previos = []
             for s in raw_log_saltos:
-                dt_s = pd.to_datetime(s.get('fecha_hora')).tz_localize('America/Bogota')
-                if dt_s <= primera_fecha_perdida + pd.Timedelta(minutes=15):
+                dt_s = convertir_a_colombia_robust(pd.Series([s.get('fecha_hora')]), es_aircall=False).iloc[0]
+                if pd.notna(dt_s) and dt_s <= primera_fecha_saliente + pd.Timedelta(minutes=5):
                     saltos_previos.append((dt_s, s))
 
             if saltos_previos:
+                # Obtener el snapshot inmediatamente previo más cercano
                 ultimo_salto = max(saltos_previos, key=lambda x: x[0])[1]
                 snapshot = ultimo_salto.get("orden_previo_snapshot", [])
                 
-                # Filtrar primer agente activo en el snapshot respetando el orden de posiciones
+                # Filtrar el primer agente activo ordenado por posición en la fila
                 activos_snapshot = sorted([ag for ag in snapshot if ag.get("activo")], key=lambda x: x.get("posicion", 999))
                 if activos_snapshot:
                     agente_que_tocaba = activos_snapshot[0].get("alias", "Desconocido")
 
             if agente_que_tocaba != "Desconocido (Sin snapshot)" and asesores_salientes_str != "N/A":
-                # Verificación flexible de coincidencia entre alias y usuario en Aircall
                 if agente_que_tocaba.lower() in asesores_salientes_str.lower() or asesores_salientes_str.lower() in agente_que_tocaba.lower():
                     coincidio_turno = "✅ COINCIDE (Atendió quien le tocaba)"
                 else:
