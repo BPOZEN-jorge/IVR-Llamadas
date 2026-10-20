@@ -27,181 +27,189 @@
         },
         {
             "posicion": 6,
-            "real": "Cristian David Acosta Montoya",
-            "alias": "Manuel Vasquez"
-        },
-        {
-            "posicion": 7,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas"
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
+        },
+        {
+            "posicion": 40,
+            "real": "Cristian David Acosta Montoya",
+            "alias": "Manuel Vasquez"
         }
     ],
     "historial": [
+        {
+            "id": 33,
+            "call_id": "CA254eda1e49025ad5d2d0203cff67d316",
+            "telefono": "635704373",
+            "nombre_real": "Cristian David Acosta Montoya",
+            "alias": "Manuel Vasquez",
+            "fecha_hora": "2026-10-20 10:45:05"
+        },
         {
             "id": 32,
             "call_id": "CA18d6916d3fc63c35b556db89b229c23a",
