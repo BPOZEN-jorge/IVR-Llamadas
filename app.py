@@ -20,6 +20,7 @@ st.set_page_config(
 # SEPARACIÓN DE ARCHIVOS PARA PREVENIR CONFLICTOS CONCURRENTES
 FILE_TURNOS = "turnos_orden.json"     # Maneja posiciones e historial
 FILE_ESTADOS = "agentes_estados.json" # Maneja únicamente toggles activo/ausente
+FILE_LOG_SALTOS = "saltos_log.json"   # Mapeo temporal independiente de saltos de turno
 
 # ==========================================
 # DATOS INICIALES DE USUARIOS
@@ -137,7 +138,43 @@ def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, ret
                 return False
 
 # ==========================================
-# LOGICA DE LECTURA Y MEZCLA DE DATOS (READ-ON-MERGE)
+# LÓGICA DE GESTIÓN DEL LOG INDEPENDIENTE DE SALTOS
+# ==========================================
+def guardar_evento_log_salto(datos_salto: dict):
+    """Guarda un registro independiente en saltos_log.json para mapeo temporal."""
+    default_log = {"saltos": []}
+    log_actual = leer_json_github(FILE_LOG_SALTOS, default_log)
+    
+    if "saltos" not in log_actual:
+        log_actual["saltos"] = []
+
+    log_actual["saltos"].insert(0, datos_salto)
+    escribir_json_github(FILE_LOG_SALTOS, log_actual, f"Log Salto: {datos_salto.get('alias')} (ID: {datos_salto.get('call_id')})")
+
+def obtener_log_saltos_df() -> pd.DataFrame:
+    """Carga y procesa el log de saltos para descargarlo o mostrarlo."""
+    default_log = {"saltos": []}
+    log_actual = leer_json_github(FILE_LOG_SALTOS, default_log)
+    saltos = log_actual.get("saltos", [])
+    if not saltos:
+        return pd.DataFrame()
+
+    registros = []
+    for s in saltos:
+        registros.append({
+            "ID Evento": s.get("id_evento"),
+            "Fecha/Hora (Colombia)": s.get("fecha_hora"),
+            "ID Llamada": s.get("call_id"),
+            "Teléfono": s.get("telefono"),
+            "Agente (Alias)": s.get("alias"),
+            "Agente (Real)": s.get("nombre_real"),
+            "Posición al Saltar": s.get("posicion_al_saltar"),
+            "Orden previo snapshot": json.dumps(s.get("orden_previo_snapshot", []), ensure_ascii=False)
+        })
+    return pd.DataFrame(registros)
+
+# ==========================================
+# LÓGICA DE LECTURA Y MEZCLA DE DATOS (READ-ON-MERGE)
 # ==========================================
 def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
     """Carga de forma independiente el orden/historial y los estados de los agentes, mezclándolos en vivo."""
@@ -148,7 +185,6 @@ def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
         "horario_excel": []
     }
     
-    # Formato compatible con control manual: {"estado": bool, "manual": bool} o bool simple
     def_estados = {u["real"]: {"activo": True, "manual": False} for u in USUARIOS_INICIALES}
 
     data_turnos = leer_json_github(FILE_TURNOS, def_turnos)
@@ -159,7 +195,6 @@ def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
     config = data_turnos.get("configuracion", {"modo_auto": "true"})
     horario_excel = data_turnos.get("horario_excel", [])
 
-    # Inyectar el estado activo/ausente más reciente desde data_estados
     for t in turnos_lista:
         nombre = t["real"]
         info_est = data_estados.get(nombre, True)
@@ -192,7 +227,6 @@ def obtener_lista_turnos() -> list:
     return turnos
 
 def guardar_cambios_masivos_agentes(estados_seleccionados: dict):
-    """Guarda Exclusivamente en `agentes_estados.json` marcándolos como manuales."""
     estados_actuales = leer_json_github(FILE_ESTADOS, {})
     cambios = 0
     
@@ -203,15 +237,12 @@ def guardar_cambios_masivos_agentes(estados_seleccionados: dict):
         nombre_real = mapa_pos_nombre.get(pos)
         if nombre_real:
             val_actual = estados_actuales.get(nombre_real)
-            
-            # Normalización del estado anterior
             est_anterior = val_actual.get("activo") if isinstance(val_actual, dict) else val_actual
             
-            # Si cambia o si se quiere forzar como control manual
             if est_anterior != nuevo_activo or not (isinstance(val_actual, dict) and val_actual.get("manual")):
                 estados_actuales[nombre_real] = {
                     "activo": nuevo_activo,
-                    "manual": True  # Marcamos que la decisión fue tomada manualmente
+                    "manual": True
                 }
                 cambios += 1
 
@@ -221,7 +252,6 @@ def guardar_cambios_masivos_agentes(estados_seleccionados: dict):
     return False, "ℹ️ No se detectaron cambios de estado para guardar."
 
 def resetear_bloqueos_manuales():
-    """Limpia los bloqueos manuales permitiendo que el horario automático vuelva a tomar control total."""
     estados_actuales = leer_json_github(FILE_ESTADOS, {})
     for nombre in estados_actuales:
         if isinstance(estados_actuales[nombre], dict):
@@ -299,7 +329,6 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: 
         es_manual = info_actual.get("manual", False) if isinstance(info_actual, dict) else False
         st_actual = info_actual.get("activo", True) if isinstance(info_actual, dict) else bool(info_actual)
 
-        # SI ES MANUAL Y NO ESTAMOS FORZANDO RE-SINCRONIZACIÓN, RESPETAMOS LA DECISIÓN DEL USUARIO
         if es_manual and not forzar_resincro:
             continue
 
@@ -308,7 +337,7 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: 
             if st_actual != nuevo_st or es_manual:
                 estados_actuales[real_name] = {
                     "activo": nuevo_st,
-                    "manual": False  # Se limpia el flag si fue resincronizado por el sistema
+                    "manual": False
                 }
                 hubo_cambios = True
 
@@ -329,7 +358,6 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
 
     now_col = obtener_hora_colombia_str()
     
-    # Cargar versión más reciente mezclada
     turnos, historial, _, _ = obtener_estructura_completa_fresca()
 
     if any(h.get("call_id") == call_id_clean for h in historial):
@@ -357,7 +385,13 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     if pin_clean != pin_correcto:
         return False, f"🔒 **PIN incorrecto.** No puedes ceder o avanzar el turno de **{alias}**."
 
-    # Registrar en historial
+    # Mapeo temporal del estado de la fila ANTES del salto
+    snapshot_fila_previa = [
+        {"posicion": t["posicion"], "alias": t["alias"], "activo": t["activo"]} 
+        for t in turnos
+    ]
+
+    # Registrar en historial tradicional
     nuevo_registro = {
         "id": len(historial) + 1,
         "call_id": call_id_clean,
@@ -368,7 +402,7 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     }
     historial.insert(0, nuevo_registro)
 
-    # Reordenar turnos limpiando llaves temporales antes de guardar a JSON (solo guardamos posiciones)
+    # Reordenar turnos
     turnos_limpios = [{"posicion": t["posicion"], "real": t["real"], "alias": t["alias"]} for t in turnos]
     agente_limpio = next(t for t in turnos_limpios if t["posicion"] == pos_atendiendo)
     
@@ -382,8 +416,20 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     data_turnos["historial"] = historial
     data_turnos["turnos"] = nuevos_turnos
 
-    # GUARDAR ÚNICAMENTE EN FILE_TURNOS (Sin colisión con cambios de estado en FILE_ESTADOS)
     if escribir_json_github(FILE_TURNOS, data_turnos, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})"):
+        # REGISTRAR MAPEO TEMPORAL EN JSON INDEPENDIENTE
+        datos_log_salto = {
+            "id_evento": len(historial),
+            "fecha_hora": now_col,
+            "call_id": call_id_clean,
+            "telefono": telefono_clean,
+            "nombre_real": nombre_real,
+            "alias": alias,
+            "posicion_al_saltar": pos_atendiendo,
+            "orden_previo_snapshot": snapshot_fila_previa
+        }
+        guardar_evento_log_salto(datos_log_salto)
+
         return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
     else:
         return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
@@ -605,11 +651,11 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     st.info(msj)
 
         st.markdown("---")
-        st.subheader("📊 Historial de Registro de Llamadas y Saltos")
+        st.subheader("📊 Historial de Registro de Llamadas")
         df_historial = obtener_historial_saltos()
 
         if df_historial.empty:
-            st.info("Aún no se han registrado saltos de turno.")
+            st.info("Aún no se han registrado llamadas.")
         else:
             st.dataframe(df_historial, use_container_width=True, hide_index=True)
 
@@ -617,10 +663,47 @@ elif opcion_vista == "🛡️ Vista Administrador":
             with col_csv:
                 csv_data = df_historial.to_csv(index=False).encode("utf-8")
                 st.download_button(
-                    label="📥 Descargar Reporte CSV (Hora Colombia)",
+                    label="📥 Descargar Reporte Llamadas CSV",
                     data=csv_data,
-                    file_name=f"reporte_saltos_turnos_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
+                    file_name=f"reporte_llamadas_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
                     mime="text/csv",
+                    use_container_width=True
+                )
+
+        st.markdown("---")
+        # ==========================================
+        # NUEVA SECCIÓN: LOG DE SALTOS Y MAPEO TEMPORAL
+        # ==========================================
+        st.subheader("📜 Log de Saltos y Mapeo Temporal (`saltos_log.json`)")
+        st.caption("Registro histórico independiente para verificar quién estaba en qué posición antes de cada salto.")
+        
+        df_log_saltos = obtener_log_saltos_df()
+        
+        if df_log_saltos.empty:
+            st.info("Aún no se han generado registros en el log independiente de saltos.")
+        else:
+            st.dataframe(df_log_saltos, use_container_width=True, hide_index=True)
+            
+            col_log_csv, col_log_json = st.columns(2)
+            
+            with col_log_csv:
+                csv_log_bytes = df_log_saltos.to_csv(index=False).encode("utf-8")
+                st.download_button(
+                    label="📥 Descargar Log de Saltos (CSV)",
+                    data=csv_log_bytes,
+                    file_name=f"log_saltos_mapeo_temporal_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
+                
+            with col_log_json:
+                raw_log_json = leer_json_github(FILE_LOG_SALTOS, {"saltos": []})
+                json_log_bytes = json.dumps(raw_log_json, indent=4, ensure_ascii=False).encode("utf-8")
+                st.download_button(
+                    label="📥 Descargar Log de Saltos (JSON)",
+                    data=json_log_bytes,
+                    file_name=f"saltos_log_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.json",
+                    mime="application/json",
                     use_container_width=True
                 )
 
