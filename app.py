@@ -434,7 +434,25 @@ def reorganizar_turnos_al_azar():
     escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
 
 # ==========================================
-# LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR (CORREGIDA)
+# FUNCIONS AUXILIAR DE ZONAS HORARIAS
+# ==========================================
+def convertir_a_colombia(columna_fechas: pd.Series) -> pd.Series:
+    """
+    Convierte una serie de Pandas con fechas (ya sean de España, UTC o Colombia,
+    con o sin timezone info) a la zona horaria estándar 'America/Bogota'.
+    """
+    dt_parsed = pd.to_datetime(columna_fechas, errors='coerce', utc=True)
+    
+    # Manejar posibles valores sin zona horaria asignándoles Colombia por defecto
+    if dt_parsed.dt.tz is None:
+        dt_parsed = dt_parsed.dt.tz_localize('America/Bogota')
+    else:
+        dt_parsed = dt_parsed.dt.tz_convert('America/Bogota')
+        
+    return dt_parsed
+
+# ==========================================
+# LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR (MULTI ZONA HORARIA)
 # ==========================================
 def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filtro=""):
     try:
@@ -468,19 +486,19 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
         df_salientes = df2[df2['direction'] == 'outbound'].copy()
         df_salientes['num_limpio'] = df_salientes['customer number'].astype(str).str.replace(r'\D', '', regex=True)
 
-        # 3. Conversión Homogénea de Timestamps a Zona Horaria de Colombia (America/Bogota)
+        # 3. Conversión de Zona Horaria (España/UTC/Colombia -> America/Bogota)
         col_fecha1 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df1.columns else 'call start time'
         col_fecha2 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df2.columns else 'call start time'
 
-        df_perdidas_ivr['dt_perdida'] = pd.to_datetime(df_perdidas_ivr[col_fecha1], utc=True).dt.tz_convert('America/Bogota')
-        df_salientes['dt_saliente'] = pd.to_datetime(df_salientes[col_fecha2], utc=True).dt.tz_convert('America/Bogota')
+        df_perdidas_ivr['dt_perdida'] = convertir_a_colombia(df_perdidas_ivr[col_fecha1])
+        df_salientes['dt_saliente'] = convertir_a_colombia(df_salientes[col_fecha2])
 
         if not df3.empty:
             col_tel3 = 'Teléfono' if 'Teléfono' in df3.columns else df3.columns[2]
             col_nom3 = 'Nombre Real' if 'Nombre Real' in df3.columns else df3.columns[3]
             col_fecha3 = 'Fecha / Hora (Colombia)' if 'Fecha / Hora (Colombia)' in df3.columns else df3.columns[5]
             df3['num_limpio'] = df3[col_tel3].astype(str).str.replace(r'\D', '', regex=True)
-            df3['dt_turno'] = pd.to_datetime(df3[col_fecha3], utc=True).dt.tz_convert('America/Bogota')
+            df3['dt_turno'] = convertir_a_colombia(df3[col_fecha3])
         else:
             df3 = pd.DataFrame(columns=['num_limpio', 'dt_turno', 'Nombre Real', 'Alias'])
 
@@ -520,25 +538,23 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             agente_que_tocaba = "Desconocido (Sin snapshot)"
             coincidio_turno = "N/A"
 
-            # Buscar snapshot previo en saltos_log.json estandarizando a zona horaria
+            # Buscar snapshot previo normalizado a zona horaria de Colombia
             saltos_previos = []
             for s in raw_log_saltos:
-                dt_s = pd.to_datetime(s.get('fecha_hora'), utc=True).tz_convert('America/Bogota')
+                dt_s = convertir_a_colombia(pd.Series([s.get('fecha_hora')])).iloc[0]
                 if dt_s <= primera_fecha_perdida:
                     saltos_previos.append((dt_s, s))
 
             if saltos_previos:
-                # Obtener el snapshot inmediatamente anterior a la fecha de la llamada perdida
                 ultimo_salto = max(saltos_previos, key=lambda x: x[0])[1]
                 snapshot = ultimo_salto.get("orden_previo_snapshot", [])
                 
-                # Filtrar el primer agente activo ordenado por su posición
+                # Filtrar el primer agente activo ordenado por posición
                 activos_snapshot = sorted([ag for ag in snapshot if ag.get("activo")], key=lambda x: x.get("posicion", 999))
                 if activos_snapshot:
                     agente_que_tocaba = activos_snapshot[0].get("alias", "Desconocido")
 
             if agente_que_tocaba != "Desconocido (Sin snapshot)" and asesores_salientes_str != "N/A":
-                # Comprobar coincidencia flexible entre el alias y el asesor en Aircall
                 if agente_que_tocaba.lower() in asesores_salientes_str.lower() or asesores_salientes_str.lower() in agente_que_tocaba.lower():
                     coincidio_turno = "✅ COINCIDE (Atendió quien le tocaba)"
                 else:
