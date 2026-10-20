@@ -52,156 +52,164 @@
         },
         {
             "posicion": 11,
-            "real": "María Karolina Viana Cancio",
-            "alias": "Karolina"
-        },
-        {
-            "posicion": 12,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
+        },
+        {
+            "posicion": 40,
+            "real": "María Karolina Viana Cancio",
+            "alias": "Karolina"
         }
     ],
     "historial": [
+        {
+            "id": 37,
+            "call_id": "CA68eb4ce1fa441b5c7b614f183d55b0fb",
+            "telefono": "+34666451404",
+            "nombre_real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "fecha_hora": "2026-10-20 13:15:04"
+        },
         {
             "id": 36,
             "call_id": "CAbe77779916dbb5f8eda2f2ee1135d558",
