@@ -12,7 +12,7 @@
         "manual": true
     },
     "Angie Valeria Quirama Hernández": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Angie Vanessa García": {
@@ -104,7 +104,7 @@
         "manual": true
     },
     "Omar David Barboza Carbonero": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Oscar José Llanos Mendinueta": {
@@ -116,11 +116,11 @@
         "manual": true
     },
     "Rosa Elvira Agamez López": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Sara Gómez Bayona": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Stefany Vanegas Arbelaez": {
@@ -156,7 +156,7 @@
         "manual": true
     },
     "Yesly Marilyn Carrero Rivera": {
-        "activo": true,
+        "activo": false,
         "manual": true
     }
 }
