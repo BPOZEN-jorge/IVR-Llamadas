@@ -1,6 +1,6 @@
 {
     "Alisson Correa Gaviria": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Ana Maria Sanchez Gamboa": {
@@ -144,7 +144,7 @@
         "manual": true
     },
     "Yarnedis Cecilia Urrutia Pérez": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Yeismer Miranda Ramirez": {
