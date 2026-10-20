@@ -17,191 +17,199 @@
         },
         {
             "posicion": 4,
-            "real": "Evelin Acevedo Cortés",
-            "alias": "Gabriela"
-        },
-        {
-            "posicion": 5,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano"
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany"
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas"
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
+        },
+        {
+            "posicion": 40,
+            "real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela"
         }
     ],
     "historial": [
+        {
+            "id": 29,
+            "call_id": "CA8767144a4036fcdb1939716b96e281d0",
+            "telefono": "641131693",
+            "nombre_real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "fecha_hora": "2026-10-20 08:38:02"
+        },
         {
             "id": 28,
             "call_id": "CA3102596df222fa6e433e341d54df01f9",
