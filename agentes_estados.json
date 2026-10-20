@@ -28,7 +28,7 @@
         "manual": false
     },
     "Claudia Marcela Manco Vargas": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Cristian David Acosta Montoya": {
@@ -48,7 +48,7 @@
         "manual": false
     },
     "Iris Sabiana Cano Cano": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Janis Henao Vasco": {
@@ -72,11 +72,11 @@
         "manual": false
     },
     "Karen Herrera Gonzalez": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Kelly Jhoana Salas Ibarguen": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Libia Paola Romero Cantillo": {
@@ -152,7 +152,7 @@
         "manual": false
     },
     "Yesica Paola Lopez Arango": {
-        "activo": false,
+        "activo": true,
         "manual": false
     },
     "Yesly Marilyn Carrero Rivera": {
