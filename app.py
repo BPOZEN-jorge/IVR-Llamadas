@@ -434,30 +434,25 @@ def reorganizar_turnos_al_azar():
     escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
 
 # ==========================================
-# FUNCIONS AUXILIAR DE ZONAS HORARIAS
+# FUNCIONES AUXILIARES DE ZONAS HORARIAS
 # ==========================================
 def convertir_a_colombia(columna_fechas: pd.Series) -> pd.Series:
     """
-    Convierte una serie de Pandas con fechas (ya sean de España, UTC o Colombia,
-    con o sin timezone info) a la zona horaria estándar 'America/Bogota'.
+    Convierte una serie de Pandas con fechas (Aircall en Hora España / UTC o App en Hora Colombia)
+    a la zona horaria estándar 'America/Bogota'.
     """
     dt_parsed = pd.to_datetime(columna_fechas, errors='coerce', utc=True)
-    
-    # Manejar posibles valores sin zona horaria asignándoles Colombia por defecto
-    if dt_parsed.dt.tz is None:
-        dt_parsed = dt_parsed.dt.tz_localize('America/Bogota')
-    else:
-        dt_parsed = dt_parsed.dt.tz_convert('America/Bogota')
-        
+    dt_parsed = dt_parsed.dt.tz_convert('America/Bogota')
     return dt_parsed
 
 # ==========================================
-# LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR (MULTI ZONA HORARIA)
+# LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR
 # ==========================================
 def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filtro=""):
     try:
         df1 = pd.read_csv(file1)
         df2 = pd.read_csv(file2)
+        # Cargar planilla de saltos/historial guardada internamente en GitHub
         df3 = obtener_historial_saltos()
         raw_log_saltos = leer_json_github(FILE_LOG_SALTOS, {"saltos": []}).get("saltos", [])
 
@@ -486,7 +481,7 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
         df_salientes = df2[df2['direction'] == 'outbound'].copy()
         df_salientes['num_limpio'] = df_salientes['customer number'].astype(str).str.replace(r'\D', '', regex=True)
 
-        # 3. Conversión de Zona Horaria (España/UTC/Colombia -> America/Bogota)
+        # 3. Conversión de Fechas a Zona Horaria Colombia (America/Bogota)
         col_fecha1 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df1.columns else 'call start time'
         col_fecha2 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df2.columns else 'call start time'
 
@@ -498,7 +493,7 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             col_nom3 = 'Nombre Real' if 'Nombre Real' in df3.columns else df3.columns[3]
             col_fecha3 = 'Fecha / Hora (Colombia)' if 'Fecha / Hora (Colombia)' in df3.columns else df3.columns[5]
             df3['num_limpio'] = df3[col_tel3].astype(str).str.replace(r'\D', '', regex=True)
-            df3['dt_turno'] = convertir_a_colombia(df3[col_fecha3])
+            df3['dt_turno'] = pd.to_datetime(df3[col_fecha3]).dt.tz_localize('America/Bogota')
         else:
             df3 = pd.DataFrame(columns=['num_limpio', 'dt_turno', 'Nombre Real', 'Alias'])
 
@@ -533,28 +528,29 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             horarios_turnos_str = " | ".join(sub_turnos['dt_turno'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist()) if tot_turnos > 0 else "N/A"
             asesores_turnos_str = " | ".join(sub_turnos[col_nom3].astype(str).unique().tolist()) if tot_turnos > 0 else "N/A"
 
-            # MAPEO TEMPORAL DE TURNO
+            # MAPEO TEMPORAL DE TURNO: Evaluar quién estaba de primero activo en el snapshot al momento del salto/devolución
             primera_fecha_perdida = sub_perdidas['dt_perdida'].iloc[0]
             agente_que_tocaba = "Desconocido (Sin snapshot)"
             coincidio_turno = "N/A"
 
-            # Buscar snapshot previo normalizado a zona horaria de Colombia
+            # Filtrar snapshots previos en saltos_log.json
             saltos_previos = []
             for s in raw_log_saltos:
-                dt_s = convertir_a_colombia(pd.Series([s.get('fecha_hora')])).iloc[0]
-                if dt_s <= primera_fecha_perdida:
+                dt_s = pd.to_datetime(s.get('fecha_hora')).tz_localize('America/Bogota')
+                if dt_s <= primera_fecha_perdida + pd.Timedelta(minutes=15):
                     saltos_previos.append((dt_s, s))
 
             if saltos_previos:
                 ultimo_salto = max(saltos_previos, key=lambda x: x[0])[1]
                 snapshot = ultimo_salto.get("orden_previo_snapshot", [])
                 
-                # Filtrar el primer agente activo ordenado por posición
+                # Filtrar primer agente activo en el snapshot respetando el orden de posiciones
                 activos_snapshot = sorted([ag for ag in snapshot if ag.get("activo")], key=lambda x: x.get("posicion", 999))
                 if activos_snapshot:
                     agente_que_tocaba = activos_snapshot[0].get("alias", "Desconocido")
 
             if agente_que_tocaba != "Desconocido (Sin snapshot)" and asesores_salientes_str != "N/A":
+                # Verificación flexible de coincidencia entre alias y usuario en Aircall
                 if agente_que_tocaba.lower() in asesores_salientes_str.lower() or asesores_salientes_str.lower() in agente_que_tocaba.lower():
                     coincidio_turno = "✅ COINCIDE (Atendió quien le tocaba)"
                 else:
@@ -577,15 +573,15 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
                 'Widget IVR': widget_ivr,
                 'Motivo Pérdida IVR': motivos_perdida,
                 'Perdidas en IVR': tot_perdidas,
-                'Horario Llamada Perdida IVR': fechas_perdidas_str,
+                'Horario Llamada Perdida IVR (Colombia)': fechas_perdidas_str,
                 'Cant. Devoluciones (Aircall)': tot_salientes,
-                'Horarios Devolución (Aircall)': horarios_salientes_str,
+                'Horarios Devolución (Aircall / Colombia)': horarios_salientes_str,
                 'Asesor que Devolvió (Aircall)': asesores_salientes_str,
                 'Agente que le Tocaba (Snapshot)': agente_que_tocaba,
                 'Validación de Turno': coincidio_turno,
                 'Registrado en Saltos': registrado_flag,
                 'Cant. Registros Saltos': tot_turnos,
-                'Horarios Registro Saltos': horarios_turnos_str,
+                'Horarios Registro Saltos (Colombia)': horarios_turnos_str,
                 'Asesores Registro Saltos': asesores_turnos_str,
                 'Estado Auditoría': diagnostico
             })
