@@ -108,7 +108,6 @@ def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, ret
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
     json_str = json.dumps(payload, indent=4, ensure_ascii=False)
-
     for intento in range(retries):
         try:
             try:
@@ -148,7 +147,6 @@ def guardar_evento_log_salto(datos_salto: dict):
     
     if "saltos" not in log_actual:
         log_actual["saltos"] = []
-
     log_actual["saltos"].insert(0, datos_salto)
     escribir_json_github(FILE_LOG_SALTOS, log_actual, f"Log Salto: {datos_salto.get('alias')} (ID: {datos_salto.get('call_id')})")
 
@@ -159,7 +157,6 @@ def obtener_log_saltos_df() -> pd.DataFrame:
     saltos = log_actual.get("saltos", [])
     if not saltos:
         return pd.DataFrame()
-
     registros = []
     for s in saltos:
         registros.append({
@@ -187,15 +184,12 @@ def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
     }
     
     def_estados = {u["real"]: {"activo": True, "manual": False} for u in USUARIOS_INICIALES}
-
     data_turnos = leer_json_github(FILE_TURNOS, def_turnos)
     data_estados = leer_json_github(FILE_ESTADOS, def_estados)
-
     turnos_lista = sorted(data_turnos.get("turnos", USUARIOS_INICIALES), key=lambda x: x["posicion"])
     historial = data_turnos.get("historial", [])
     config = data_turnos.get("configuracion", {"modo_auto": "true"})
     horario_excel = data_turnos.get("horario_excel", [])
-
     for t in turnos_lista:
         nombre = t["real"]
         info_est = data_estados.get(nombre, True)
@@ -206,10 +200,8 @@ def obtener_estructura_completa_fresca() -> tuple[list, list, dict, list]:
         else:
             t["activo"] = bool(info_est)
             t["manual"] = False
-
     st.session_state.data_turnos_cache = data_turnos
     st.session_state.data_estados_cache = data_estados
-
     return turnos_lista, historial, config, horario_excel
 
 def obtener_configuracion(clave: str, valor_defecto: str = "") -> str:
@@ -233,7 +225,6 @@ def guardar_cambios_masivos_agentes(estados_seleccionados: dict):
     
     turnos_actuales, _, _, _ = obtener_estructura_completa_fresca()
     mapa_pos_nombre = {t["posicion"]: t["real"] for t in turnos_actuales}
-
     for pos, nuevo_activo in estados_seleccionados.items():
         nombre_real = mapa_pos_nombre.get(pos)
         if nombre_real:
@@ -246,7 +237,6 @@ def guardar_cambios_masivos_agentes(estados_seleccionados: dict):
                     "manual": True
                 }
                 cambios += 1
-
     if cambios > 0:
         if escribir_json_github(FILE_ESTADOS, estados_actuales, f"Admin: Anulación manual de {cambios} estados"):
             return True, f"✅ ¡Se guardaron correctamente los cambios manuales de {cambios} agentes!"
@@ -273,11 +263,9 @@ def obtener_horario_db() -> pd.DataFrame:
 def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: bool = False):
     if df_horario.empty:
         return
-
     now_col = obtener_fecha_hora_colombia()
     fecha_hoy_str = now_col.strftime("%Y-%m-%d")
     hora_actual = now_col.time()
-
     df_horario = df_horario.copy()
     df_horario.columns = [str(c).strip() for c in df_horario.columns]
     
@@ -286,7 +274,6 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: 
         df_hoy = df_horario[df_horario["Fecha"] == fecha_hoy_str]
     else:
         df_hoy = df_horario
-
     def parse_time(val):
         if pd.isna(val) or str(val).strip() in ["", "nan", "None", "00:00:00"]:
             return None
@@ -301,7 +288,6 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: 
                 return datetime.strptime(str(val).strip(), "%H:%M").time()
             except ValueError:
                 return None
-
     agentes_activos_horario = {}
     for _, row in df_hoy.iterrows():
         nombre = str(row.get("Nombre", "")).replace('\xa0', ' ').strip()
@@ -310,16 +296,13 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: 
         
         int_inc = parse_time(row.get("Intermedio inicio"))
         int_fin = parse_time(row.get("Intermedio fin"))
-
         esta_activo = False
         if h_inicio and h_fin:
             if h_inicio <= hora_actual <= h_fin:
                 esta_activo = True
                 if int_inc and int_fin and (int_inc <= hora_actual <= int_fin):
                     esta_activo = False
-
         agentes_activos_horario[nombre.lower()] = esta_activo
-
     estados_actuales = leer_json_github(FILE_ESTADOS, {})
     hubo_cambios = False
     
@@ -329,10 +312,8 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: 
         info_actual = estados_actuales[real_name]
         es_manual = info_actual.get("manual", False) if isinstance(info_actual, dict) else False
         st_actual = info_actual.get("activo", True) if isinstance(info_actual, dict) else bool(info_actual)
-
         if es_manual and not forzar_resincro:
             continue
-
         if nombre_norm in agentes_activos_horario:
             nuevo_st = agentes_activos_horario[nombre_norm]
             if st_actual != nuevo_st or es_manual:
@@ -341,7 +322,6 @@ def actualizar_estados_segun_horario(df_horario: pd.DataFrame, forzar_resincro: 
                     "manual": False
                 }
                 hubo_cambios = True
-
     if hubo_cambios:
         escribir_json_github(FILE_ESTADOS, estados_actuales, "Auto: Sync de estados por horario")
 
@@ -356,42 +336,31 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
         return False, "⚠️ Debes ingresar un número de teléfono válido."
     if not pin_clean:
         return False, "⚠️ Debes ingresar tu PIN personal de 4 dígitos."
-
     now_col = obtener_hora_colombia_str()
     
     turnos, historial, _, _ = obtener_estructura_completa_fresca()
-
     if any(h.get("call_id") == call_id_clean for h in historial):
         return False, f"❌ El ID de llamada '{call_id_clean}' ya fue registrado previamente."
-
     if any(h.get("telefono") == telefono_clean for h in historial):
         return False, f"❌ El número de teléfono '{telefono_clean}' ya fue atendido previamente."
-
     agente_atendiendo = next((t for t in turnos if t["activo"]), None)
-
     if not agente_atendiendo:
         return False, "❌ Todos los agentes están marcados como Ausentes en este momento."
-
     pos_atendiendo = agente_atendiendo["posicion"]
     nombre_real = agente_atendiendo["real"]
     alias = agente_atendiendo["alias"]
-
     # VALIDACIÓN DEL PIN SECRETO
     pins_secretos = st.secrets.get("pins", {})
     pin_correcto = str(pins_secretos.get(nombre_real, "")).strip()
-
     if not pin_correcto:
         return False, f"⚠️ No se ha configurado un PIN para **{nombre_real}** en los secretos del sistema."
-
     if pin_clean != pin_correcto:
         return False, f"🔒 **PIN incorrecto.** No puedes ceder o avanzar el turno de **{alias}**."
-
     # Mapeo temporal del estado de la fila ANTES del salto
     snapshot_fila_previa = [
         {"posicion": t["posicion"], "alias": t["alias"], "activo": t["activo"]} 
         for t in turnos
     ]
-
     # Registrar en historial tradicional
     nuevo_registro = {
         "id": len(historial) + 1,
@@ -402,21 +371,17 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
         "fecha_hora": now_col
     }
     historial.insert(0, nuevo_registro)
-
     # Reordenar turnos
     turnos_limpios = [{"posicion": t["posicion"], "real": t["real"], "alias": t["alias"]} for t in turnos]
     agente_limpio = next(t for t in turnos_limpios if t["posicion"] == pos_atendiendo)
     
     turnos_sin_atendiendo = [t for t in turnos_limpios if t["posicion"] != pos_atendiendo]
     nuevos_turnos = turnos_sin_atendiendo + [agente_limpio]
-
     for idx, t in enumerate(nuevos_turnos, start=1):
         t["posicion"] = idx
-
     data_turnos = leer_json_github(FILE_TURNOS, {})
     data_turnos["historial"] = historial
     data_turnos["turnos"] = nuevos_turnos
-
     if escribir_json_github(FILE_TURNOS, data_turnos, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})"):
         # REGISTRAR MAPEO TEMPORAL EN JSON INDEPENDIENTE
         datos_log_salto = {
@@ -430,7 +395,6 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
             "orden_previo_snapshot": snapshot_fila_previa
         }
         guardar_evento_log_salto(datos_log_salto)
-
         return True, f"✅ ¡Turno completado por **{alias}** ({nombre_real})! ID: `{call_id_clean}` y Teléfono: `{telefono_clean}` registrados con éxito."
     else:
         return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
@@ -470,14 +434,12 @@ def reorganizar_turnos_al_azar():
     escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
 
 # ==========================================
-# LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR
+# LÓGICA DE AUDITORÍA DE DEVOLUCIONES IVR (CORREGIDA)
 # ==========================================
 def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filtro=""):
     try:
         df1 = pd.read_csv(file1)
         df2 = pd.read_csv(file2)
-
-        # Cargar planilla de saltos/historial guardada internamente en GitHub
         df3 = obtener_historial_saltos()
         raw_log_saltos = leer_json_github(FILE_LOG_SALTOS, {"saltos": []}).get("saltos", [])
 
@@ -495,48 +457,46 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             mask_ivr = mask_ivr & (df1['ivr branch'].astype(str).str.contains(rama_filtro.strip(), case=False, na=False))
         if widget_filtro.strip():
             mask_ivr = mask_ivr & (df1['ivr widget'].astype(str).str.contains(widget_filtro.strip(), case=False, na=False))
-
+        
         df_perdidas_ivr = df1[mask_inbound_missed & mask_ivr].copy()
-
         if df_perdidas_ivr.empty:
             return pd.DataFrame(), "No se encontraron llamadas perdidas que cumplan con los criterios de IVR especificados."
-
+        
         df_perdidas_ivr['num_limpio'] = df_perdidas_ivr['customer number'].astype(str).str.replace(r'\D', '', regex=True)
-
+        
         # 2. Llamadas salientes (Outbound Aircall)
         df_salientes = df2[df2['direction'] == 'outbound'].copy()
         df_salientes['num_limpio'] = df_salientes['customer number'].astype(str).str.replace(r'\D', '', regex=True)
 
-        # 3. Datos del historial interno de turnos y log de saltos
+        # 3. Conversión Homogénea de Timestamps a Zona Horaria de Colombia (America/Bogota)
+        col_fecha1 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df1.columns else 'call start time'
+        col_fecha2 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df2.columns else 'call start time'
+
+        df_perdidas_ivr['dt_perdida'] = pd.to_datetime(df_perdidas_ivr[col_fecha1], utc=True).dt.tz_convert('America/Bogota')
+        df_salientes['dt_saliente'] = pd.to_datetime(df_salientes[col_fecha2], utc=True).dt.tz_convert('America/Bogota')
+
         if not df3.empty:
             col_tel3 = 'Teléfono' if 'Teléfono' in df3.columns else df3.columns[2]
             col_nom3 = 'Nombre Real' if 'Nombre Real' in df3.columns else df3.columns[3]
             col_fecha3 = 'Fecha / Hora (Colombia)' if 'Fecha / Hora (Colombia)' in df3.columns else df3.columns[5]
             df3['num_limpio'] = df3[col_tel3].astype(str).str.replace(r'\D', '', regex=True)
-            df3['dt_turno'] = pd.to_datetime(df3[col_fecha3])
+            df3['dt_turno'] = pd.to_datetime(df3[col_fecha3], utc=True).dt.tz_convert('America/Bogota')
         else:
             df3 = pd.DataFrame(columns=['num_limpio', 'dt_turno', 'Nombre Real', 'Alias'])
-
-        col_fecha1 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df1.columns else 'call start time'
-        col_fecha2 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df2.columns else 'call start time'
-
-        df_perdidas_ivr['dt_perdida'] = pd.to_datetime(df_perdidas_ivr[col_fecha1])
-        df_salientes['dt_saliente'] = pd.to_datetime(df_salientes[col_fecha2])
 
         set_perdidos_ivr = set(df_perdidas_ivr['num_limpio'])
         set_salientes = set(df_salientes['num_limpio'])
         numeros_devueltos = set_perdidos_ivr.intersection(set_salientes)
-
+        
         if not numeros_devueltos:
             return pd.DataFrame(), "No se encontraron devoluciones a las llamadas perdidas de IVR."
 
         filas_resumen = []
-
         for num in numeros_devueltos:
             sub_perdidas = df_perdidas_ivr[df_perdidas_ivr['num_limpio'] == num].sort_values('dt_perdida')
             sub_salientes = df_salientes[df_salientes['num_limpio'] == num].sort_values('dt_saliente')
             sub_turnos = df3[df3['num_limpio'] == num].sort_values('dt_turno') if not df3.empty else pd.DataFrame()
-
+            
             num_cliente = sub_perdidas['customer number'].iloc[0]
             fechas_perdidas_str = " | ".join(sub_perdidas['dt_perdida'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist())
             tot_perdidas = len(sub_perdidas)
@@ -545,35 +505,41 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             motivos_perdida = " | ".join(sub_perdidas['missed_call_reason'].astype(str).unique().tolist())
             rama_ivr = " | ".join(sub_perdidas['ivr branch'].dropna().astype(str).unique().tolist()) or "N/A"
             widget_ivr = " | ".join(sub_perdidas['ivr widget'].dropna().astype(str).unique().tolist()) or "N/A"
-
+            
             tot_salientes = len(sub_salientes)
             horarios_salientes_str = " | ".join(sub_salientes['dt_saliente'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist())
             asesores_salientes_str = " | ".join(sub_salientes['user'].astype(str).unique().tolist())
-
+            
             tot_turnos = len(sub_turnos) if not sub_turnos.empty else 0
             registrado_flag = "Sí" if tot_turnos > 0 else "NO REGISTRADO"
             horarios_turnos_str = " | ".join(sub_turnos['dt_turno'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist()) if tot_turnos > 0 else "N/A"
             asesores_turnos_str = " | ".join(sub_turnos[col_nom3].astype(str).unique().tolist()) if tot_turnos > 0 else "N/A"
 
-            # MAPEO TEMPORAL DE TURNO: Evaluar quién estaba primero al momento de la llamada perdida
+            # MAPEO TEMPORAL DE TURNO
             primera_fecha_perdida = sub_perdidas['dt_perdida'].iloc[0]
             agente_que_tocaba = "Desconocido (Sin snapshot)"
             coincidio_turno = "N/A"
 
-            # Buscar snapshot más cercano previo en saltos_log.json
-            saltos_previos = [
-                s for s in raw_log_saltos 
-                if pd.to_datetime(s.get('fecha_hora')) <= primera_fecha_perdida
-            ]
+            # Buscar snapshot previo en saltos_log.json estandarizando a zona horaria
+            saltos_previos = []
+            for s in raw_log_saltos:
+                dt_s = pd.to_datetime(s.get('fecha_hora'), utc=True).tz_convert('America/Bogota')
+                if dt_s <= primera_fecha_perdida:
+                    saltos_previos.append((dt_s, s))
+
             if saltos_previos:
-                ultimo_salto = min(saltos_previos, key=lambda x: abs(pd.to_datetime(x.get('fecha_hora')) - primera_fecha_perdida))
+                # Obtener el snapshot inmediatamente anterior a la fecha de la llamada perdida
+                ultimo_salto = max(saltos_previos, key=lambda x: x[0])[1]
                 snapshot = ultimo_salto.get("orden_previo_snapshot", [])
-                activos_snapshot = [ag for ag in snapshot if ag.get("activo")]
+                
+                # Filtrar el primer agente activo ordenado por su posición
+                activos_snapshot = sorted([ag for ag in snapshot if ag.get("activo")], key=lambda x: x.get("posicion", 999))
                 if activos_snapshot:
                     agente_que_tocaba = activos_snapshot[0].get("alias", "Desconocido")
 
             if agente_que_tocaba != "Desconocido (Sin snapshot)" and asesores_salientes_str != "N/A":
-                if agente_que_tocaba.lower() in asesores_salientes_str.lower():
+                # Comprobar coincidencia flexible entre el alias y el asesor en Aircall
+                if agente_que_tocaba.lower() in asesores_salientes_str.lower() or asesores_salientes_str.lower() in agente_que_tocaba.lower():
                     coincidio_turno = "✅ COINCIDE (Atendió quien le tocaba)"
                 else:
                     coincidio_turno = f"⚠️ NO COINCIDE (Tocaba: {agente_que_tocaba} | Devolvió: {asesores_salientes_str})"
@@ -612,7 +578,6 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             by=['Cant. Devoluciones (Aircall)', 'Registrado en Saltos'],
             ascending=[False, True]
         )
-
         return df_resultado, None
     except Exception as e:
         return None, str(e)
@@ -630,25 +595,20 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
     st.title("🔄 Control de Turnos y Llamadas")
     st.caption(f"Hora Colombia: `{obtener_hora_colombia_str()}`")
     st.caption("Ingresa el ID de la llamada, el Teléfono y tu PIN secreto de 4 dígitos para completar tu turno.")
-
     usar_horario_auto = obtener_configuracion("modo_auto", "true") == "true"
     if usar_horario_auto:
         df_excel = obtener_horario_db()
         if not df_excel.empty:
             actualizar_estados_segun_horario(df_excel)
-
     turnos_actuales = obtener_lista_turnos()
     actual = next((t for t in turnos_actuales if t["activo"]), None)
-
     if actual:
         st.markdown("---")
         col_turn_1, col_turn_2 = st.columns([2, 3])
-
         with col_turn_1:
             st.metric(label="🎯 TURNO ACTUAL (ATENDIENDO)", value=actual["alias"])
             st.write(f"👤 **Nombre Real:** {actual['real']}")
             st.caption(f"Posición Fila: #{actual['posicion']}")
-
         with col_turn_2:
             st.subheader("📞 Completar Turno Actual")
             with st.form("form_avanzar_turno", clear_on_submit=True):
@@ -661,7 +621,6 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
                 pin_input = st.text_input("🔑 PIN Secreto (4 dígitos):", type="password", max_chars=4, placeholder="****")
                     
                 submit_salto = st.form_submit_button("Avanzar Turno ➡️", use_container_width=True, type="primary")
-
             if submit_salto:
                 exito, mensaje = registrar_salto_turno(call_id_input, telefono_input, pin_input)
                 if exito:
@@ -671,7 +630,6 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
                     st.error(mensaje)
     else:
         st.error("⚠️ Todos los agentes se encuentran marcados como Ausentes en este momento.")
-
     st.markdown("---")
     st.subheader("📋 Fila Actual de Posiciones")
     
@@ -691,15 +649,12 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
 # ------------------------------------------
 elif opcion_vista == "🛡️ Vista Administrador":
     st.title("🛡️ Panel de Control - Administrador")
-
     if "admin_logged" not in st.session_state:
         st.session_state.admin_logged = False
-
     if not st.session_state.admin_logged:
         with st.form("form_admin_pass"):
             admin_pass = st.text_input("Contraseña de Administrador:", type="password")
             btn_admin = st.form_submit_button("Ingresar", use_container_width=True)
-
         if btn_admin:
             if admin_pass == st.secrets.get("passwords", {}).get("admin_password", "admin123"):
                 st.session_state.admin_logged = True
@@ -707,12 +662,10 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 st.rerun()
             else:
                 st.error("❌ Contraseña incorrecta.")
-
     else:
         if st.sidebar.button("Cerrar Sesión Admin", use_container_width=True):
             st.session_state.admin_logged = False
             st.rerun()
-
         # PESTAÑAS DENTRO DEL PANEL ADMINISTRADOR
         tab_gestion, tab_historial, tab_log_saltos, tab_auditoria_ivr = st.tabs([
             "⚙️ Gestión General y Horarios",
@@ -720,21 +673,18 @@ elif opcion_vista == "🛡️ Vista Administrador":
             "📜 Log de Saltos y Mapeo Temporal",
             "🤖 Auditoría Devoluciones IVR"
         ])
-
         # ------------------------------------------
         # TAB 1: GESTIÓN GENERAL Y HORARIOS
         # ------------------------------------------
         with tab_gestion:
             st.subheader("📅 Carga e Integración de Horario Excel")
             uploaded_file = st.file_uploader("Subir archivo de horarios (.xlsx, .csv)", type=["xlsx", "csv"])
-
             if uploaded_file is not None:
                 try:
                     if uploaded_file.name.endswith(".csv"):
                         df_excel = pd.read_csv(uploaded_file)
                     else:
                         df_excel = pd.read_excel(uploaded_file)
-
                     guardar_horario_db(df_excel)
                     st.success("✅ Archivo de horarios guardado permanentemente en GitHub.")
                     with st.expander("Ver Vista Previa del Horario Cargado"):
@@ -745,7 +695,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 df_guardado = obtener_horario_db()
                 if not df_guardado.empty:
                     st.info("ℹ️ Ya existe un horario cargado en la base de datos.")
-
             st.markdown("---")
             st.subheader("⚙️ Modo de Activación de Agentes")
             
@@ -755,11 +704,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 value=modo_auto_actual,
                 key="usar_horario_auto"
             )
-
             if modo_auto != modo_auto_actual:
                 guardar_configuracion("modo_auto", "true" if modo_auto else "false")
                 st.rerun()
-
             if modo_auto:
                 st.info("ℹ️ La activación automática está **ACTIVADA**. Los cambios manuales mantendrán su prioridad hasta que se resincronice el horario.")
                 df_actual = obtener_horario_db()
@@ -780,11 +727,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     st.warning("⚠️ No se ha subido ningún archivo de Excel aún.")
             else:
                 st.warning("⚠️ Activación automática **DESACTIVADA**. Se usará únicamente el control manual de estados.")
-
             st.markdown("---")
             st.subheader("👥 Control Manual de Ausencias (Sobrescribe Horario)")
             st.caption("Al cambiar el toggle de un agente, su estado quedará fijado manualmente hasta que presiones 'Restablecer y Forzar Horario de Excel'.")
-
             turnos_admin = obtener_lista_turnos()
             
             with st.expander("Ver y Gestionar Lista de Ausencias Manualmente", expanded=True):
@@ -801,7 +746,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                             key=f"toggle_agente_{t['posicion']}"
                         )
                         estados_seleccionados[t["posicion"]] = nuevo_estado
-
                 st.markdown("---")
                 if st.button("💾 Guardar y Publicar Cambios de Estado", type="primary", use_container_width=True):
                     exito, msj = guardar_cambios_masivos_agentes(estados_seleccionados)
@@ -810,12 +754,10 @@ elif opcion_vista == "🛡️ Vista Administrador":
                         st.rerun()
                     else:
                         st.info(msj)
-
             st.markdown("---")
             st.subheader("⚙️ Opciones de Reordenamiento y Limpieza")
             
             col_admin_1, col_admin_2, col_admin_3 = st.columns(3)
-
             with col_admin_1:
                 st.markdown("### 🎲 Rebobinar al Azar")
                 st.caption("Mezcla la lista completa de agentes al azar.")
@@ -824,7 +766,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     reorganizar_turnos_al_azar()
                     st.success("✅ ¡Fila mezclada con éxito!")
                     st.rerun()
-
             with col_admin_2:
                 st.markdown("### 🔄 Restablecer Orden")
                 st.caption("Restablece el orden alfabético inicial.")
@@ -833,7 +774,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     reiniciar_turnos_originales()
                     st.success("✅ Fila de turnos restablecida.")
                     st.rerun()
-
             with col_admin_3:
                 st.markdown("### 🗑️ Limpiar Historial")
                 st.caption("Borra los registros de llamadas de prueba.")
@@ -842,19 +782,16 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     vaciar_historial_llamadas()
                     st.success("✅ Historial de llamadas vaciado.")
                     st.rerun()
-
         # ------------------------------------------
         # TAB 2: HISTORIAL DE LLAMADAS
         # ------------------------------------------
         with tab_historial:
             st.subheader("📊 Historial de Registro de Llamadas")
             df_historial = obtener_historial_saltos()
-
             if df_historial.empty:
                 st.info("Aún no se han registrado llamadas.")
             else:
                 st.dataframe(df_historial, use_container_width=True, hide_index=True)
-
                 csv_data = df_historial.to_csv(index=False).encode("utf-8")
                 st.download_button(
                     label="📥 Descargar Reporte Llamadas CSV",
@@ -863,7 +800,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     mime="text/csv",
                     use_container_width=True
                 )
-
         # ------------------------------------------
         # TAB 3: LOG DE SALTOS Y MAPEO TEMPORAL
         # ------------------------------------------
@@ -900,7 +836,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                         mime="application/json",
                         use_container_width=True
                     )
-
         # ------------------------------------------
         # TAB 4: AUDITORÍA DE DEVOLUCIONES IVR Y CRUCE CON SALTOS
         # ------------------------------------------
@@ -912,27 +847,23 @@ elif opcion_vista == "🛡️ Vista Administrador":
             2. **Usa el registro de turnos y log de saltos guardado internamente** (sin necesidad de subir un 3er archivo).
             3. **Analiza el mapeo temporal** para validar si el asesor que devolvió la llamada coincidía con el turno asignado en ese momento.
             """)
-
             col_u1, col_u2 = st.columns(2)
             with col_u1:
                 file_perdidas = st.file_uploader("1. CSV Llamadas Perdidas (Inbound)", type=["csv"], key="audit_p1")
             with col_u2:
                 file_callbacks = st.file_uploader("2. CSV Devoluciones / Salientes (Aircall Outbound)", type=["csv"], key="audit_p2")
-
             with st.expander("⚙️ Filtros Avanzados de IVR (Opcionales)"):
                 col_f_ivr1, col_f_ivr2 = st.columns(2)
                 with col_f_ivr1:
                     filtro_rama_ivr = st.text_input("Rama IVR especifica (ej: ATC):", value="", key="audit_f1")
                 with col_f_ivr2:
                     filtro_widget_ivr = st.text_input("Widget IVR específico (ej: Ventas):", value="", key="audit_f2")
-
             if file_perdidas is not None and file_callbacks is not None:
                 df_res_ivr, err_ivr = analizar_devoluciones_ivr_y_saltos(
                     file_perdidas, file_callbacks, 
                     rama_filtro=filtro_rama_ivr, 
                     widget_filtro=filtro_widget_ivr
                 )
-
                 if err_ivr:
                     st.error(f"Error al procesar la auditoría: {err_ivr}")
                 elif df_res_ivr.empty:
@@ -942,22 +873,18 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     no_registrados_saltos = len(df_res_ivr[df_res_ivr['Registrado en Saltos'] == 'NO REGISTRADO'])
                     multiples_llamadas = len(df_res_ivr[df_res_ivr['Cant. Devoluciones (Aircall)'] > 1])
                     registrados_ok = total_numeros_devueltos - no_registrados_saltos
-
                     c1, c2, c3, c4 = st.columns(4)
                     c1.metric("Clientes IVR Devueltos", total_numeros_devueltos)
                     c2.metric("✅ Registrados en Saltos", registrados_ok)
                     c3.metric("🚨 Sin Registro en Saltos", no_registrados_saltos, delta=f"{(no_registrados_saltos/total_numeros_devueltos*100):.1f}% Omisión" if total_numeros_devueltos>0 else "0%", delta_color="inverse")
                     c4.metric("🔄 Marcaciones Múltiples (>1)", multiples_llamadas)
-
                     st.markdown("---")
                     st.subheader("📊 Consolidado Completo")
-
                     filtro_estado = st.selectbox(
                         "Filtrar Resultados por Estado:",
                         ["Todos los Devueltos de IVR", "Solo NO Registrados en Saltos", "Solo Múltiples Llamadas en Aircall", "Solo Registrados Correctamente en Saltos"],
                         key="filtro_estado_auditoria"
                     )
-
                     if filtro_estado == "Solo NO Registrados en Saltos":
                         df_mostrar_ivr = df_res_ivr[df_res_ivr['Registrado en Saltos'] == 'NO REGISTRADO']
                     elif filtro_estado == "Solo Múltiples Llamadas en Aircall":
@@ -966,9 +893,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
                         df_mostrar_ivr = df_res_ivr[df_res_ivr['Registrado en Saltos'] == 'Sí']
                     else:
                         df_mostrar_ivr = df_res_ivr
-
                     st.dataframe(df_mostrar_ivr, use_container_width=True, hide_index=True)
-
                     csv_download_ivr = df_res_ivr.to_csv(index=False).encode('utf-8')
                     st.download_button(
                         label="📥 Descargar Reporte Consolidado IVR (CSV)",
