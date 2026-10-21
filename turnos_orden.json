@@ -1,25 +1,13 @@
 {
     "turnos": [
-        {
-            "posicion": 1,
-            "real": "Julián Andrés Osorio Aristizabal",
-            "alias": "Andrés Aristizábal"
-        },
+      
         {
             "posicion": 2,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano"
         },
-        {
-            "posicion": 3,
-            "real": "Stefany Vanegas Arbelaez",
-            "alias": "Stefany"
-        },
-        {
-            "posicion": 4,
-            "real": "Kelly Jhoana Salas Ibarguen",
-            "alias": "Kelly Salas"
-        },
+       
+     
         {
             "posicion": 5,
             "real": "Yesica Paola Lopez Arango",
