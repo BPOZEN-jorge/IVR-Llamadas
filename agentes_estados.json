@@ -16,15 +16,15 @@
         "manual": true
     },
     "Angie Vanessa García": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Brayan Andrey Bustamante": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Carlos Alberto Herrera Cardeño": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Claudia Marcela Manco Vargas": {
@@ -44,7 +44,7 @@
         "manual": true
     },
     "Gustavo Adolfo Barrientos Serna": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Iris Sabiana Cano Cano": {
@@ -52,7 +52,7 @@
         "manual": true
     },
     "Janis Henao Vasco": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Johana Osorio Bedoya": {
@@ -60,7 +60,7 @@
         "manual": true
     },
     "Juan Esteban Acevedo Garces": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Juan Sebastian Serna Sepulveda": {
@@ -80,7 +80,7 @@
         "manual": true
     },
     "Libia Paola Romero Cantillo": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Linda Liceth Pérez Pineda": {
@@ -88,23 +88,23 @@
         "manual": true
     },
     "Luis Alberto Lozano Ibarra": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Manuela villegas Giraldo": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "María Karolina Viana Cancio": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Mateo Cano Hincapié": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Omar David Barboza Carbonero": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Oscar José Llanos Mendinueta": {
@@ -116,7 +116,7 @@
         "manual": true
     },
     "Rosa Elvira Agamez López": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Sara Gómez Bayona": {
@@ -140,7 +140,7 @@
         "manual": true
     },
     "Yarlen Biviana Son Cedeño": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Yarnedis Cecilia Urrutia Pérez": {
