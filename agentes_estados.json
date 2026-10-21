@@ -28,7 +28,7 @@
         "manual": true
     },
     "Claudia Marcela Manco Vargas": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Cristian David Acosta Montoya": {
@@ -64,7 +64,7 @@
         "manual": true
     },
     "Juan Sebastian Serna Sepulveda": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Julián Andrés Osorio Aristizabal": {
@@ -112,7 +112,7 @@
         "manual": true
     },
     "Paula Andrea Guzman Jaramillo": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Rosa Elvira Agamez López": {
@@ -132,7 +132,7 @@
         "manual": true
     },
     "Tomas Castaño Gómez": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Viviana Pacheco Córdoba": {
