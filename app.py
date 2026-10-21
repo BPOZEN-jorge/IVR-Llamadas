@@ -26,6 +26,8 @@ TIPO_SALTO_LLAMADA = "LLAMADA"          # Salto por llamada atendida por el agen
 TIPO_SALTO_ADMIN = "SALTO_ADMIN"        # Salto manual decidido por el admin (con motivo)
 TIPO_INACTIVO = "INACTIVO"              # Admin marca inactivo -> se va al final de la fila
 TIPO_REACTIVADO = "REACTIVADO"          # Admin reactiva -> entra al final de los activos
+TIPO_RESET_DIARIO = "RESET_DIARIO"      # 00:00 Colombia: todos quedan inactivos
+MOTIVO_LLEGADA = "Llegada / inicio de jornada"
 
 # ==========================================
 # DATOS INICIALES DE USUARIOS
@@ -490,6 +492,64 @@ def guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, regis
     return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
 
 
+def registrar_llegada(nombre_real: str, registrado_por: str) -> tuple[bool, str]:
+    """Activa a una persona por llegada. Entra al final de los activos (orden de llegada = orden de turno)."""
+    return guardar_cambios_estado_admin({nombre_real: True}, MOTIVO_LLEGADA, registrado_por)
+
+
+# ==========================================
+# RESET DIARIO 00:00 (HORA COLOMBIA)
+# ==========================================
+def aplicar_reset_diario_si_corresponde():
+    """
+    Streamlit no tiene tareas programadas, así que el reset se aplica en la PRIMERA carga
+    de la app después de las 00:00 hora Colombia. El resultado es el mismo: todos quedan
+    inactivos y se van activando por llegada; el orden de activación define la posición.
+    La fecha del último reset se guarda en turnos_orden.json ("ultimo_reset_diario").
+    """
+    hoy = obtener_fecha_hora_colombia().strftime("%Y-%m-%d")
+    if st.session_state.get("reset_diario_verificado") == hoy:
+        return
+
+    data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
+    ultimo = data_turnos.get("ultimo_reset_diario")
+
+    if ultimo is None:
+        # Primera vez con esta versión: no desactiva a nadie hoy, empieza a contar desde mañana.
+        data_turnos["ultimo_reset_diario"] = hoy
+        escribir_json_github(FILE_TURNOS, data_turnos, f"Inicializar reset diario ({hoy})")
+    elif ultimo < hoy:
+        fila_previa = _ordenar_fila(data_turnos.get("turnos", USUARIOS_INICIALES))
+        snapshot = _snapshot_fila(fila_previa)
+        fila_nueva = [dict(t, activo=False) for t in fila_previa]
+        data_turnos["turnos"] = _renumerar(fila_nueva)
+        data_turnos["ultimo_reset_diario"] = hoy
+        data_turnos.setdefault("cambios_estado", []).insert(0, {
+            "fecha_hora": obtener_hora_colombia_str(),
+            "tipo": TIPO_RESET_DIARIO,
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_previa": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema",
+        })
+        if escribir_json_github(FILE_TURNOS, data_turnos, f"Auto: Reset diario 00:00 - todos inactivos ({hoy})"):
+            guardar_evento_log_salto({
+                "tipo": TIPO_RESET_DIARIO,
+                "fecha_hora": obtener_hora_colombia_str(),
+                "call_id": "",
+                "telefono": "",
+                "nombre_real": "TODOS",
+                "alias": "TODOS",
+                "posicion_al_saltar": "",
+                "motivo": "Reset automático 00:00 (hora Colombia)",
+                "registrado_por": "Sistema",
+                "orden_previo_snapshot": snapshot,
+            })
+
+    st.session_state.reset_diario_verificado = hoy
+
+
 def obtener_cambios_estado_df() -> pd.DataFrame:
     data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
     cambios = data_turnos.get("cambios_estado", [])
@@ -745,6 +805,8 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
 # ==========================================
 # INTERFAZ DE NAVEGACIÓN Y VISTAS
 # ==========================================
+aplicar_reset_diario_si_corresponde()
+
 st.sidebar.title("📌 Portal de Turnos")
 opcion_vista = st.sidebar.radio("Navegación:", ["🎡 Fila de Turnos (Ruleta)", "🛡️ Vista Administrador"])
 
@@ -767,12 +829,6 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
         with col_turn_1:
             st.metric(label="🎯 TURNO ACTUAL (ATENDIENDO)", value=actual["alias"])
             st.write(f"👤 **Nombre Real:** {actual['real']}")
-            proximos = activos_vista[1:4]
-            if proximos:
-                st.caption("⏭️ Siguientes: " + " → ".join(p["alias"] for p in proximos))
-            n_inactivos = len(turnos_actuales) - len(activos_vista)
-            if n_inactivos:
-                st.caption(f"⏸️ {n_inactivos} agente(s) inactivo(s) al final de la fila.")
 
         with col_turn_2:
             st.subheader("📞 Completar Turno Actual")
@@ -885,6 +941,28 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 for t in turnos_admin_vista
             ]
             st.dataframe(pd.DataFrame(tabla_display), use_container_width=True, hide_index=True)
+
+            st.markdown("---")
+            st.subheader("🚪 Registrar Llegada")
+            st.caption(
+                "A las 00:00 (hora Colombia) todos quedan inactivos. Activa a cada persona cuando llegue: "
+                "**el orden en que los actives será su posición en la fila.**"
+            )
+            inactivos_admin = [t for t in turnos_admin_vista if not t.get("activo", True)]
+            if not inactivos_admin:
+                st.success("✅ Todos los agentes están activos.")
+            else:
+                registrado_llegada = st.text_input("Registrado por:", placeholder="Nombre del admin", key="registrado_llegada")
+                cols_llegada = st.columns(3)
+                for i, t in enumerate(sorted(inactivos_admin, key=lambda x: x["alias"].lower())):
+                    with cols_llegada[i % 3]:
+                        if st.button(f"✅ {t['alias']}", key=f"llegada_{t['real']}", use_container_width=True, help=t["real"]):
+                            exito, msj = registrar_llegada(t["real"], registrado_llegada)
+                            if exito:
+                                st.toast(f"{t['alias']} activado/a")
+                                st.rerun()
+                            else:
+                                st.error(msj)
 
             st.markdown("---")
             st.subheader("👥 Marcar Activo / Inactivo")
@@ -1016,7 +1094,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
             else:
                 filtro_tipo = st.selectbox(
                     "Filtrar por tipo:",
-                    ["Todos", TIPO_SALTO_LLAMADA, TIPO_SALTO_ADMIN, TIPO_INACTIVO, TIPO_REACTIVADO],
+                    ["Todos", TIPO_SALTO_LLAMADA, TIPO_SALTO_ADMIN, TIPO_INACTIVO, TIPO_REACTIVADO, TIPO_RESET_DIARIO],
                     key="filtro_tipo_log",
                 )
                 df_log_mostrar = df_log_saltos if filtro_tipo == "Todos" else df_log_saltos[df_log_saltos["Tipo"] == filtro_tipo]
