@@ -24,6 +24,8 @@ FILE_LOG_SALTOS = "saltos_log.json"    # Mapeo temporal independiente de TODOS l
 
 TIPO_SALTO_LLAMADA = "LLAMADA"          # Salto por llamada atendida por el agente (con PIN)
 TIPO_SALTO_ADMIN = "SALTO_ADMIN"        # Salto manual decidido por el admin (con motivo)
+TIPO_INACTIVO = "INACTIVO"              # Admin marca inactivo -> se va al final de la fila
+TIPO_REACTIVADO = "REACTIVADO"          # Admin reactiva -> entra al final de los activos
 
 # ==========================================
 # DATOS INICIALES DE USUARIOS
@@ -146,19 +148,30 @@ def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, ret
 # ==========================================
 # LÓGICA DE GESTIÓN DEL LOG INDEPENDIENTE DE SALTOS
 # ==========================================
-def guardar_evento_log_salto(datos_salto: dict):
-    """Guarda un registro independiente en saltos_log.json para mapeo temporal."""
+def guardar_eventos_log_salto(eventos: list):
+    """Guarda uno o varios registros en saltos_log.json (un solo commit) para mapeo temporal."""
+    if not eventos:
+        return
     log_actual = leer_json_github(FILE_LOG_SALTOS, {"saltos": []})
     if "saltos" not in log_actual:
         log_actual["saltos"] = []
-    datos_salto.setdefault("id_evento", len(log_actual["saltos"]) + 1)
-    log_actual["saltos"].insert(0, datos_salto)
+    for ev in eventos:
+        ev.setdefault("id_evento", len(log_actual["saltos"]) + 1)
+        log_actual["saltos"].insert(0, ev)
 
-    if datos_salto.get("tipo") == TIPO_SALTO_ADMIN:
-        msg = f"Log Salto ADMIN: {datos_salto.get('alias')} - {datos_salto.get('motivo', '')[:60]}"
+    primero = eventos[0]
+    tipo = primero.get("tipo")
+    if tipo == TIPO_SALTO_LLAMADA:
+        msg = f"Log Salto: {primero.get('alias')} (ID: {primero.get('call_id')})"
+    elif len(eventos) == 1:
+        msg = f"Log {tipo}: {primero.get('alias')} - {primero.get('motivo', '')[:60]}"
     else:
-        msg = f"Log Salto: {datos_salto.get('alias')} (ID: {datos_salto.get('call_id')})"
+        msg = f"Log cambios de estado: {len(eventos)} agentes - {primero.get('motivo', '')[:60]}"
     escribir_json_github(FILE_LOG_SALTOS, log_actual, msg)
+
+
+def guardar_evento_log_salto(datos_salto: dict):
+    guardar_eventos_log_salto([datos_salto])
 
 
 def obtener_log_saltos_df() -> pd.DataFrame:
@@ -213,22 +226,59 @@ def obtener_lista_turnos() -> list:
 
 
 def _limpiar_turnos(turnos: list) -> list:
-    """Deja solo los campos que se persisten (descarta claves antiguas como activo/manual)."""
-    return [{"posicion": t["posicion"], "real": t["real"], "alias": t["alias"]} for t in turnos]
+    """Deja solo los campos que se persisten. Si no hay 'activo' se asume activo."""
+    return [
+        {"posicion": t["posicion"], "real": t["real"], "alias": t["alias"], "activo": bool(t.get("activo", True))}
+        for t in turnos
+    ]
+
+
+def _renumerar(turnos: list) -> list:
+    for idx, t in enumerate(turnos, start=1):
+        t["posicion"] = idx
+    return turnos
+
+
+def _ordenar_fila(turnos: list) -> list:
+    """Activos arriba (en su orden) e inactivos siempre abajo (en su orden)."""
+    turnos = _limpiar_turnos(turnos)
+    activos = [t for t in turnos if t["activo"]]
+    inactivos = [t for t in turnos if not t["activo"]]
+    return _renumerar(activos + inactivos)
 
 
 def _snapshot_fila(turnos: list) -> list:
-    return [{"posicion": t["posicion"], "alias": t["alias"], "real": t["real"]} for t in turnos]
+    return [
+        {"posicion": t["posicion"], "alias": t["alias"], "real": t["real"], "activo": bool(t.get("activo", True))}
+        for t in turnos
+    ]
 
 
-def _mover_al_final(turnos: list, posicion: int) -> list:
-    """Mueve al agente en `posicion` al final de la fila y renumera."""
-    turnos_limpios = _limpiar_turnos(turnos)
-    agente = next(t for t in turnos_limpios if t["posicion"] == posicion)
-    nuevos = [t for t in turnos_limpios if t["posicion"] != posicion] + [agente]
-    for idx, t in enumerate(nuevos, start=1):
-        t["posicion"] = idx
-    return nuevos
+def _primer_activo(turnos: list):
+    return next((t for t in turnos if t.get("activo", True)), None)
+
+
+def _mover_al_final_de_activos(turnos: list, nombre_real: str) -> list:
+    """
+    Saca al agente de su posición y lo pone al FINAL de los activos (justo antes de los inactivos).
+    Se usa al atender una llamada, en el salto manual del admin y al reactivar a alguien.
+    """
+    fila = _ordenar_fila(turnos)
+    agente = next(t for t in fila if t["real"] == nombre_real)
+    resto = [t for t in fila if t["real"] != nombre_real]
+    agente["activo"] = True
+    n_activos = sum(1 for t in resto if t["activo"])
+    resto.insert(n_activos, agente)
+    return _renumerar(resto)
+
+
+def _mover_al_final_como_inactivo(turnos: list, nombre_real: str) -> list:
+    """Marca al agente inactivo y lo manda al final de la fila (pierde su posición anterior)."""
+    fila = _ordenar_fila(turnos)
+    agente = next(t for t in fila if t["real"] == nombre_real)
+    resto = [t for t in fila if t["real"] != nombre_real]
+    agente["activo"] = False
+    return _renumerar(resto + [agente])
 
 
 # ==========================================
@@ -254,11 +304,10 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     if any(h.get("telefono") == telefono_clean for h in historial):
         return False, f"❌ El número de teléfono '{telefono_clean}' ya fue atendido previamente."
 
-    if not turnos:
-        return False, "❌ No hay agentes en la fila de turnos."
-
-    # El turno lo tiene siempre la PRIMERA persona de la fila
-    agente_atendiendo = turnos[0]
+    # El turno lo tiene siempre la PRIMERA persona ACTIVA de la fila
+    agente_atendiendo = _primer_activo(turnos)
+    if not agente_atendiendo:
+        return False, "❌ Todos los agentes están marcados como inactivos en este momento."
     pos_atendiendo = agente_atendiendo["posicion"]
     nombre_real = agente_atendiendo["real"]
     alias = agente_atendiendo["alias"]
@@ -285,7 +334,7 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
 
     data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
     data_turnos["historial"] = historial
-    data_turnos["turnos"] = _mover_al_final(turnos, pos_atendiendo)
+    data_turnos["turnos"] = _mover_al_final_de_activos(turnos, nombre_real)
 
     if escribir_json_github(FILE_TURNOS, data_turnos, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})"):
         guardar_evento_log_salto({
@@ -321,10 +370,10 @@ def saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por:
         return False, "⚠️ Debes escribir el motivo del salto (mínimo 5 caracteres)."
 
     turnos, historial, saltos_admin = obtener_estructura_completa_fresca()
-    if not turnos:
-        return False, "❌ No hay agentes en la fila de turnos."
+    primero = _primer_activo(turnos)
+    if not primero:
+        return False, "❌ No hay agentes activos en la fila de turnos."
 
-    primero = turnos[0]
     if primero["real"] != nombre_real_esperado:
         return False, (
             f"⚠️ La fila cambió mientras escribías: ahora el primero es **{primero['alias']}** "
@@ -333,8 +382,10 @@ def saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por:
 
     now_col = obtener_hora_colombia_str()
     snapshot_fila_previa = _snapshot_fila(turnos)
-    nuevos_turnos = _mover_al_final(turnos, primero["posicion"])
-    siguiente = nuevos_turnos[0] if nuevos_turnos else None
+    nuevos_turnos = _mover_al_final_de_activos(turnos, primero["real"])
+    siguiente = _primer_activo(nuevos_turnos)
+    if siguiente and siguiente["real"] == primero["real"]:
+        siguiente = None  # Es el único activo
 
     registro_admin = {
         "id": len(saltos_admin) + 1,
@@ -368,8 +419,91 @@ def saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por:
             "orden_previo_snapshot": snapshot_fila_previa,
         })
         msg_sig = f" Ahora el turno es de **{siguiente['alias']}**." if siguiente else ""
-        return True, f"✅ Se saltó a **{primero['alias']}** y quedó al final de la fila.{msg_sig}"
+        return True, f"✅ Se saltó a **{primero['alias']}** y quedó al final de los activos.{msg_sig}"
     return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
+
+
+# ==========================================
+# ACTIVO / INACTIVO (ADMIN) -> INACTIVO SE VA AL FINAL SIN RESPETAR POSICIÓN
+# ==========================================
+def guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, registrado_por: str) -> tuple[bool, str]:
+    """
+    estados_seleccionados: {nombre_real: activo(bool)}
+    - Activo -> Inactivo: se va al final de la fila (pierde su posición).
+    - Inactivo -> Activo: entra al final de los activos (no recupera su posición anterior).
+    """
+    motivo_clean = motivo.strip()
+    registrado_por_clean = registrado_por.strip() or "Admin"
+
+    turnos, _, _ = obtener_estructura_completa_fresca()
+    estado_actual = {t["real"]: bool(t.get("activo", True)) for t in turnos}
+    cambios = [(nombre, nuevo) for nombre, nuevo in estados_seleccionados.items()
+               if nombre in estado_actual and estado_actual[nombre] != nuevo]
+
+    if not cambios:
+        return False, "ℹ️ No se detectaron cambios de estado para guardar."
+    if len(motivo_clean) < 5:
+        return False, "⚠️ Debes escribir el motivo del cambio de estado (mínimo 5 caracteres)."
+
+    now_col = obtener_hora_colombia_str()
+    fila = _ordenar_fila(turnos)
+    eventos = []
+    for nombre, nuevo_activo in cambios:
+        snapshot = _snapshot_fila(fila)
+        agente = next(t for t in fila if t["real"] == nombre)
+        pos_previa = agente["posicion"]
+        if nuevo_activo:
+            fila = _mover_al_final_de_activos(fila, nombre)
+        else:
+            fila = _mover_al_final_como_inactivo(fila, nombre)
+        eventos.append({
+            "tipo": TIPO_REACTIVADO if nuevo_activo else TIPO_INACTIVO,
+            "fecha_hora": now_col,
+            "call_id": "",
+            "telefono": "",
+            "nombre_real": nombre,
+            "alias": agente["alias"],
+            "posicion_al_saltar": pos_previa,
+            "motivo": motivo_clean,
+            "registrado_por": registrado_por_clean,
+            "orden_previo_snapshot": snapshot,
+        })
+
+    data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
+    data_turnos["turnos"] = fila
+    data_turnos.setdefault("cambios_estado", [])
+    for ev in eventos:
+        data_turnos["cambios_estado"].insert(0, {
+            "fecha_hora": ev["fecha_hora"],
+            "tipo": ev["tipo"],
+            "nombre_real": ev["nombre_real"],
+            "alias": ev["alias"],
+            "posicion_previa": ev["posicion_al_saltar"],
+            "motivo": ev["motivo"],
+            "registrado_por": ev["registrado_por"],
+        })
+
+    resumen = ", ".join(f"{e['alias']}→{'Activo' if e['tipo'] == TIPO_REACTIVADO else 'Inactivo'}" for e in eventos)
+    if escribir_json_github(FILE_TURNOS, data_turnos, f"Admin: estados ({resumen[:120]}) - Motivo: {motivo_clean[:60]}"):
+        guardar_eventos_log_salto(eventos)
+        return True, f"✅ Se guardaron {len(eventos)} cambio(s) de estado: {resumen}"
+    return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
+
+
+def obtener_cambios_estado_df() -> pd.DataFrame:
+    data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
+    cambios = data_turnos.get("cambios_estado", [])
+    if not cambios:
+        return pd.DataFrame()
+    return pd.DataFrame(cambios).rename(columns={
+        "fecha_hora": "Fecha / Hora (Colombia)",
+        "tipo": "Cambio",
+        "nombre_real": "Nombre Real",
+        "alias": "Alias",
+        "posicion_previa": "Posición previa",
+        "motivo": "Motivo",
+        "registrado_por": "Registrado por",
+    })
 
 
 def obtener_saltos_admin_df() -> pd.DataFrame:
@@ -415,17 +549,18 @@ def vaciar_historial_llamadas():
 
 def reiniciar_turnos_originales():
     data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
-    data_turnos["turnos"] = [dict(u) for u in USUARIOS_INICIALES]
-    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Restablecer turnos al orden inicial")
+    data_turnos["turnos"] = _ordenar_fila([dict(u, activo=True) for u in USUARIOS_INICIALES])
+    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Restablecer turnos al orden inicial (todos activos)")
 
 
 def reorganizar_turnos_al_azar():
+    """Mezcla solo a los activos; los inactivos siguen al final."""
     data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
-    turnos = _limpiar_turnos(data_turnos.get("turnos", USUARIOS_INICIALES))
-    random.shuffle(turnos)
-    for idx, t in enumerate(turnos, start=1):
-        t["posicion"] = idx
-    data_turnos["turnos"] = turnos
+    fila = _ordenar_fila(data_turnos.get("turnos", USUARIOS_INICIALES))
+    activos = [t for t in fila if t["activo"]]
+    inactivos = [t for t in fila if not t["activo"]]
+    random.shuffle(activos)
+    data_turnos["turnos"] = _renumerar(activos + inactivos)
     escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
 
 
@@ -622,7 +757,8 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
     st.caption("Ingresa el ID de la llamada, el Teléfono y tu PIN secreto de 4 dígitos para completar tu turno.")
 
     turnos_actuales = obtener_lista_turnos()
-    actual = turnos_actuales[0] if turnos_actuales else None
+    activos_vista = [t for t in turnos_actuales if t.get("activo", True)]
+    actual = activos_vista[0] if activos_vista else None
 
     if actual:
         st.markdown("---")
@@ -631,9 +767,12 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
         with col_turn_1:
             st.metric(label="🎯 TURNO ACTUAL (ATENDIENDO)", value=actual["alias"])
             st.write(f"👤 **Nombre Real:** {actual['real']}")
-            proximos = turnos_actuales[1:4]
+            proximos = activos_vista[1:4]
             if proximos:
                 st.caption("⏭️ Siguientes: " + " → ".join(p["alias"] for p in proximos))
+            n_inactivos = len(turnos_actuales) - len(activos_vista)
+            if n_inactivos:
+                st.caption(f"⏸️ {n_inactivos} agente(s) inactivo(s) al final de la fila.")
 
         with col_turn_2:
             st.subheader("📞 Completar Turno Actual")
@@ -654,7 +793,7 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
                 else:
                     st.error(mensaje)
     else:
-        st.error("⚠️ No hay agentes en la fila de turnos.")
+        st.error("⚠️ Todos los agentes están marcados como inactivos en este momento.")
 
 # ------------------------------------------
 # VISTA 2: ADMINISTRADOR
@@ -694,7 +833,8 @@ elif opcion_vista == "🛡️ Vista Administrador":
         # ------------------------------------------
         with tab_gestion:
             turnos_admin_vista = obtener_lista_turnos()
-            primero_admin = turnos_admin_vista[0] if turnos_admin_vista else None
+            activos_admin = [t for t in turnos_admin_vista if t.get("activo", True)]
+            primero_admin = activos_admin[0] if activos_admin else None
 
             st.subheader("⏭️ Saltar Manualmente a la Primera Persona")
             st.caption(
@@ -707,8 +847,8 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 with c_p1:
                     st.metric("🎯 Primero en la fila", primero_admin["alias"])
                     st.write(f"👤 {primero_admin['real']}")
-                    if len(turnos_admin_vista) > 1:
-                        st.caption(f"Si lo saltas, el turno pasa a **{turnos_admin_vista[1]['alias']}**.")
+                    if len(activos_admin) > 1:
+                        st.caption(f"Si lo saltas, el turno pasa a **{activos_admin[1]['alias']}**.")
                 with c_p2:
                     with st.form("form_salto_admin", clear_on_submit=True):
                         motivo_input = st.text_area(
@@ -730,20 +870,56 @@ elif opcion_vista == "🛡️ Vista Administrador":
                             else:
                                 st.error(msj)
             else:
-                st.warning("⚠️ No hay agentes en la fila.")
+                st.warning("⚠️ No hay agentes activos en la fila.")
 
             st.markdown("---")
             st.subheader("📋 Fila Actual de Posiciones")
             tabla_display = [
                 {
                     "Posición": t["posicion"],
-                    "Turno": "🎯 Atendiendo" if idx == 0 else "",
+                    "Estado": "🟢 Activo" if t.get("activo", True) else "🔴 Inactivo",
+                    "Turno": "🎯 Atendiendo" if primero_admin and t["real"] == primero_admin["real"] else "",
                     "Nombre Real": t["real"],
                     "Alias / Nombre en Sistema": t["alias"],
                 }
-                for idx, t in enumerate(turnos_admin_vista)
+                for t in turnos_admin_vista
             ]
             st.dataframe(pd.DataFrame(tabla_display), use_container_width=True, hide_index=True)
+
+            st.markdown("---")
+            st.subheader("👥 Marcar Activo / Inactivo")
+            st.caption(
+                "Al marcar a alguien **inactivo** se va al final de la fila y no recibe turnos. "
+                "Al **reactivarlo** entra al final de los activos: no recupera su posición anterior."
+            )
+            with st.expander("Ver y gestionar estados", expanded=True):
+                estados_seleccionados = {}
+                for t in turnos_admin_vista:
+                    col_name, col_status = st.columns([3, 1])
+                    with col_name:
+                        st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']})")
+                    with col_status:
+                        activo_t = t.get("activo", True)
+                        estados_seleccionados[t["real"]] = st.toggle(
+                            "Activo" if activo_t else "Inactivo",
+                            value=activo_t,
+                            key=f"toggle_agente_{t['real']}",
+                        )
+                motivo_estado = st.text_input(
+                    "Motivo del cambio (obligatorio):",
+                    placeholder="Ej: Almuerzo / Capacitación / Terminó jornada / Regresó de pausa",
+                    key="motivo_estado",
+                )
+                registrado_estado = st.text_input("Registrado por:", placeholder="Nombre del admin", key="registrado_estado")
+                if st.button("💾 Guardar Cambios de Estado", type="primary", use_container_width=True):
+                    exito, msj = guardar_cambios_estado_admin(estados_seleccionados, motivo_estado, registrado_estado)
+                    if exito:
+                        st.success(msj)
+                        st.rerun()
+                    elif msj.startswith("ℹ️"):
+                        st.info(msj)
+                    else:
+                        st.error(msj)
 
             st.markdown("---")
             st.subheader("⚙️ Opciones de Reordenamiento y Limpieza")
@@ -751,7 +927,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
 
             with col_admin_1:
                 st.markdown("### 🎲 Rebobinar al Azar")
-                st.caption("Mezcla la lista completa de agentes al azar.")
+                st.caption("Mezcla a los agentes activos al azar (los inactivos siguen al final).")
                 confirm_random = st.checkbox("Confirmo mezclar la fila al azar.")
                 if st.button("🔀 Mezclar Orden", disabled=not confirm_random, type="primary", use_container_width=True):
                     reorganizar_turnos_al_azar()
@@ -760,7 +936,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
 
             with col_admin_2:
                 st.markdown("### 🔄 Restablecer Orden")
-                st.caption("Restablece el orden alfabético inicial.")
+                st.caption("Restablece el orden alfabético inicial y deja a todos activos.")
                 confirm_reset = st.checkbox("Confirmo reiniciar al orden inicial.")
                 if st.button("Restablecer Fila", disabled=not confirm_reset, use_container_width=True):
                     reiniciar_turnos_originales()
@@ -795,6 +971,21 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     use_container_width=True,
                 )
 
+            st.markdown("---")
+            st.subheader("👥 Historial de Cambios Activo / Inactivo")
+            df_cambios_estado = obtener_cambios_estado_df()
+            if df_cambios_estado.empty:
+                st.info("Aún no se han registrado cambios de estado.")
+            else:
+                st.dataframe(df_cambios_estado, use_container_width=True, hide_index=True)
+                st.download_button(
+                    label="📥 Descargar Cambios de Estado (CSV)",
+                    data=df_cambios_estado.to_csv(index=False).encode("utf-8"),
+                    file_name=f"cambios_estado_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
+                    mime="text/csv",
+                    use_container_width=True,
+                )
+
         # ------------------------------------------
         # TAB 3: HISTORIAL DE LLAMADAS
         # ------------------------------------------
@@ -823,7 +1014,11 @@ elif opcion_vista == "🛡️ Vista Administrador":
             if df_log_saltos.empty:
                 st.info("Aún no se han generado registros en el log independiente de saltos.")
             else:
-                filtro_tipo = st.selectbox("Filtrar por tipo:", ["Todos", TIPO_SALTO_LLAMADA, TIPO_SALTO_ADMIN], key="filtro_tipo_log")
+                filtro_tipo = st.selectbox(
+                    "Filtrar por tipo:",
+                    ["Todos", TIPO_SALTO_LLAMADA, TIPO_SALTO_ADMIN, TIPO_INACTIVO, TIPO_REACTIVADO],
+                    key="filtro_tipo_log",
+                )
                 df_log_mostrar = df_log_saltos if filtro_tipo == "Todos" else df_log_saltos[df_log_saltos["Tipo"] == filtro_tipo]
                 st.dataframe(df_log_mostrar, use_container_width=True, hide_index=True)
 
