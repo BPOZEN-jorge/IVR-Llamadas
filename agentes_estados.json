@@ -12,7 +12,7 @@
         "manual": true
     },
     "Angie Valeria Quirama Hernández": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Angie Vanessa García": {
@@ -40,7 +40,7 @@
         "manual": true
     },
     "Evelin Acevedo Cortés": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Gustavo Adolfo Barrientos Serna": {
@@ -56,7 +56,7 @@
         "manual": true
     },
     "Johana Osorio Bedoya": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Juan Esteban Acevedo Garces": {
@@ -68,7 +68,7 @@
         "manual": true
     },
     "Julián Andrés Osorio Aristizabal": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Karen Herrera Gonzalez": {
@@ -120,7 +120,7 @@
         "manual": true
     },
     "Sara Gómez Bayona": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Stefany Vanegas Arbelaez": {
@@ -144,11 +144,11 @@
         "manual": true
     },
     "Yarnedis Cecilia Urrutia Pérez": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Yeismer Miranda Ramirez": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Yesica Paola Lopez Arango": {
