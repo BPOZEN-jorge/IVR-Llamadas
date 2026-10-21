@@ -40,7 +40,7 @@
         "manual": true
     },
     "Evelin Acevedo Cortés": {
-        "activo": true,
+        "activo": false,
         "manual": true
     },
     "Gustavo Adolfo Barrientos Serna": {
@@ -56,7 +56,7 @@
         "manual": true
     },
     "Johana Osorio Bedoya": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Juan Esteban Acevedo Garces": {
