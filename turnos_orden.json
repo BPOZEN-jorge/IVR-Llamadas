@@ -27,181 +27,189 @@
         },
         {
             "posicion": 6,
-            "real": "Yesly Marilyn Carrero Rivera",
-            "alias": "Marilyn Carrero"
-        },
-        {
-            "posicion": 7,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
+        },
+        {
+            "posicion": 40,
+            "real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero"
         }
     ],
     "historial": [
+        {
+            "id": 41,
+            "call_id": "CA3c16d7a0c2ea39a6e235924e0f656572",
+            "telefono": "639781093",
+            "nombre_real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "fecha_hora": "2026-10-21 03:38:16"
+        },
         {
             "id": 40,
             "call_id": "CA29b0fa4f3c7ab094ac569fc7087a5c6c",
