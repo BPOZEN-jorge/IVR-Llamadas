@@ -6,12 +6,7 @@
             "alias": "Marcela",
             "activo": true
         },
-        {
-            "posicion": 2,
-            "real": "Stefany Vanegas Arbelaez",
-            "alias": "Stefany",
-            "activo": false
-        },
+      
         {
             "posicion": 3,
             "real": "Luis Alberto Lozano Ibarra",
@@ -102,12 +97,7 @@
             "alias": "Sara Gómez",
             "activo": true
         },
-        {
-            "posicion": 18,
-            "real": "Kelly Jhoana Salas Ibarguen",
-            "alias": "Kelly Salas",
-            "activo": true
-        },
+     
         {
             "posicion": 19,
             "real": "Carlos Alberto Herrera Cardeño",
@@ -222,12 +212,7 @@
             "alias": "María José",
             "activo": true
         },
-        {
-            "posicion": 38,
-            "real": "Julián Andrés Osorio Aristizabal",
-            "alias": "Andrés Aristizábal",
-            "activo": true
-        },
+     
         {
             "posicion": 39,
             "real": "Tatiana Magreth Acevedo Marín",
