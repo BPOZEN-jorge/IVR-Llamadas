@@ -167,41 +167,49 @@
         },
         {
             "posicion": 34,
-            "real": "Johana Osorio Bedoya",
-            "alias": "Johana Sanchez"
-        },
-        {
-            "posicion": 35,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
+        },
+        {
+            "posicion": 40,
+            "real": "Johana Osorio Bedoya",
+            "alias": "Johana Sanchez"
         }
     ],
     "historial": [
+        {
+            "id": 45,
+            "call_id": "CA1e035faad7f6bd09e009ea8d2a936e89",
+            "telefono": "603871983",
+            "nombre_real": "Johana Osorio Bedoya",
+            "alias": "Johana Sanchez",
+            "fecha_hora": "2026-10-21 03:55:07"
+        },
         {
             "id": 44,
             "call_id": "CAccc6b8c0e43388cb2329025ef330a67d",
