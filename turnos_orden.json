@@ -22,186 +22,194 @@
         },
         {
             "posicion": 5,
-            "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez"
-        },
-        {
-            "posicion": 6,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
+        },
+        {
+            "posicion": 40,
+            "real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez"
         }
     ],
     "historial": [
+        {
+            "id": 48,
+            "call_id": "CA6ddaf71f2ee3ecfab37413ffcaa2e1ca",
+            "telefono": "+34625505054",
+            "nombre_real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "fecha_hora": "2026-10-21 08:20:51"
+        },
         {
             "id": 47,
             "call_id": "CAa738d60cc0e4d2f449441c80be46466c",
