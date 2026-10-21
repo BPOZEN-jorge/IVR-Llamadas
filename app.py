@@ -44,9 +44,7 @@ USUARIOS_INICIALES = [
     {"posicion": 15, "real": "Johana Osorio Bedoya", "alias": "Johana Sanchez"},
     {"posicion": 16, "real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban"},
     {"posicion": 17, "real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian"},
-    {"posicion": 18, "real": "Julián Andrés Osorio Aristizabal", "alias": "Andrés Aristizábal"},
     {"posicion": 19, "real": "Karen Herrera Gonzalez", "alias": "Karen"},
-    {"posicion": 20, "real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas"},
     {"posicion": 21, "real": "Libia Paola Romero Cantillo", "alias": "Paola Romero"},
     {"posicion": 22, "real": "Linda Liceth Pérez Pineda", "alias": "Linda Pérez / Elena Pérez"},
     {"posicion": 23, "real": "Luis Alberto Lozano Ibarra", "alias": "Luis Lozano"},
@@ -58,7 +56,6 @@ USUARIOS_INICIALES = [
     {"posicion": 29, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula"},
     {"posicion": 30, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez"},
     {"posicion": 31, "real": "Sara Gómez Bayona", "alias": "Sara Gómez"},
-    {"posicion": 32, "real": "Stefany Vanegas Arbelaez", "alias": "Stefany"},
     {"posicion": 33, "real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana"},
     {"posicion": 34, "real": "Tomas Castaño Gómez", "alias": "Tomas"},
     {"posicion": 35, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez"},
@@ -456,7 +453,6 @@ def convertir_a_colombia_robust(columna_fechas: pd.Series, es_aircall: bool = Tr
             return dt.tz_convert('America/Bogota')
         except Exception:
             return pd.NaT
-
     return columna_fechas.apply(parse_fecha)
 
 # ==========================================
@@ -469,7 +465,6 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
         # Cargar planilla de saltos/historial guardada internamente en GitHub
         df3 = obtener_historial_saltos()
         raw_log_saltos = leer_json_github(FILE_LOG_SALTOS, {"saltos": []}).get("saltos", [])
-
         # 1. Filtrado Exclusivo de Llamadas Perdidas en IVR
         mask_inbound_missed = (df1['direction'] == 'inbound') & (df1['answered'] == 'No')
         
@@ -494,14 +489,11 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
         # 2. Llamadas salientes (Outbound Aircall)
         df_salientes = df2[df2['direction'] == 'outbound'].copy()
         df_salientes['num_limpio'] = df_salientes['customer number'].astype(str).str.replace(r'\D', '', regex=True)
-
         # 3. Conversión Homogénea de Fechas (España -> Colombia)
         col_fecha1 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df1.columns else 'call start time'
         col_fecha2 = 'datetime (tz offset incl.)' if 'datetime (tz offset incl.)' in df2.columns else 'call start time'
-
         df_perdidas_ivr['dt_perdida'] = convertir_a_colombia_robust(df_perdidas_ivr[col_fecha1], es_aircall=True)
         df_salientes['dt_saliente'] = convertir_a_colombia_robust(df_salientes[col_fecha2], es_aircall=True)
-
         if not df3.empty:
             col_tel3 = 'Teléfono' if 'Teléfono' in df3.columns else df3.columns[2]
             col_nom3 = 'Nombre Real' if 'Nombre Real' in df3.columns else df3.columns[3]
@@ -510,14 +502,12 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             df3['dt_turno'] = convertir_a_colombia_robust(df3[col_fecha3], es_aircall=False)
         else:
             df3 = pd.DataFrame(columns=['num_limpio', 'dt_turno', 'Nombre Real', 'Alias'])
-
         set_perdidos_ivr = set(df_perdidas_ivr['num_limpio'])
         set_salientes = set(df_salientes['num_limpio'])
         numeros_devueltos = set_perdidos_ivr.intersection(set_salientes)
         
         if not numeros_devueltos:
             return pd.DataFrame(), "No se encontraron devoluciones a las llamadas perdidas de IVR."
-
         filas_resumen = []
         for num in numeros_devueltos:
             sub_perdidas = df_perdidas_ivr[df_perdidas_ivr['num_limpio'] == num].sort_values('dt_perdida')
@@ -541,19 +531,16 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
             registrado_flag = "Sí" if tot_turnos > 0 else "NO REGISTRADO"
             horarios_turnos_str = " | ".join(sub_turnos['dt_turno'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist()) if tot_turnos > 0 else "N/A"
             asesores_turnos_str = " | ".join(sub_turnos[col_nom3].astype(str).unique().tolist()) if tot_turnos > 0 else "N/A"
-
             # MAPEO TEMPORAL DE TURNO: Evaluar en Hora Colombia quién estaba de primero activo al momento del evento
             primera_fecha_saliente = sub_salientes['dt_saliente'].iloc[0]
             agente_que_tocaba = "Desconocido (Sin snapshot)"
             coincidio_turno = "N/A"
-
             # Filtrar snapshots de saltos con hora normalizada a Colombia
             saltos_previos = []
             for s in raw_log_saltos:
                 dt_s = convertir_a_colombia_robust(pd.Series([s.get('fecha_hora')]), es_aircall=False).iloc[0]
                 if pd.notna(dt_s) and dt_s <= primera_fecha_saliente + pd.Timedelta(minutes=5):
                     saltos_previos.append((dt_s, s))
-
             if saltos_previos:
                 # Obtener el snapshot inmediatamente previo más cercano
                 ultimo_salto = max(saltos_previos, key=lambda x: x[0])[1]
@@ -563,13 +550,11 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
                 activos_snapshot = sorted([ag for ag in snapshot if ag.get("activo")], key=lambda x: x.get("posicion", 999))
                 if activos_snapshot:
                     agente_que_tocaba = activos_snapshot[0].get("alias", "Desconocido")
-
             if agente_que_tocaba != "Desconocido (Sin snapshot)" and asesores_salientes_str != "N/A":
                 if agente_que_tocaba.lower() in asesores_salientes_str.lower() or asesores_salientes_str.lower() in agente_que_tocaba.lower():
                     coincidio_turno = "✅ COINCIDE (Atendió quien le tocaba)"
                 else:
                     coincidio_turno = f"⚠️ NO COINCIDE (Tocaba: {agente_que_tocaba} | Devolvió: {asesores_salientes_str})"
-
             # Diagnóstico de Auditoría
             if tot_turnos > 0 and tot_salientes == 1:
                 diagnostico = "✅ Devuelta IVR y Registrada en Saltos (1 sola vez)"
@@ -579,7 +564,6 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
                 diagnostico = "🔴 CRÍTICO: Múltiples Devoluciones a IVR en Aircall y NO Registrada en Saltos"
             else:
                 diagnostico = "⚠️ INCONSISTENCIA: Devuelta en Aircall pero NO Registrada en Saltos"
-
             filas_resumen.append({
                 'Número Cliente': num_cliente,
                 'Línea IVR': linea_ivr,
@@ -599,7 +583,6 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
                 'Asesores Registro Saltos': asesores_turnos_str,
                 'Estado Auditoría': diagnostico
             })
-
         df_resultado = pd.DataFrame(filas_resumen).sort_values(
             by=['Cant. Devoluciones (Aircall)', 'Registrado en Saltos'],
             ascending=[False, True]
@@ -634,7 +617,6 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
         with col_turn_1:
             st.metric(label="🎯 TURNO ACTUAL (ATENDIENDO)", value=actual["alias"])
             st.write(f"👤 **Nombre Real:** {actual['real']}")
-            st.caption(f"Posición Fila: #{actual['posicion']}")
         with col_turn_2:
             st.subheader("📞 Completar Turno Actual")
             with st.form("form_avanzar_turno", clear_on_submit=True):
@@ -656,19 +638,6 @@ if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
                     st.error(mensaje)
     else:
         st.error("⚠️ Todos los agentes se encuentran marcados como Ausentes en este momento.")
-    st.markdown("---")
-    st.subheader("📋 Fila Actual de Posiciones")
-    
-    tabla_display = [
-        {
-            "Posición": t["posicion"],
-            "Estado": ("🟢 Activo (Manual)" if t.get("manual") else "🟢 Activo") if t["activo"] else ("🔴 Ausente (Manual)" if t.get("manual") else "🔴 Ausente"),
-            "Nombre Real": t["real"],
-            "Alias / Nombre en Sistema": t["alias"]
-        } for t in turnos_actuales
-    ]
-    
-    st.dataframe(pd.DataFrame(tabla_display), use_container_width=True, hide_index=True)
 
 # ------------------------------------------
 # VISTA 2: ADMINISTRADOR
@@ -703,6 +672,19 @@ elif opcion_vista == "🛡️ Vista Administrador":
         # TAB 1: GESTIÓN GENERAL Y HORARIOS
         # ------------------------------------------
         with tab_gestion:
+            st.subheader("📋 Fila Actual de Posiciones")
+            turnos_admin_vista = obtener_lista_turnos()
+            tabla_display = [
+                {
+                    "Posición": t["posicion"],
+                    "Estado": ("🟢 Activo (Manual)" if t.get("manual") else "🟢 Activo") if t["activo"] else ("🔴 Ausente (Manual)" if t.get("manual") else "🔴 Ausente"),
+                    "Nombre Real": t["real"],
+                    "Alias / Nombre en Sistema": t["alias"]
+                } for t in turnos_admin_vista
+            ]
+            st.dataframe(pd.DataFrame(tabla_display), use_container_width=True, hide_index=True)
+            st.markdown("---")
+
             st.subheader("📅 Carga e Integración de Horario Excel")
             uploaded_file = st.file_uploader("Subir archivo de horarios (.xlsx, .csv)", type=["xlsx", "csv"])
             if uploaded_file is not None:
