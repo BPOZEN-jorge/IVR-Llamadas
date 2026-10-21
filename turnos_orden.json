@@ -122,86 +122,94 @@
         },
         {
             "posicion": 25,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López"
-        },
-        {
-            "posicion": 26,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez"
+        },
+        {
+            "posicion": 40,
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López"
         }
     ],
     "historial": [
+        {
+            "id": 43,
+            "call_id": "CA572a1382a01e3632af62117cff6d9543",
+            "telefono": "+34629142789",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "fecha_hora": "2026-10-21 03:50:06"
+        },
         {
             "id": 42,
             "call_id": "CAf06ded68dd4f97cea219728a2ceb81bf",
