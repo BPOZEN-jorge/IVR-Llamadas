@@ -27,181 +27,189 @@
         },
         {
             "posicion": 6,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez"
-        },
-        {
-            "posicion": 7,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez"
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez"
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar"
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez"
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López"
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen"
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez"
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana"
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo"
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar"
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas"
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano"
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero"
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez"
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Janis Henao Vasco",
             "alias": "María José"
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez"
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero"
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia"
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula"
         },
         {
-            "posicion": 26,
+            "posicion": 25,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López"
         },
         {
-            "posicion": 27,
+            "posicion": 26,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson"
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela"
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa"
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García"
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde"
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez"
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas"
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian"
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban"
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina"
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez"
         },
         {
-            "posicion": 38,
+            "posicion": 37,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda"
         },
         {
-            "posicion": 39,
+            "posicion": 38,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez"
         },
         {
-            "posicion": 40,
+            "posicion": 39,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero"
+        },
+        {
+            "posicion": 40,
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez"
         }
     ],
     "historial": [
+        {
+            "id": 42,
+            "call_id": "CAf06ded68dd4f97cea219728a2ceb81bf",
+            "telefono": "666159107",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "fecha_hora": "2026-10-21 03:39:12"
+        },
         {
             "id": 41,
             "call_id": "CA3c16d7a0c2ea39a6e235924e0f656572",
