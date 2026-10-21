@@ -4,7 +4,7 @@
         "manual": true
     },
     "Ana Maria Sanchez Gamboa": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Andrea Mileidy londoño Bedoya": {
@@ -84,7 +84,7 @@
         "manual": true
     },
     "Linda Liceth Pérez Pineda": {
-        "activo": false,
+        "activo": true,
         "manual": true
     },
     "Luis Alberto Lozano Ibarra": {
