@@ -1,6 +1,217 @@
 {
     "saltos": [
         {
+            "id_evento": 41,
+            "fecha_hora": "2026-10-21 03:38:16",
+            "call_id": "CA3c16d7a0c2ea39a6e235924e0f656572",
+            "telefono": "639781093",
+            "nombre_real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "posicion_al_saltar": 6,
+            "orden_previo_snapshot": [
+                {
+                    "posicion": 1,
+                    "alias": "Marcela",
+                    "activo": false
+                },
+                {
+                    "posicion": 2,
+                    "alias": "Andrés Aristizábal",
+                    "activo": false
+                },
+                {
+                    "posicion": 3,
+                    "alias": "Maria Cano",
+                    "activo": false
+                },
+                {
+                    "posicion": 4,
+                    "alias": "Stefany",
+                    "activo": false
+                },
+                {
+                    "posicion": 5,
+                    "alias": "Kelly Salas",
+                    "activo": false
+                },
+                {
+                    "posicion": 6,
+                    "alias": "Marilyn Carrero",
+                    "activo": true
+                },
+                {
+                    "posicion": 7,
+                    "alias": "Valeria Hernandez",
+                    "activo": true
+                },
+                {
+                    "posicion": 8,
+                    "alias": "Linda Pérez / Elena Pérez",
+                    "activo": false
+                },
+                {
+                    "posicion": 9,
+                    "alias": "Maria Sanchez",
+                    "activo": false
+                },
+                {
+                    "posicion": 10,
+                    "alias": "Oscar",
+                    "activo": false
+                },
+                {
+                    "posicion": 11,
+                    "alias": "Viviana Gómez",
+                    "activo": false
+                },
+                {
+                    "posicion": 12,
+                    "alias": "Yesica López",
+                    "activo": false
+                },
+                {
+                    "posicion": 13,
+                    "alias": "Karen",
+                    "activo": false
+                },
+                {
+                    "posicion": 14,
+                    "alias": "Flor Lopez",
+                    "activo": false
+                },
+                {
+                    "posicion": 15,
+                    "alias": "Tatiana",
+                    "activo": false
+                },
+                {
+                    "posicion": 16,
+                    "alias": "Gustavo",
+                    "activo": false
+                },
+                {
+                    "posicion": 17,
+                    "alias": "Omar",
+                    "activo": false
+                },
+                {
+                    "posicion": 18,
+                    "alias": "Manuela Villegas",
+                    "activo": false
+                },
+                {
+                    "posicion": 19,
+                    "alias": "Luis Lozano",
+                    "activo": false
+                },
+                {
+                    "posicion": 20,
+                    "alias": "Paola Romero",
+                    "activo": false
+                },
+                {
+                    "posicion": 21,
+                    "alias": "Maria Rodriguez",
+                    "activo": false
+                },
+                {
+                    "posicion": 22,
+                    "alias": "María José",
+                    "activo": false
+                },
+                {
+                    "posicion": 23,
+                    "alias": "Carlos Herrera / Alberto Fernandez",
+                    "activo": false
+                },
+                {
+                    "posicion": 24,
+                    "alias": "Isabel Botero",
+                    "activo": false
+                },
+                {
+                    "posicion": 25,
+                    "alias": "Marcos Garcia",
+                    "activo": false
+                },
+                {
+                    "posicion": 26,
+                    "alias": "Paula",
+                    "activo": false
+                },
+                {
+                    "posicion": 27,
+                    "alias": "Cecilia López",
+                    "activo": true
+                },
+                {
+                    "posicion": 28,
+                    "alias": "Alisson",
+                    "activo": true
+                },
+                {
+                    "posicion": 29,
+                    "alias": "Gabriela",
+                    "activo": false
+                },
+                {
+                    "posicion": 30,
+                    "alias": "Antonio de la villa",
+                    "activo": false
+                },
+                {
+                    "posicion": 31,
+                    "alias": "Maria Antonia García",
+                    "activo": false
+                },
+                {
+                    "posicion": 32,
+                    "alias": "Andrea Valverde",
+                    "activo": false
+                },
+                {
+                    "posicion": 33,
+                    "alias": "Manuel Vasquez",
+                    "activo": false
+                },
+                {
+                    "posicion": 34,
+                    "alias": "Tomas",
+                    "activo": false
+                },
+                {
+                    "posicion": 35,
+                    "alias": "Juan Sebastian",
+                    "activo": false
+                },
+                {
+                    "posicion": 36,
+                    "alias": "Juan Esteban",
+                    "activo": false
+                },
+                {
+                    "posicion": 37,
+                    "alias": "Karolina",
+                    "activo": false
+                },
+                {
+                    "posicion": 38,
+                    "alias": "Johana Sanchez",
+                    "activo": true
+                },
+                {
+                    "posicion": 39,
+                    "alias": "Leo Miranda",
+                    "activo": true
+                },
+                {
+                    "posicion": 40,
+                    "alias": "Sara Gómez",
+                    "activo": true
+                }
+            ]
+        },
+        {
             "id_evento": 40,
             "fecha_hora": "2026-10-21 03:12:26",
             "call_id": "CA29b0fa4f3c7ab094ac569fc7087a5c6c",
