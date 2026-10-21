@@ -67,18 +67,12 @@
         "activo": true,
         "manual": true
     },
-    "Julián Andrés Osorio Aristizabal": {
-        "activo": false,
-        "manual": true
-    },
+
     "Karen Herrera Gonzalez": {
         "activo": false,
         "manual": true
     },
-    "Kelly Jhoana Salas Ibarguen": {
-        "activo": false,
-        "manual": true
-    },
+ 
     "Libia Paola Romero Cantillo": {
         "activo": true,
         "manual": true
@@ -123,10 +117,7 @@
         "activo": true,
         "manual": true
     },
-    "Stefany Vanegas Arbelaez": {
-        "activo": false,
-        "manual": true
-    },
+  
     "Tatiana Magreth Acevedo Marín": {
         "activo": false,
         "manual": true
