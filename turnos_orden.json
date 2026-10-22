@@ -225,6 +225,14 @@
     ],
     "historial": [
         {
+            "id": 56,
+            "call_id": "CAf6abf158195928f9fe122862a00251d5",
+            "telefono": "660631919",
+            "nombre_real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "fecha_hora": "2026-10-22 03:05:20"
+        },
+        {
             "id": 55,
             "call_id": "CA6af14866f6d310934af10a1c4c960357",
             "telefono": "626679837",
