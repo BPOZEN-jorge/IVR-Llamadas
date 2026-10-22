@@ -225,6 +225,14 @@
     ],
     "historial": [
         {
+            "id": 62,
+            "call_id": "CA016c361463dac7b8de1932057d139742",
+            "telefono": "900730330",
+            "nombre_real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "fecha_hora": "2026-10-22 03:29:34"
+        },
+        {
             "id": 61,
             "call_id": "CAe4af4fa2b74ccc059a4cb73868edf8cf",
             "telefono": "618107356",
