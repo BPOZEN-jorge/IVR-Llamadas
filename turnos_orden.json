@@ -225,6 +225,14 @@
     ],
     "historial": [
         {
+            "id": 64,
+            "call_id": "CA67e655c811a77f775e3d9c401acdbbe4",
+            "telefono": "+34674439944",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "fecha_hora": "2026-10-22 03:51:42"
+        },
+        {
             "id": 63,
             "call_id": "CAd31c81eae50bd24aa1ae7bc0a5f0adee",
             "telefono": "636486954",
