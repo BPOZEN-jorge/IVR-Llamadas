@@ -2,26 +2,26 @@
     "turnos": [
         {
             "posicion": 1,
+            "real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "activo": true
+        },
+        {
+            "posicion": 2,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 2,
+            "posicion": 3,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 3,
+            "posicion": 4,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
-            "activo": false
-        },
-        {
-            "posicion": 4,
-            "real": "Yesly Marilyn Carrero Rivera",
-            "alias": "Marilyn Carrero",
             "activo": false
         },
         {
@@ -15863,6 +15863,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-22 03:21:49",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "posicion_previa": 4,
+            "motivo": "Desactivo",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-10-22 03:21:20",
             "tipo": "INACTIVO",
