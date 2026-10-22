@@ -2,32 +2,32 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
+            "activo": true
+        },
+        {
+            "posicion": 5,
+            "real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 66,
+            "call_id": "CA6c9b0e8492f0891cb2cfbf624b98f14b",
+            "telefono": "649212100",
+            "nombre_real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "fecha_hora": "2026-10-22 03:57:37"
+        },
         {
             "id": 65,
             "call_id": "CA1799ded76811889c3ec9c66ab8bd86c3",
