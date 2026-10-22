@@ -4,85 +4,85 @@
             "posicion": 1,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 2,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 3,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 4,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 5,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 6,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 7,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 8,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 9,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 10,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 11,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 12,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 13,
             "real": "Janis Henao Vasco",
             "alias": "María José",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 14,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 15,
@@ -15824,6 +15824,15 @@
     ],
     "cambios_estado": [
         {
+            "fecha_hora": "2026-10-22 02:57:35",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_previa": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-10-21 12:44:11",
             "tipo": "INACTIVO",
             "nombre_real": "Brayan Andrey Bustamante",
@@ -16049,5 +16058,5 @@
             "registrado_por": "Jorge"
         }
     ],
-    "ultimo_reset_diario": "2026-10-21"
+    "ultimo_reset_diario": "2026-10-22"
 }
