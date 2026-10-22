@@ -225,6 +225,14 @@
     ],
     "historial": [
         {
+            "id": 63,
+            "call_id": "CAd31c81eae50bd24aa1ae7bc0a5f0adee",
+            "telefono": "636486954",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "fecha_hora": "2026-10-22 03:40:47"
+        },
+        {
             "id": 62,
             "call_id": "CA016c361463dac7b8de1932057d139742",
             "telefono": "900730330",
