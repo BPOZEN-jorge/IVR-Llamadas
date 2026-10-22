@@ -2,14 +2,14 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López",
+            "real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
             "activo": true
         },
         {
             "posicion": 2,
-            "real": "Alisson Correa Gaviria",
-            "alias": "Alisson",
+            "real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 57,
+            "call_id": "CAa1fa48f79320eab3c28b77055564451d",
+            "telefono": "670296028",
+            "nombre_real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "fecha_hora": "2026-10-22 03:06:24"
+        },
         {
             "id": 56,
             "call_id": "CAf6abf158195928f9fe122862a00251d5",
