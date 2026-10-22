@@ -225,6 +225,14 @@
     ],
     "historial": [
         {
+            "id": 59,
+            "call_id": "CA6820e3f4312b6a54054ac84fbd53f57e",
+            "telefono": "653480797",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "fecha_hora": "2026-10-22 03:15:12"
+        },
+        {
             "id": 58,
             "call_id": "CA6447a4983e9849adbe38cb11689d4adb",
             "telefono": "+34676013991",
