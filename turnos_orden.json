@@ -178,7 +178,7 @@
             "posicion": 30,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 31,
@@ -15935,6 +15935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-22 06:40:41",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Tomas Castaño Gómez",
+            "alias": "Tomas",
+            "posicion_previa": 30,
+            "motivo": "Llegada / inicio de jornada",
+            "registrado_por": "Admin"
+        },
         {
             "fecha_hora": "2026-10-22 05:22:53",
             "tipo": "REACTIVADO",
