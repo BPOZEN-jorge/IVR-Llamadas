@@ -2,152 +2,152 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "María Karolina Viana Cancio",
-            "alias": "Karolina",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": true
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": true
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": true
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": true
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": true
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": true
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": true
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula",
             "activo": true
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
             "activo": true
         },
         {
-            "posicion": 25,
+            "posicion": 24,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
+            "activo": true
+        },
+        {
+            "posicion": 25,
+            "real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 80,
+            "call_id": "CAd0cc0491febfd563d7780c527e613d0c",
+            "telefono": "+34676171442",
+            "nombre_real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "fecha_hora": "2026-10-22 12:47:45"
+        },
         {
             "id": 79,
             "call_id": "CAd73cb7c04a5c98ff5143691e79ae9057",
