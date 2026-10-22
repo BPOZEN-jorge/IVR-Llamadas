@@ -14,26 +14,26 @@
         },
         {
             "posicion": 3,
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "activo": true
+        },
+        {
+            "posicion": 4,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 4,
+            "posicion": 5,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 5,
+            "posicion": 6,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
-            "activo": false
-        },
-        {
-            "posicion": 6,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
             "activo": false
         },
         {
@@ -15839,6 +15839,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-22 03:08:16",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 6,
+            "motivo": "Activo",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-10-22 03:05:47",
             "tipo": "REACTIVADO",
