@@ -2,32 +2,32 @@
     "turnos": [
         {
             "posicion": 1,
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "activo": true
+        },
+        {
+            "posicion": 2,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 2,
+            "posicion": 3,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 3,
+            "posicion": 4,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "activo": false
         },
         {
-            "posicion": 4,
+            "posicion": 5,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
-            "activo": false
-        },
-        {
-            "posicion": 5,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
             "activo": false
         },
         {
@@ -15847,6 +15847,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-22 03:14:31",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "posicion_previa": 5,
+            "motivo": "Activo",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-10-22 03:12:15",
             "tipo": "INACTIVO",
