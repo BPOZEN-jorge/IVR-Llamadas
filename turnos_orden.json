@@ -2,50 +2,50 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Alisson Correa Gaviria",
-            "alias": "Alisson",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
+            "activo": true
+        },
+        {
+            "posicion": 8,
+            "real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 67,
+            "call_id": "CA9245f00a37d4d6b4e7aa9563cba1632d",
+            "telefono": "+34681931211",
+            "nombre_real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
+            "fecha_hora": "2026-10-22 04:07:35"
+        },
         {
             "id": 66,
             "call_id": "CA6c9b0e8492f0891cb2cfbf624b98f14b",
