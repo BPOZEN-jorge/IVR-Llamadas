@@ -225,6 +225,14 @@
     ],
     "historial": [
         {
+            "id": 61,
+            "call_id": "CAe4af4fa2b74ccc059a4cb73868edf8cf",
+            "telefono": "618107356",
+            "nombre_real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "fecha_hora": "2026-10-22 03:25:57"
+        },
+        {
             "id": 60,
             "call_id": "CA667fafb669060fc2899488afdd0774cb",
             "telefono": "605232730",
