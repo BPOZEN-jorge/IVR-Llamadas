@@ -2,8 +2,8 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López",
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
             "activo": true
         },
         {
@@ -194,32 +194,32 @@
         },
         {
             "posicion": 33,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
-            "activo": false
-        },
-        {
-            "posicion": 34,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": false
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": false
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
+            "activo": false
+        },
+        {
+            "posicion": 37,
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
             "activo": false
         }
     ],
@@ -15879,6 +15879,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-22 03:37:47",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 32,
+            "motivo": "Activo",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-22 03:37:47",
+            "tipo": "INACTIVO",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "posicion_previa": 1,
+            "motivo": "Activo",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-10-22 03:32:02",
             "tipo": "REACTIVADO",
