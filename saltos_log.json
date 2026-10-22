@@ -1,6 +1,240 @@
 {
     "saltos": [
         {
+            "tipo": "LLAMADA",
+            "fecha_hora": "2026-10-22 07:00:35",
+            "call_id": "CAab1547fcfaf1bb343d5e2517ff8b63b1",
+            "telefono": "652920929",
+            "nombre_real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "posicion_al_saltar": 1,
+            "orden_previo_snapshot": [
+                {
+                    "posicion": 1,
+                    "alias": "Sara Gómez",
+                    "real": "Sara Gómez Bayona",
+                    "activo": true
+                },
+                {
+                    "posicion": 2,
+                    "alias": "Yesica López",
+                    "real": "Yesica Paola Lopez Arango",
+                    "activo": true
+                },
+                {
+                    "posicion": 3,
+                    "alias": "Marilyn Carrero",
+                    "real": "Yesly Marilyn Carrero Rivera",
+                    "activo": true
+                },
+                {
+                    "posicion": 4,
+                    "alias": "Leo Miranda",
+                    "real": "Yeismer Miranda Ramirez",
+                    "activo": true
+                },
+                {
+                    "posicion": 5,
+                    "alias": "Cecilia López",
+                    "real": "Yarnedis Cecilia Urrutia Pérez",
+                    "activo": true
+                },
+                {
+                    "posicion": 6,
+                    "alias": "Alisson",
+                    "real": "Alisson Correa Gaviria",
+                    "activo": true
+                },
+                {
+                    "posicion": 7,
+                    "alias": "Oscar",
+                    "real": "Oscar José Llanos Mendinueta",
+                    "activo": true
+                },
+                {
+                    "posicion": 8,
+                    "alias": "Isabel Botero",
+                    "real": "Dayana Botero Rojas",
+                    "activo": true
+                },
+                {
+                    "posicion": 9,
+                    "alias": "Paula",
+                    "real": "Paula Andrea Guzman Jaramillo",
+                    "activo": true
+                },
+                {
+                    "posicion": 10,
+                    "alias": "Gabriela",
+                    "real": "Evelin Acevedo Cortés",
+                    "activo": true
+                },
+                {
+                    "posicion": 11,
+                    "alias": "Antonio de la villa",
+                    "real": "Mateo Cano Hincapié",
+                    "activo": true
+                },
+                {
+                    "posicion": 12,
+                    "alias": "Manuel Vasquez",
+                    "real": "Cristian David Acosta Montoya",
+                    "activo": true
+                },
+                {
+                    "posicion": 13,
+                    "alias": "Marcos Garcia",
+                    "real": "Brayan Andrey Bustamante",
+                    "activo": true
+                },
+                {
+                    "posicion": 14,
+                    "alias": "Valeria Hernandez",
+                    "real": "Angie Valeria Quirama Hernández",
+                    "activo": true
+                },
+                {
+                    "posicion": 15,
+                    "alias": "Maria Cano",
+                    "real": "Iris Sabiana Cano Cano",
+                    "activo": true
+                },
+                {
+                    "posicion": 16,
+                    "alias": "Karolina",
+                    "real": "María Karolina Viana Cancio",
+                    "activo": true
+                },
+                {
+                    "posicion": 17,
+                    "alias": "Marcela",
+                    "real": "Claudia Marcela Manco Vargas",
+                    "activo": true
+                },
+                {
+                    "posicion": 18,
+                    "alias": "Linda Pérez / Elena Pérez",
+                    "real": "Linda Liceth Pérez Pineda",
+                    "activo": true
+                },
+                {
+                    "posicion": 19,
+                    "alias": "Maria Sanchez",
+                    "real": "Ana Maria Sanchez Gamboa",
+                    "activo": true
+                },
+                {
+                    "posicion": 20,
+                    "alias": "Viviana Gómez",
+                    "real": "Viviana Pacheco Córdoba",
+                    "activo": true
+                },
+                {
+                    "posicion": 21,
+                    "alias": "Tatiana",
+                    "real": "Tatiana Magreth Acevedo Marín",
+                    "activo": true
+                },
+                {
+                    "posicion": 22,
+                    "alias": "Gustavo",
+                    "real": "Gustavo Adolfo Barrientos Serna",
+                    "activo": true
+                },
+                {
+                    "posicion": 23,
+                    "alias": "Manuela Villegas",
+                    "real": "Manuela villegas Giraldo",
+                    "activo": true
+                },
+                {
+                    "posicion": 24,
+                    "alias": "Paola Romero",
+                    "real": "Libia Paola Romero Cantillo",
+                    "activo": true
+                },
+                {
+                    "posicion": 25,
+                    "alias": "Maria Rodriguez",
+                    "real": "Yarlen Biviana Son Cedeño",
+                    "activo": true
+                },
+                {
+                    "posicion": 26,
+                    "alias": "Andrea Valverde",
+                    "real": "Andrea Mileidy londoño Bedoya",
+                    "activo": true
+                },
+                {
+                    "posicion": 27,
+                    "alias": "Juan Sebastian",
+                    "real": "Juan Sebastian Serna Sepulveda",
+                    "activo": true
+                },
+                {
+                    "posicion": 28,
+                    "alias": "Flor Lopez",
+                    "real": "Rosa Elvira Agamez López",
+                    "activo": true
+                },
+                {
+                    "posicion": 29,
+                    "alias": "Karen",
+                    "real": "Karen Herrera Gonzalez",
+                    "activo": true
+                },
+                {
+                    "posicion": 30,
+                    "alias": "Tomas",
+                    "real": "Tomas Castaño Gómez",
+                    "activo": true
+                },
+                {
+                    "posicion": 31,
+                    "alias": "Juan Esteban",
+                    "real": "Juan Esteban Acevedo Garces",
+                    "activo": false
+                },
+                {
+                    "posicion": 32,
+                    "alias": "María José",
+                    "real": "Janis Henao Vasco",
+                    "activo": false
+                },
+                {
+                    "posicion": 33,
+                    "alias": "Maria Antonia García",
+                    "real": "Angie Vanessa García",
+                    "activo": false
+                },
+                {
+                    "posicion": 34,
+                    "alias": "Johana Sanchez",
+                    "real": "Johana Osorio Bedoya",
+                    "activo": false
+                },
+                {
+                    "posicion": 35,
+                    "alias": "Luis Lozano",
+                    "real": "Luis Alberto Lozano Ibarra",
+                    "activo": false
+                },
+                {
+                    "posicion": 36,
+                    "alias": "Omar",
+                    "real": "Omar David Barboza Carbonero",
+                    "activo": false
+                },
+                {
+                    "posicion": 37,
+                    "alias": "Carlos Herrera / Alberto Fernandez",
+                    "real": "Carlos Alberto Herrera Cardeño",
+                    "activo": false
+                }
+            ],
+            "id_evento": 122
+        },
+        {
             "tipo": "REACTIVADO",
             "fecha_hora": "2026-10-22 06:40:41",
             "call_id": "",
