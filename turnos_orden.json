@@ -2,8 +2,8 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
             "activo": true
         },
         {
@@ -218,8 +218,8 @@
         },
         {
             "posicion": 37,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López",
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
             "activo": false
         }
     ],
@@ -15887,6 +15887,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-22 03:46:02",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "posicion_previa": 36,
+            "motivo": "Activo",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-22 03:46:02",
+            "tipo": "INACTIVO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 1,
+            "motivo": "Activo",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-10-22 03:37:47",
             "tipo": "REACTIVADO",
