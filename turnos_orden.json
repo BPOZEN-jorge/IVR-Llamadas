@@ -2,26 +2,26 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Iris Sabiana Cano Cano",
-            "alias": "Maria Cano",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
+            "activo": true
+        },
+        {
+            "posicion": 4,
+            "real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 92,
+            "call_id": "CAe5abaea32111ed5f3c4447c587f4bfb8",
+            "telefono": "626634382",
+            "nombre_real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "fecha_hora": "2026-10-23 06:21:34"
+        },
         {
             "id": 91,
             "call_id": "CA6072ff077bc3329a47dc8d4bb7afd150",
