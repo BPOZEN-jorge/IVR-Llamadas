@@ -2,32 +2,32 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
+            "activo": true
+        },
+        {
+            "posicion": 5,
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 93,
+            "call_id": "CAe1e8f3550f44bb218612db283258ab43",
+            "telefono": "691383573",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "fecha_hora": "2026-10-23 06:55:44"
+        },
         {
             "id": 92,
             "call_id": "CAe5abaea32111ed5f3c4447c587f4bfb8",
