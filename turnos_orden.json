@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 86,
+            "call_id": "CA2dfdc7d16eeee06905e74f57d2dddb60",
+            "telefono": "+34699422508",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "fecha_hora": "2026-10-23 03:14:41"
+        },
         {
             "id": 85,
             "call_id": "CAef3aa69a62863f2b2cb0badb4d9cc230",
