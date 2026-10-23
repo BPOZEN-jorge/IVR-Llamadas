@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Brayan Andrey Bustamante",
-            "alias": "Marcos Garcia",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 90,
+            "call_id": "CAf05f512642accfcbd89cb58788f93ab9",
+            "telefono": "+34658548287",
+            "nombre_real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "fecha_hora": "2026-10-23 03:28:49"
+        },
         {
             "id": 89,
             "call_id": "CAbd3e6fc4864551b0c06a4f0b5fa084d1",
