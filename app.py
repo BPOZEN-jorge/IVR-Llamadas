@@ -96,13 +96,25 @@ def obtener_repositorio_github():
     return g.get_repo(repo_name)
 
 
+import base64
+
 def leer_json_github(file_path: str, default_payload: dict) -> dict:
-    """Lee un archivo JSON individual directamente desde GitHub."""
+    """Lee un archivo JSON individual directamente desde GitHub con soporte para archivos >1MB."""
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
     try:
         content = repo.get_contents(file_path, ref=branch)
-        return json.loads(content.decoded_content.decode("utf-8"))
+        
+        # Si la API devuelve Base64 (archivos pequeños < 1MB)
+        if getattr(content, "encoding", None) == "base64":
+            raw_data = content.decoded_content.decode("utf-8")
+        else:
+            # Para archivos > 1MB o con otro encoding, se consulta el blob directamente por su SHA
+            blob = repo.get_git_blob(content.sha)
+            raw_data = base64.b64decode(blob.content).decode("utf-8")
+            
+        return json.loads(raw_data)
+        
     except GithubException as e:
         if e.status == 404:
             escribir_json_github(file_path, default_payload, f"Inicializar {file_path}")
