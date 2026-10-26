@@ -206,20 +206,20 @@
         },
         {
             "posicion": 35,
+            "real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "activo": true
+        },
+        {
+            "posicion": 36,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "activo": false
         },
         {
-            "posicion": 36,
+            "posicion": 37,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
-            "activo": false
-        },
-        {
-            "posicion": 37,
-            "real": "Yesly Marilyn Carrero Rivera",
-            "alias": "Marilyn Carrero",
             "activo": false
         }
     ],
@@ -16327,6 +16327,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-26 07:59:48",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "posicion_previa": 37,
+            "motivo": "Para actualizar el turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-10-26 07:59:21",
             "tipo": "INACTIVO",
