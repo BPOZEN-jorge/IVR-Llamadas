@@ -16168,6 +16168,15 @@
     ],
     "cambios_estado": [
         {
+            "fecha_hora": "2026-10-26 03:58:01",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_previa": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-10-24 18:40:55",
             "tipo": "RESET_DIARIO",
             "nombre_real": "TODOS",
@@ -17554,5 +17563,5 @@
             "registrado_por": "Jorge"
         }
     ],
-    "ultimo_reset_diario": "2026-10-24"
+    "ultimo_reset_diario": "2026-10-26"
 }
