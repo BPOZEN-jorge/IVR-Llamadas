@@ -4,43 +4,43 @@
             "posicion": 1,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 2,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 3,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 4,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 5,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 6,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 7,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 8,
@@ -16400,6 +16400,15 @@
     ],
     "cambios_estado": [
         {
+            "fecha_hora": "2026-10-27 03:59:30",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_previa": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-10-26 14:33:16",
             "tipo": "INACTIVO",
             "nombre_real": "Karen Herrera Gonzalez",
@@ -18830,5 +18839,5 @@
             "registrado_por": "Jorge"
         }
     ],
-    "ultimo_reset_diario": "2026-10-26"
+    "ultimo_reset_diario": "2026-10-27"
 }
