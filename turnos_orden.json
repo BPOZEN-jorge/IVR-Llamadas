@@ -100,126 +100,126 @@
             "posicion": 17,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 18,
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "activo": true
+        },
+        {
+            "posicion": 19,
+            "real": "Johana Osorio Bedoya",
+            "alias": "Johana Sanchez",
+            "activo": true
+        },
+        {
+            "posicion": 20,
+            "real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "activo": true
+        },
+        {
+            "posicion": 21,
+            "real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela",
+            "activo": true
+        },
+        {
+            "posicion": 22,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
+        },
+        {
+            "posicion": 23,
+            "real": "Juan Sebastian Serna Sepulveda",
+            "alias": "Juan Sebastian",
+            "activo": true
+        },
+        {
+            "posicion": 24,
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 25,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 19,
+            "posicion": 26,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 20,
+            "posicion": 27,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 21,
+            "posicion": 28,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 29,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 30,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 31,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 32,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
             "activo": false
         },
         {
-            "posicion": 26,
+            "posicion": 33,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": false
         },
         {
-            "posicion": 27,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López",
-            "activo": false
-        },
-        {
-            "posicion": 28,
+            "posicion": 34,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 29,
-            "real": "Johana Osorio Bedoya",
-            "alias": "Johana Sanchez",
-            "activo": false
-        },
-        {
-            "posicion": 30,
-            "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez",
-            "activo": false
-        },
-        {
-            "posicion": 31,
+            "posicion": 35,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": false
         },
         {
-            "posicion": 32,
-            "real": "Claudia Marcela Manco Vargas",
-            "alias": "Marcela",
-            "activo": false
-        },
-        {
-            "posicion": 33,
+            "posicion": 36,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "activo": false
         },
         {
-            "posicion": 34,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "activo": false
-        },
-        {
-            "posicion": 35,
-            "real": "Juan Sebastian Serna Sepulveda",
-            "alias": "Juan Sebastian",
-            "activo": false
-        },
-        {
-            "posicion": 36,
+            "posicion": 37,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
-            "activo": false
-        },
-        {
-            "posicion": 37,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen",
             "activo": false
         }
     ],
@@ -16431,6 +16431,78 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 37,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Sebastian Serna Sepulveda",
+            "alias": "Juan Sebastian",
+            "posicion_previa": 35,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 34,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela",
+            "posicion_previa": 32,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "posicion_previa": 30,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Johana Osorio Bedoya",
+            "alias": "Johana Sanchez",
+            "posicion_previa": 29,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "posicion_previa": 27,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
+        {
+            "fecha_hora": "2026-10-27 06:03:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "posicion_previa": 17,
+            "motivo": "Activos",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-10-27 05:07:48",
             "tipo": "REACTIVADO",
