@@ -279,8 +279,8 @@ def _snapshot_fila(turnos: list) -> list:
 def contar_saltos_hoy(data_turnos: dict) -> dict:
     """
     Cuenta por agente (nombre real) los saltos de HOY (hora Colombia):
-    - "ivr": llamadas atendidas/registradas con PIN (historial).
-    - "admin": saltos manuales del admin (saltos_admin).
+    - "ivr": llamadas IVR registradas con PIN (historial). Es lo ÚNICO que define la prioridad.
+    - "admin": saltos manuales del admin (saltos_admin). Solo informativo, NO cuenta.
     Solo lee lo que ya existe en turnos_orden.json; no modifica datos.
     """
     hoy = obtener_fecha_hora_colombia().strftime("%Y-%m-%d")
@@ -291,10 +291,10 @@ def contar_saltos_hoy(data_turnos: dict) -> dict:
         nombre = registro.get("nombre_real")
         if not nombre or not fecha.startswith(hoy):
             return
-        c = conteos.setdefault(nombre, {"ivr": 0, "admin": 0, "total": 0, "ultimo": ""})
+        c = conteos.setdefault(nombre, {"ivr": 0, "admin": 0, "ultima_ivr": ""})
         c[clave] += 1
-        c["total"] += 1
-        c["ultimo"] = max(c["ultimo"], fecha)
+        if clave == "ivr":
+            c["ultima_ivr"] = max(c["ultima_ivr"], fecha)
 
     for h in data_turnos.get("historial", []):
         sumar(h, "ivr")
@@ -307,13 +307,14 @@ def _aplicar_prioridad(turnos: list, conteos: dict) -> list:
     """
     Orden efectivo de la fila:
     1) Activos primero, inactivos al final (igual que antes).
-    2) Entre activos, quien tenga MENOS saltos hoy va primero (IVR + saltos admin).
-    3) A igualdad de saltos se respeta el orden actual (llegada / rotación): el sort es estable.
+    2) Entre activos, quien tenga MENOS llamadas IVR registradas hoy va primero.
+       Los saltos del admin no suman: solo mandan al final de su grupo.
+    3) A igualdad de llamadas IVR se respeta el orden actual (llegada / rotación): el sort es estable.
     """
     fila = _ordenar_fila(sorted(turnos, key=lambda x: x["posicion"]))
     activos = [t for t in fila if t["activo"]]
     inactivos = [t for t in fila if not t["activo"]]
-    activos.sort(key=lambda t: conteos.get(t["real"], {}).get("total", 0))
+    activos.sort(key=lambda t: conteos.get(t["real"], {}).get("ivr", 0))
     return _renumerar(activos + inactivos)
 
 
@@ -402,7 +403,7 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     data_turnos = st.session_state.data_turnos_cache  # misma lectura fresca de arriba
     data_turnos["historial"] = historial
     data_turnos["turnos"] = _mover_al_final_de_activos(turnos, nombre_real)
-    data_turnos["turnos"] = _fila_priorizada(data_turnos)  # suma el salto nuevo y reubica
+    data_turnos["turnos"] = _fila_priorizada(data_turnos)  # suma la llamada IVR nueva y reubica
 
     if escribir_json_github(FILE_TURNOS, data_turnos, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})"):
         guardar_evento_log_salto({
@@ -467,7 +468,7 @@ def saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por:
     data_turnos["historial"] = historial
     data_turnos["saltos_admin"] = saltos_admin
     data_turnos["turnos"] = _mover_al_final_de_activos(turnos, primero["real"])
-    data_turnos["turnos"] = _fila_priorizada(data_turnos)  # el salto nuevo ya cuenta
+    data_turnos["turnos"] = _fila_priorizada(data_turnos)  # el salto admin no suma IVR
     nuevos_turnos = data_turnos["turnos"]
     siguiente = _primer_activo(nuevos_turnos)
     if siguiente and siguiente["real"] == primero["real"]:
@@ -967,7 +968,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.subheader("⏭️ Saltar Manualmente a la Primera Persona")
             st.caption(
                 "Úsalo cuando la persona que tiene el turno no está disponible. "
-                "Pasará al final de la fila, el salto le cuenta para la prioridad del día "
+                "Pasará al final de su grupo en la fila (el salto del admin NO le suma llamadas IVR) "
                 "y el motivo quedará guardado en GitHub."
             )
 
@@ -1004,9 +1005,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.markdown("---")
             st.subheader("📋 Fila Actual de Posiciones")
             st.caption(
-                "**Prioridad:** entre los activos va primero quien tenga **menos saltos hoy** "
-                "(llamadas IVR registradas + saltos del admin). Con la misma cantidad se respeta "
-                "el orden de llegada / rotación."
+                "**Prioridad:** entre los activos va primero quien tenga **menos llamadas IVR registradas hoy**. "
+                "Con la misma cantidad se respeta el orden de llegada / rotación. "
+                "Los saltos del admin se muestran pero no cuentan."
             )
             tabla_display = []
             for t in turnos_admin_vista:
@@ -1017,10 +1018,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     "Turno": "🎯 Atendiendo" if primero_admin and t["real"] == primero_admin["real"] else "",
                     "Nombre Real": t["real"],
                     "Alias / Nombre en Sistema": t["alias"],
-                    "Saltos hoy": c.get("total", 0),
-                    "📞 IVR hoy": c.get("ivr", 0),
-                    "⏭️ Saltos admin hoy": c.get("admin", 0),
-                    "Último salto": c.get("ultimo", "")[11:] or "—",
+                    "📞 Saltos IVR hoy": c.get("ivr", 0),
+                    "Última IVR": c.get("ultima_ivr", "")[11:] or "—",
+                    "⏭️ Saltos admin hoy (no cuentan)": c.get("admin", 0),
                 })
             st.dataframe(pd.DataFrame(tabla_display), use_container_width=True, hide_index=True)
 
@@ -1029,7 +1029,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.caption(
                 "A las 00:00 (hora Colombia) todos quedan inactivos. Activa a cada persona cuando llegue: "
                 "**el orden en que los actives será su posición en la fila**, siempre detrás de quienes "
-                "tengan menos saltos hoy."
+                "tengan menos llamadas IVR hoy."
             )
             inactivos_admin = [t for t in turnos_admin_vista if not t.get("activo", True)]
             if not inactivos_admin:
