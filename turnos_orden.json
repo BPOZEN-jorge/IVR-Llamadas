@@ -2,146 +2,146 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Brayan Andrey Bustamante",
-            "alias": "Marcos Garcia",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "activo": true
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": true
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": true
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": true
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": true
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "activo": true
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula",
             "activo": true
         },
         {
-            "posicion": 18,
+            "posicion": 17,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 19,
+            "posicion": 18,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "activo": true
         },
         {
-            "posicion": 20,
+            "posicion": 19,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "activo": true
         },
         {
-            "posicion": 21,
+            "posicion": 20,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "activo": true
         },
         {
-            "posicion": 22,
+            "posicion": 21,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": true
         },
         {
-            "posicion": 23,
+            "posicion": 22,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": true
         },
         {
-            "posicion": 24,
+            "posicion": 23,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 24,
+            "real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 132,
+            "call_id": "CA6b996c97723bd02d4a06bdaea2317c77",
+            "telefono": "679693057",
+            "nombre_real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "fecha_hora": "2026-10-27 06:10:01"
+        },
         {
             "id": 131,
             "call_id": "CA9e687789f276fedab539eccc56a7a9b6",
