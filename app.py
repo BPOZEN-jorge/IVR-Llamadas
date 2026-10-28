@@ -303,6 +303,25 @@ def contar_saltos_hoy(data_turnos: dict) -> dict:
     return conteos
 
 
+def horas_activacion_hoy(data_turnos: dict) -> dict:
+    """
+    Por agente (nombre real), a partir de cambios_estado de HOY (solo lectura):
+    - "llegada": primera vez que se activó hoy.
+    - "activo_desde": última activación de hoy (si luego lo inactivaron y reactivaron, cambia).
+    """
+    hoy = obtener_fecha_hora_colombia().strftime("%Y-%m-%d")
+    horas = {}
+    for c in data_turnos.get("cambios_estado", []):
+        fecha = str(c.get("fecha_hora", ""))
+        nombre = c.get("nombre_real")
+        if c.get("tipo") != TIPO_REACTIVADO or not nombre or not fecha.startswith(hoy):
+            continue
+        h = horas.setdefault(nombre, {"llegada": fecha, "activo_desde": fecha})
+        h["llegada"] = min(h["llegada"], fecha)
+        h["activo_desde"] = max(h["activo_desde"], fecha)
+    return horas
+
+
 def _aplicar_prioridad(turnos: list, conteos: dict) -> list:
     """
     Orden efectivo de la fila:
@@ -962,6 +981,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
         with tab_gestion:
             turnos_admin_vista = obtener_lista_turnos()
             conteos_hoy = contar_saltos_hoy(st.session_state.data_turnos_cache)
+            activaciones_hoy = horas_activacion_hoy(st.session_state.data_turnos_cache)
             activos_admin = [t for t in turnos_admin_vista if t.get("activo", True)]
             primero_admin = activos_admin[0] if activos_admin else None
 
@@ -1007,14 +1027,20 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.caption(
                 "**Prioridad:** entre los activos va primero quien tenga **menos llamadas IVR registradas hoy**. "
                 "Con la misma cantidad se respeta el orden de llegada / rotación. "
-                "Los saltos del admin se muestran pero no cuentan."
+                "Los saltos del admin se muestran pero no cuentan. "
+                "**Llegada hoy** = primera activación del día; **Activo desde** = última activación "
+                "(cambia si lo inactivaron y lo volvieron a activar)."
             )
             tabla_display = []
             for t in turnos_admin_vista:
                 c = conteos_hoy.get(t["real"], {})
+                a = activaciones_hoy.get(t["real"], {})
+                activo = t.get("activo", True)
                 tabla_display.append({
                     "Posición": t["posicion"],
-                    "Estado": "🟢 Activo" if t.get("activo", True) else "🔴 Inactivo",
+                    "Estado": "🟢 Activo" if activo else "🔴 Inactivo",
+                    "🕒 Llegada hoy": a.get("llegada", "")[11:] or "—",
+                    "Activo desde": (a.get("activo_desde", "")[11:] or "—") if activo else "—",
                     "Turno": "🎯 Atendiendo" if primero_admin and t["real"] == primero_admin["real"] else "",
                     "Nombre Real": t["real"],
                     "Alias / Nombre en Sistema": t["alias"],
