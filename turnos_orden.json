@@ -56,74 +56,74 @@
         },
         {
             "posicion": 10,
+            "real": "Andrea Mileidy londoño Bedoya",
+            "alias": "Andrea Valverde",
+            "activo": true
+        },
+        {
+            "posicion": 11,
+            "real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "activo": true
+        },
+        {
+            "posicion": 12,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "activo": false
         },
         {
-            "posicion": 11,
+            "posicion": 13,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": false
         },
         {
-            "posicion": 12,
+            "posicion": 14,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 13,
+            "posicion": 15,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": false
         },
         {
-            "posicion": 14,
-            "real": "Andrea Mileidy londoño Bedoya",
-            "alias": "Andrea Valverde",
-            "activo": false
-        },
-        {
-            "posicion": 15,
+            "posicion": 16,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "activo": false
         },
         {
-            "posicion": 16,
+            "posicion": 17,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": false
         },
         {
-            "posicion": 17,
+            "posicion": 18,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": false
         },
         {
-            "posicion": 18,
+            "posicion": 19,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": false
         },
         {
-            "posicion": 19,
+            "posicion": 20,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": false
         },
         {
-            "posicion": 20,
+            "posicion": 21,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
-            "activo": false
-        },
-        {
-            "posicion": 21,
-            "real": "Brayan Andrey Bustamante",
-            "alias": "Marcos Garcia",
             "activo": false
         },
         {
@@ -16471,6 +16471,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-28 04:12:07",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "posicion_previa": 21,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-10-28 04:12:07",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Andrea Mileidy londoño Bedoya",
+            "alias": "Andrea Valverde",
+            "posicion_previa": 14,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-10-28 04:11:30",
             "tipo": "REACTIVADO",
