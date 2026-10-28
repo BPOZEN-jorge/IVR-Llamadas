@@ -16472,6 +16472,15 @@
     ],
     "cambios_estado": [
         {
+            "fecha_hora": "2026-10-28 03:58:44",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_previa": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-10-27 15:06:43",
             "tipo": "INACTIVO",
             "nombre_real": "Gustavo Adolfo Barrientos Serna",
@@ -19505,5 +19514,5 @@
             "registrado_por": "Jorge"
         }
     ],
-    "ultimo_reset_diario": "2026-10-27"
+    "ultimo_reset_diario": "2026-10-28"
 }
