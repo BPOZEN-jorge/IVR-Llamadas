@@ -2,6 +2,240 @@
     "saltos": [
         {
             "tipo": "LLAMADA",
+            "fecha_hora": "2026-10-28 05:35:27",
+            "call_id": "CAb68c78b5d6e70415a781d7a8c3119477",
+            "telefono": "+40757328395",
+            "nombre_real": "Johana Osorio Bedoya",
+            "alias": "Johana Sanchez",
+            "posicion_al_saltar": 1,
+            "orden_previo_snapshot": [
+                {
+                    "posicion": 1,
+                    "alias": "Johana Sanchez",
+                    "real": "Johana Osorio Bedoya",
+                    "activo": true
+                },
+                {
+                    "posicion": 2,
+                    "alias": "Andrea Valverde",
+                    "real": "Andrea Mileidy londoño Bedoya",
+                    "activo": true
+                },
+                {
+                    "posicion": 3,
+                    "alias": "Marcos Garcia",
+                    "real": "Brayan Andrey Bustamante",
+                    "activo": true
+                },
+                {
+                    "posicion": 4,
+                    "alias": "Antonio de la villa",
+                    "real": "Mateo Cano Hincapié",
+                    "activo": true
+                },
+                {
+                    "posicion": 5,
+                    "alias": "Cecilia López",
+                    "real": "Yarnedis Cecilia Urrutia Pérez",
+                    "activo": true
+                },
+                {
+                    "posicion": 6,
+                    "alias": "Maria Antonia García",
+                    "real": "Angie Vanessa García",
+                    "activo": true
+                },
+                {
+                    "posicion": 7,
+                    "alias": "Manuel Vasquez",
+                    "real": "Cristian David Acosta Montoya",
+                    "activo": true
+                },
+                {
+                    "posicion": 8,
+                    "alias": "Marilyn Carrero",
+                    "real": "Yesly Marilyn Carrero Rivera",
+                    "activo": true
+                },
+                {
+                    "posicion": 9,
+                    "alias": "Gabriela",
+                    "real": "Evelin Acevedo Cortés",
+                    "activo": true
+                },
+                {
+                    "posicion": 10,
+                    "alias": "Linda Pérez / Elena Pérez",
+                    "real": "Linda Liceth Pérez Pineda",
+                    "activo": true
+                },
+                {
+                    "posicion": 11,
+                    "alias": "Juan Esteban",
+                    "real": "Juan Esteban Acevedo Garces",
+                    "activo": true
+                },
+                {
+                    "posicion": 12,
+                    "alias": "María José",
+                    "real": "Janis Henao Vasco",
+                    "activo": false
+                },
+                {
+                    "posicion": 13,
+                    "alias": "Sara Gómez",
+                    "real": "Sara Gómez Bayona",
+                    "activo": false
+                },
+                {
+                    "posicion": 14,
+                    "alias": "Isabel Botero",
+                    "real": "Dayana Botero Rojas",
+                    "activo": false
+                },
+                {
+                    "posicion": 15,
+                    "alias": "Valeria Hernandez",
+                    "real": "Angie Valeria Quirama Hernández",
+                    "activo": false
+                },
+                {
+                    "posicion": 16,
+                    "alias": "Karolina",
+                    "real": "María Karolina Viana Cancio",
+                    "activo": false
+                },
+                {
+                    "posicion": 17,
+                    "alias": "Viviana Gómez",
+                    "real": "Viviana Pacheco Córdoba",
+                    "activo": false
+                },
+                {
+                    "posicion": 18,
+                    "alias": "Manuela Villegas",
+                    "real": "Manuela villegas Giraldo",
+                    "activo": false
+                },
+                {
+                    "posicion": 19,
+                    "alias": "Oscar",
+                    "real": "Oscar José Llanos Mendinueta",
+                    "activo": false
+                },
+                {
+                    "posicion": 20,
+                    "alias": "Yesica López",
+                    "real": "Yesica Paola Lopez Arango",
+                    "activo": false
+                },
+                {
+                    "posicion": 21,
+                    "alias": "Leo Miranda",
+                    "real": "Yeismer Miranda Ramirez",
+                    "activo": false
+                },
+                {
+                    "posicion": 22,
+                    "alias": "Alisson",
+                    "real": "Alisson Correa Gaviria",
+                    "activo": false
+                },
+                {
+                    "posicion": 23,
+                    "alias": "Paula",
+                    "real": "Paula Andrea Guzman Jaramillo",
+                    "activo": false
+                },
+                {
+                    "posicion": 24,
+                    "alias": "Maria Sanchez",
+                    "real": "Ana Maria Sanchez Gamboa",
+                    "activo": false
+                },
+                {
+                    "posicion": 25,
+                    "alias": "Marcela",
+                    "real": "Claudia Marcela Manco Vargas",
+                    "activo": false
+                },
+                {
+                    "posicion": 26,
+                    "alias": "Maria Rodriguez",
+                    "real": "Yarlen Biviana Son Cedeño",
+                    "activo": false
+                },
+                {
+                    "posicion": 27,
+                    "alias": "Juan Sebastian",
+                    "real": "Juan Sebastian Serna Sepulveda",
+                    "activo": false
+                },
+                {
+                    "posicion": 28,
+                    "alias": "Karen",
+                    "real": "Karen Herrera Gonzalez",
+                    "activo": false
+                },
+                {
+                    "posicion": 29,
+                    "alias": "Tatiana",
+                    "real": "Tatiana Magreth Acevedo Marín",
+                    "activo": false
+                },
+                {
+                    "posicion": 30,
+                    "alias": "Paola Romero",
+                    "real": "Libia Paola Romero Cantillo",
+                    "activo": false
+                },
+                {
+                    "posicion": 31,
+                    "alias": "Luis Lozano",
+                    "real": "Luis Alberto Lozano Ibarra",
+                    "activo": false
+                },
+                {
+                    "posicion": 32,
+                    "alias": "Omar",
+                    "real": "Omar David Barboza Carbonero",
+                    "activo": false
+                },
+                {
+                    "posicion": 33,
+                    "alias": "Carlos Herrera / Alberto Fernandez",
+                    "real": "Carlos Alberto Herrera Cardeño",
+                    "activo": false
+                },
+                {
+                    "posicion": 34,
+                    "alias": "Tomas",
+                    "real": "Tomas Castaño Gómez",
+                    "activo": false
+                },
+                {
+                    "posicion": 35,
+                    "alias": "Maria Cano",
+                    "real": "Iris Sabiana Cano Cano",
+                    "activo": false
+                },
+                {
+                    "posicion": 36,
+                    "alias": "Flor Lopez",
+                    "real": "Rosa Elvira Agamez López",
+                    "activo": false
+                },
+                {
+                    "posicion": 37,
+                    "alias": "Gustavo",
+                    "real": "Gustavo Adolfo Barrientos Serna",
+                    "activo": false
+                }
+            ],
+            "id_evento": 429
+        },
+        {
+            "tipo": "LLAMADA",
             "fecha_hora": "2026-10-28 05:34:15",
             "call_id": "CAbcd77de2a993f0c7237548fa404294be",
             "telefono": "+34605470087",
