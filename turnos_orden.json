@@ -122,104 +122,104 @@
         },
         {
             "posicion": 21,
-            "real": "Iris Sabiana Cano Cano",
-            "alias": "Maria Cano",
-            "activo": true
-        },
-        {
-            "posicion": 22,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
-            "activo": true
-        },
-        {
-            "posicion": 23,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 24,
+            "posicion": 22,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 25,
+            "posicion": 23,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 26,
+            "posicion": 24,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 27,
+            "posicion": 25,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 28,
+            "posicion": 26,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 29,
+            "posicion": 27,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
             "activo": true
         },
         {
-            "posicion": 30,
+            "posicion": 28,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "activo": true
         },
         {
-            "posicion": 31,
+            "posicion": 29,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": true
         },
         {
-            "posicion": 32,
+            "posicion": 30,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 33,
+            "posicion": 31,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": true
         },
         {
-            "posicion": 34,
+            "posicion": 32,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 35,
+            "posicion": 33,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 36,
+            "posicion": 34,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 37,
+            "posicion": 35,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
+            "activo": false
+        },
+        {
+            "posicion": 36,
+            "real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "activo": false
+        },
+        {
+            "posicion": 37,
+            "real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
             "activo": false
         }
     ],
@@ -16800,31 +16800,13 @@
     ],
     "cambios_estado": [
         {
-            "fecha_hora": "2026-10-29 06:30:57",
-            "tipo": "REACTIVADO",
-            "nombre_real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
-            "posicion_previa": 37,
-            "motivo": "Activos",
-            "registrado_por": "Paula"
-        },
-        {
-            "fecha_hora": "2026-10-29 06:30:57",
-            "tipo": "REACTIVADO",
-            "nombre_real": "Iris Sabiana Cano Cano",
-            "alias": "Maria Cano",
-            "posicion_previa": 36,
-            "motivo": "Activos",
-            "registrado_por": "Paula"
-        },
-        {
-            "fecha_hora": "2026-10-29 06:30:57",
+            "fecha_hora": "2026-10-29 06:30:59",
             "tipo": "REACTIVADO",
             "nombre_real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "posicion_previa": 34,
-            "motivo": "Activos",
-            "registrado_por": "Paula"
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina"
         },
         {
             "fecha_hora": "2026-10-29 06:30:43",
