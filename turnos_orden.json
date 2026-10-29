@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 173,
+            "call_id": "CA5e2a8d0b9e3b8c965ac4ced76e5bbfd2",
+            "telefono": "654944677",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "fecha_hora": "2026-10-29 05:00:01"
+        },
         {
             "id": 172,
             "call_id": "CAad842c63454552a9893c2198703c7061",
