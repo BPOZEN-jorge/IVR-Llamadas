@@ -103,13 +103,37 @@ def obtener_repositorio_github():
 
 import base64
 
+
+class ConflictoGithub(Exception):
+    """Otro usuario guardó el mismo archivo entre nuestra lectura y nuestra escritura."""
+
+
+def sha_leido(file_path: str):
+    """SHA de la última lectura de este archivo en esta ejecución (para escritura segura)."""
+    return st.session_state.get(f"_sha_{file_path}")
+
+
+def ejecutar_con_reintentos(operacion, intentos: int = 4):
+    """
+    Ejecuta una operación de lectura+escritura. Si otro usuario guardó en medio (ConflictoGithub),
+    se repite TODA la operación con datos frescos, así nunca se pisan los cambios del otro.
+    """
+    for _ in range(intentos):
+        try:
+            return operacion()
+        except ConflictoGithub:
+            time_lib.sleep(0.3 + random.random() * 0.7)
+    return False, "❌ Varias personas guardaron al mismo tiempo. Espera un momento e intenta nuevamente."
+
+
 def leer_json_github(file_path: str, default_payload: dict) -> dict:
     """Lee un archivo JSON individual directamente desde GitHub con soporte para archivos >1MB."""
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
     try:
         content = repo.get_contents(file_path, ref=branch)
-        
+        st.session_state[f"_sha_{file_path}"] = content.sha
+
         # Si la API devuelve Base64 (archivos pequeños < 1MB)
         if getattr(content, "encoding", None) == "base64":
             raw_data = content.decoded_content.decode("utf-8")
@@ -128,11 +152,34 @@ def leer_json_github(file_path: str, default_payload: dict) -> dict:
         st.stop()
 
 
-def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, retries: int = 3):
-    """Guarda un JSON en GitHub reintentando automáticamente en caso de colisión de hash (commit concurrente)."""
+def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, retries: int = 3,
+                         sha_esperado: str | None = None):
+    """
+    Guarda un JSON en GitHub.
+    - Con sha_esperado (el SHA de la lectura): escritura segura. Si otro usuario guardó en medio,
+      GitHub responde 409 y se lanza ConflictoGithub para repetir la operación con datos frescos.
+    - Sin sha_esperado: escritura directa (solo para crear archivos que no existen).
+    """
     repo = obtener_repositorio_github()
     branch = st.secrets.get("github", {}).get("branch", "main")
     json_str = json.dumps(payload, indent=4, ensure_ascii=False)
+
+    if sha_esperado is not None:
+        try:
+            resultado = repo.update_file(
+                path=file_path,
+                message=f"Auto-update: {mensaje_commit}",
+                content=json_str,
+                sha=sha_esperado,
+                branch=branch,
+            )
+            st.session_state[f"_sha_{file_path}"] = resultado["content"].sha
+            return True
+        except GithubException as e:
+            if e.status == 409 or (e.status == 422 and "sha" in str(e.data).lower()):
+                raise ConflictoGithub(file_path) from e
+            st.error(f"❌ Error al guardar en {file_path}: {e}")
+            return False
 
     for intento in range(retries):
         try:
@@ -171,13 +218,6 @@ def guardar_eventos_log_salto(eventos: list):
     """Guarda uno o varios registros en saltos_log.json (un solo commit) para mapeo temporal."""
     if not eventos:
         return
-    log_actual = leer_json_github(FILE_LOG_SALTOS, {"saltos": []})
-    if "saltos" not in log_actual:
-        log_actual["saltos"] = []
-    for ev in eventos:
-        ev.setdefault("id_evento", len(log_actual["saltos"]) + 1)
-        log_actual["saltos"].insert(0, ev)
-
     primero = eventos[0]
     tipo = primero.get("tipo")
     if tipo == TIPO_SALTO_LLAMADA:
@@ -186,7 +226,20 @@ def guardar_eventos_log_salto(eventos: list):
         msg = f"Log {tipo}: {primero.get('alias')} - {primero.get('motivo', '')[:60]}"
     else:
         msg = f"Log cambios de estado: {len(eventos)} agentes - {primero.get('motivo', '')[:60]}"
-    escribir_json_github(FILE_LOG_SALTOS, log_actual, msg)
+
+    # El log se reintenta por su cuenta: el cambio en turnos_orden.json ya quedó guardado.
+    for _ in range(5):
+        log_actual = leer_json_github(FILE_LOG_SALTOS, {"saltos": []})
+        log_actual.setdefault("saltos", [])
+        for ev in eventos:
+            ev["id_evento"] = len(log_actual["saltos"]) + 1
+            log_actual["saltos"].insert(0, dict(ev))
+        try:
+            escribir_json_github(FILE_LOG_SALTOS, log_actual, msg, sha_esperado=sha_leido(FILE_LOG_SALTOS))
+            return
+        except ConflictoGithub:
+            time_lib.sleep(0.3 + random.random() * 0.7)
+    st.warning("⚠️ El cambio se guardó, pero no se pudo escribir en el log de saltos (mucha concurrencia).")
 
 
 def guardar_evento_log_salto(datos_salto: dict):
@@ -372,6 +425,10 @@ def _mover_al_final_como_inactivo(turnos: list, nombre_real: str) -> list:
 # SALTO POR LLAMADA ATENDIDA (AGENTE CON PIN)
 # ==========================================
 def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tuple[bool, str]:
+    return ejecutar_con_reintentos(lambda: _registrar_salto_turno(call_id, telefono, pin_ingresado))
+
+
+def _registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tuple[bool, str]:
     call_id_clean = call_id.strip()
     telefono_clean = telefono.strip()
     pin_clean = pin_ingresado.strip()
@@ -424,7 +481,8 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
     data_turnos["turnos"] = _mover_al_final_de_activos(turnos, nombre_real)
     data_turnos["turnos"] = _fila_priorizada(data_turnos)  # suma la llamada IVR nueva y reubica
 
-    if escribir_json_github(FILE_TURNOS, data_turnos, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})"):
+    if escribir_json_github(FILE_TURNOS, data_turnos, f"Avanzar turno atendido por {alias} (ID: {call_id_clean})",
+                            sha_esperado=sha_leido(FILE_TURNOS)):
         guardar_evento_log_salto({
             "tipo": TIPO_SALTO_LLAMADA,
             "fecha_hora": now_col,
@@ -446,13 +504,27 @@ def registrar_salto_turno(call_id: str, telefono: str, pin_ingresado: str) -> tu
 # SALTO MANUAL DEL ADMIN (POR DISPONIBILIDAD)
 # ==========================================
 def saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por: str) -> tuple[bool, str]:
+    return ejecutar_con_reintentos(lambda: _saltar_primero_admin(nombre_real_esperado, motivo, registrado_por))
+
+
+def _validar_registrado_por(registrado_por: str):
+    """Quien hace el cambio debe identificarse (antes quedaba 'Admin' si se dejaba vacío)."""
+    nombre = (registrado_por or "").strip()
+    if len(nombre) < 2:
+        return None, "⚠️ Escribe tu nombre en **Tu nombre (admin)** en la barra lateral antes de guardar cambios."
+    return nombre, None
+
+
+def _saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por: str) -> tuple[bool, str]:
     """
     El admin salta a la primera persona de la fila (la manda al final) indicando el motivo.
     Se valida que la persona en primer lugar siga siendo la misma que el admin vio en pantalla,
     para evitar saltar a alguien distinto si otro usuario avanzó la fila al mismo tiempo.
     """
     motivo_clean = motivo.strip()
-    registrado_por_clean = registrado_por.strip() or "Admin"
+    registrado_por_clean, error = _validar_registrado_por(registrado_por)
+    if error:
+        return False, error
 
     if len(motivo_clean) < 5:
         return False, "⚠️ Debes escribir el motivo del salto (mínimo 5 caracteres)."
@@ -495,7 +567,7 @@ def saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por:
     registro_admin["nuevo_primero"] = siguiente["alias"] if siguiente else ""
 
     commit_msg = f"Admin: salto manual de {primero['alias']} - Motivo: {motivo_clean[:80]}"
-    if escribir_json_github(FILE_TURNOS, data_turnos, commit_msg):
+    if escribir_json_github(FILE_TURNOS, data_turnos, commit_msg, sha_esperado=sha_leido(FILE_TURNOS)):
         guardar_evento_log_salto({
             "tipo": TIPO_SALTO_ADMIN,
             "fecha_hora": now_col,
@@ -517,13 +589,20 @@ def saltar_primero_admin(nombre_real_esperado: str, motivo: str, registrado_por:
 # ACTIVO / INACTIVO (ADMIN) -> INACTIVO SE VA AL FINAL SIN RESPETAR POSICIÓN
 # ==========================================
 def guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, registrado_por: str) -> tuple[bool, str]:
+    return ejecutar_con_reintentos(lambda: _guardar_cambios_estado_admin(estados_seleccionados, motivo, registrado_por))
+
+
+def _guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, registrado_por: str) -> tuple[bool, str]:
     """
-    estados_seleccionados: {nombre_real: activo(bool)}
+    estados_seleccionados: {nombre_real: activo(bool)} SOLO con los interruptores que el admin movió.
     - Activo -> Inactivo: se va al final de la fila (pierde su posición).
     - Inactivo -> Activo: entra al final de los activos (no recupera su posición anterior).
+    - Si otro admin ya lo dejó en ese estado, no se toca (no se duplica ni se revierte).
     """
     motivo_clean = motivo.strip()
-    registrado_por_clean = registrado_por.strip() or "Admin"
+    registrado_por_clean, error = _validar_registrado_por(registrado_por)
+    if error:
+        return False, error
 
     turnos, _, _ = obtener_estructura_completa_fresca()
     estado_actual = {t["real"]: bool(t.get("activo", True)) for t in turnos}
@@ -531,7 +610,9 @@ def guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, regis
                if nombre in estado_actual and estado_actual[nombre] != nuevo]
 
     if not cambios:
-        return False, "ℹ️ No se detectaron cambios de estado para guardar."
+        if estados_seleccionados:
+            return False, "ℹ️ No hay nada que guardar: esa(s) persona(s) ya estaban en ese estado (quizá otro admin lo hizo)."
+        return False, "ℹ️ No moviste ningún interruptor."
     if len(motivo_clean) < 5:
         return False, "⚠️ Debes escribir el motivo del cambio de estado (mínimo 5 caracteres)."
 
@@ -575,7 +656,8 @@ def guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, regis
         })
 
     resumen = ", ".join(f"{e['alias']}→{'Activo' if e['tipo'] == TIPO_REACTIVADO else 'Inactivo'}" for e in eventos)
-    if escribir_json_github(FILE_TURNOS, data_turnos, f"Admin: estados ({resumen[:120]}) - Motivo: {motivo_clean[:60]}"):
+    if escribir_json_github(FILE_TURNOS, data_turnos, f"Admin: estados ({resumen[:120]}) - Motivo: {motivo_clean[:60]}",
+                            sha_esperado=sha_leido(FILE_TURNOS)):
         guardar_eventos_log_salto(eventos)
         return True, f"✅ Se guardaron {len(eventos)} cambio(s) de estado: {resumen}"
     return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
@@ -599,15 +681,22 @@ def aplicar_reset_diario_si_corresponde():
     hoy = obtener_fecha_hora_colombia().strftime("%Y-%m-%d")
     if st.session_state.get("reset_diario_verificado") == hoy:
         return
+    resultado = ejecutar_con_reintentos(lambda: _reset_diario(hoy))
+    if resultado is True or resultado is None:  # None = ya estaba hecho hoy
+        st.session_state.reset_diario_verificado = hoy  # si falló, se reintenta en la próxima carga
 
+
+def _reset_diario(hoy: str):
+    """Devuelve False solo si no se pudo guardar; con conflicto se repite leyendo de nuevo."""
     data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
     ultimo = data_turnos.get("ultimo_reset_diario")
 
     if ultimo is None:
         # Primera vez con esta versión: no desactiva a nadie hoy, empieza a contar desde mañana.
         data_turnos["ultimo_reset_diario"] = hoy
-        escribir_json_github(FILE_TURNOS, data_turnos, f"Inicializar reset diario ({hoy})")
-    elif ultimo < hoy:
+        return escribir_json_github(FILE_TURNOS, data_turnos, f"Inicializar reset diario ({hoy})",
+                                    sha_esperado=sha_leido(FILE_TURNOS))
+    if ultimo < hoy:
         fila_previa = _ordenar_fila(data_turnos.get("turnos", USUARIOS_INICIALES))
         snapshot = _snapshot_fila(fila_previa)
         fila_nueva = [dict(t, activo=False) for t in fila_previa]
@@ -622,21 +711,22 @@ def aplicar_reset_diario_si_corresponde():
             "motivo": "Reset automático 00:00 (hora Colombia)",
             "registrado_por": "Sistema",
         })
-        if escribir_json_github(FILE_TURNOS, data_turnos, f"Auto: Reset diario 00:00 - todos inactivos ({hoy})"):
-            guardar_evento_log_salto({
-                "tipo": TIPO_RESET_DIARIO,
-                "fecha_hora": obtener_hora_colombia_str(),
-                "call_id": "",
-                "telefono": "",
-                "nombre_real": "TODOS",
-                "alias": "TODOS",
-                "posicion_al_saltar": "",
-                "motivo": "Reset automático 00:00 (hora Colombia)",
-                "registrado_por": "Sistema",
-                "orden_previo_snapshot": snapshot,
-            })
-
-    st.session_state.reset_diario_verificado = hoy
+        if not escribir_json_github(FILE_TURNOS, data_turnos, f"Auto: Reset diario 00:00 - todos inactivos ({hoy})",
+                                    sha_esperado=sha_leido(FILE_TURNOS)):
+            return False
+        guardar_evento_log_salto({
+            "tipo": TIPO_RESET_DIARIO,
+            "fecha_hora": obtener_hora_colombia_str(),
+            "call_id": "",
+            "telefono": "",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_al_saltar": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema",
+            "orden_previo_snapshot": snapshot,
+        })
+    return True
 
 
 def obtener_cambios_estado_df() -> pd.DataFrame:
@@ -691,28 +781,44 @@ def obtener_historial_saltos() -> pd.DataFrame:
 
 
 def vaciar_historial_llamadas():
-    data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
-    data_turnos["historial"] = []
-    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Vaciar historial de llamadas")
+    def operacion():
+        data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
+        data_turnos["historial"] = []
+        return escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Vaciar historial de llamadas",
+                                    sha_esperado=sha_leido(FILE_TURNOS))
+    return ejecutar_con_reintentos(operacion)
 
 
 def reiniciar_turnos_originales():
-    data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
-    data_turnos["turnos"] = _ordenar_fila([dict(u, activo=True) for u in USUARIOS_INICIALES])
-    data_turnos["turnos"] = _fila_priorizada(data_turnos)
-    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Restablecer turnos al orden inicial (todos activos)")
+    """
+    Vuelve al orden inicial SIN cambiar quién está activo o inactivo
+    (antes activaba a todos y eso no quedaba en el historial de cambios de estado).
+    Quien no esté en la lista inicial se conserva al final de su grupo.
+    """
+    def operacion():
+        data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
+        orden_inicial = {u["real"]: u["posicion"] for u in USUARIOS_INICIALES}
+        actuales = data_turnos.get("turnos", USUARIOS_INICIALES)
+        data_turnos["turnos"] = sorted(actuales, key=lambda t: orden_inicial.get(t["real"], 10_000 + t["posicion"]))
+        data_turnos["turnos"] = _fila_priorizada(dict(data_turnos, turnos=_renumerar(data_turnos["turnos"])))
+        return escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Restablecer turnos al orden inicial (sin cambiar estados)",
+                                    sha_esperado=sha_leido(FILE_TURNOS))
+    return ejecutar_con_reintentos(operacion)
 
 
 def reorganizar_turnos_al_azar():
     """Mezcla solo a los activos; los inactivos siguen al final."""
-    data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
-    fila = _ordenar_fila(data_turnos.get("turnos", USUARIOS_INICIALES))
-    activos = [t for t in fila if t["activo"]]
-    inactivos = [t for t in fila if not t["activo"]]
-    random.shuffle(activos)
-    data_turnos["turnos"] = _renumerar(activos + inactivos)
-    data_turnos["turnos"] = _fila_priorizada(data_turnos)  # se mezcla dentro de cada nivel de saltos
-    escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar")
+    def operacion():
+        data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
+        fila = _ordenar_fila(data_turnos.get("turnos", USUARIOS_INICIALES))
+        activos = [t for t in fila if t["activo"]]
+        inactivos = [t for t in fila if not t["activo"]]
+        random.shuffle(activos)
+        data_turnos["turnos"] = _renumerar(activos + inactivos)
+        data_turnos["turnos"] = _fila_priorizada(data_turnos)  # se mezcla dentro de cada nivel de saltos
+        return escribir_json_github(FILE_TURNOS, data_turnos, "Admin: Reorganizar turnos al azar",
+                                    sha_esperado=sha_leido(FILE_TURNOS))
+    return ejecutar_con_reintentos(operacion)
 
 
 # ==========================================
@@ -963,6 +1069,10 @@ elif opcion_vista == "🛡️ Vista Administrador":
             else:
                 st.error("❌ Contraseña incorrecta.")
     else:
+        admin_nombre = st.sidebar.text_input(
+            "👤 Tu nombre (admin)", key="admin_nombre", placeholder="Obligatorio para guardar cambios",
+            help="Queda registrado en cada activación, inactivación y salto que hagas.",
+        )
         if st.sidebar.button("Cerrar Sesión Admin", use_container_width=True):
             st.session_state.admin_logged = False
             st.rerun()
@@ -1005,7 +1115,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                             "Motivo del salto (obligatorio):",
                             placeholder="Ej: En capacitación hasta las 11:00 / Pausa activa / Incapacidad / Fuera de horario",
                         )
-                        registrado_por_input = st.text_input("Registrado por:", placeholder="Nombre del admin")
                         confirm_salto = st.checkbox(f"Confirmo saltar a {primero_admin['alias']}.")
                         btn_salto_admin = st.form_submit_button("⏭️ Saltar Turno", type="primary", use_container_width=True)
 
@@ -1013,7 +1122,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
                         if not confirm_salto:
                             st.warning("⚠️ Marca la casilla de confirmación para saltar el turno.")
                         else:
-                            exito, msj = saltar_primero_admin(primero_admin["real"], motivo_input, registrado_por_input)
+                            exito, msj = saltar_primero_admin(primero_admin["real"], motivo_input, admin_nombre)
                             if exito:
                                 st.success(msj)
                                 st.rerun()
@@ -1061,15 +1170,16 @@ elif opcion_vista == "🛡️ Vista Administrador":
             if not inactivos_admin:
                 st.success("✅ Todos los agentes están activos.")
             else:
-                registrado_llegada = st.text_input("Registrado por:", placeholder="Nombre del admin", key="registrado_llegada")
                 cols_llegada = st.columns(3)
                 for i, t in enumerate(sorted(inactivos_admin, key=lambda x: x["alias"].lower())):
                     with cols_llegada[i % 3]:
                         if st.button(f"✅ {t['alias']}", key=f"llegada_{t['real']}", use_container_width=True, help=t["real"]):
-                            exito, msj = registrar_llegada(t["real"], registrado_llegada)
+                            exito, msj = registrar_llegada(t["real"], admin_nombre)
                             if exito:
                                 st.toast(f"{t['alias']} activado/a")
                                 st.rerun()
+                            elif msj.startswith("ℹ️"):
+                                st.info(f"{t['alias']} ya estaba activo/a (otro admin lo activó). Se actualizó la vista.")
                             else:
                                 st.error(msj)
 
@@ -1080,26 +1190,35 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 "Al **reactivarlo** entra al final de los activos: no recupera su posición anterior."
             )
             with st.expander("Ver y gestionar estados", expanded=True):
+                # Solo se envían los interruptores que ESTE admin movió. Antes se enviaban todos, y como
+                # Streamlit conserva el valor viejo del interruptor en la sesión, al guardar se revertían
+                # las activaciones/inactivaciones que otro admin había hecho mientras tanto.
                 estados_seleccionados = {}
                 for t in turnos_admin_vista:
+                    activo_t = bool(t.get("activo", True))
+                    k_toggle, k_base = f"toggle_agente_{t['real']}", f"base_agente_{t['real']}"
+                    if st.session_state.get(k_base) != activo_t:
+                        # El estado real cambió (otro admin, reset diario o llegada): se sincroniza.
+                        st.session_state[k_base] = activo_t
+                        st.session_state[k_toggle] = activo_t
                     col_name, col_status = st.columns([3, 1])
                     with col_name:
                         st.write(f"#{t['posicion']} **{t['alias']}** ({t['real']})")
                     with col_status:
-                        activo_t = t.get("activo", True)
-                        estados_seleccionados[t["real"]] = st.toggle(
-                            "Activo" if activo_t else "Inactivo",
-                            value=activo_t,
-                            key=f"toggle_agente_{t['real']}",
-                        )
+                        nuevo = st.toggle("Activo" if activo_t else "Inactivo", key=k_toggle)
+                    if nuevo != activo_t:
+                        estados_seleccionados[t["real"]] = nuevo
+                if estados_seleccionados:
+                    st.caption("Cambios pendientes por guardar: " + ", ".join(
+                        f"{t['alias']}→{'Activo' if estados_seleccionados[t['real']] else 'Inactivo'}"
+                        for t in turnos_admin_vista if t["real"] in estados_seleccionados))
                 motivo_estado = st.text_input(
                     "Motivo del cambio (obligatorio):",
                     placeholder="Ej: Almuerzo / Capacitación / Terminó jornada / Regresó de pausa",
                     key="motivo_estado",
                 )
-                registrado_estado = st.text_input("Registrado por:", placeholder="Nombre del admin", key="registrado_estado")
                 if st.button("💾 Guardar Cambios de Estado", type="primary", use_container_width=True):
-                    exito, msj = guardar_cambios_estado_admin(estados_seleccionados, motivo_estado, registrado_estado)
+                    exito, msj = guardar_cambios_estado_admin(estados_seleccionados, motivo_estado, admin_nombre)
                     if exito:
                         st.success(msj)
                         st.rerun()
@@ -1117,27 +1236,30 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 st.caption("Mezcla a los agentes activos al azar (los inactivos siguen al final).")
                 confirm_random = st.checkbox("Confirmo mezclar la fila al azar.")
                 if st.button("🔀 Mezclar Orden", disabled=not confirm_random, type="primary", use_container_width=True):
-                    reorganizar_turnos_al_azar()
-                    st.success("✅ ¡Fila mezclada con éxito!")
-                    st.rerun()
+                    res = reorganizar_turnos_al_azar()
+                    if res is True:
+                        st.rerun()
+                    st.error(res[1] if isinstance(res, tuple) else "❌ No se pudo guardar. Intenta nuevamente.")
 
             with col_admin_2:
                 st.markdown("### 🔄 Restablecer Orden")
-                st.caption("Restablece el orden alfabético inicial y deja a todos activos.")
+                st.caption("Restablece el orden alfabético inicial **sin cambiar** quién está activo o inactivo.")
                 confirm_reset = st.checkbox("Confirmo reiniciar al orden inicial.")
                 if st.button("Restablecer Fila", disabled=not confirm_reset, use_container_width=True):
-                    reiniciar_turnos_originales()
-                    st.success("✅ Fila de turnos restablecida.")
-                    st.rerun()
+                    res = reiniciar_turnos_originales()
+                    if res is True:
+                        st.rerun()
+                    st.error(res[1] if isinstance(res, tuple) else "❌ No se pudo guardar. Intenta nuevamente.")
 
             with col_admin_3:
                 st.markdown("### 🗑️ Limpiar Historial")
                 st.caption("Borra los registros de llamadas de prueba.")
                 confirm_del_hist = st.checkbox("Confirmo borrar el historial.")
                 if st.button("Vaciar Historial", disabled=not confirm_del_hist, use_container_width=True):
-                    vaciar_historial_llamadas()
-                    st.success("✅ Historial de llamadas vaciado.")
-                    st.rerun()
+                    res = vaciar_historial_llamadas()
+                    if res is True:
+                        st.rerun()
+                    st.error(res[1] if isinstance(res, tuple) else "❌ No se pudo guardar. Intenta nuevamente.")
 
         # ------------------------------------------
         # TAB 2: SALTOS MANUALES DEL ADMIN
