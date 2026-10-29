@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Evelin Acevedo Cortés",
-            "alias": "Gabriela",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 165,
+            "call_id": "CA99fcaebe216a8eaa81950963fd6061d8",
+            "telefono": "+34693976288",
+            "nombre_real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "fecha_hora": "2026-10-29 04:29:27"
+        },
         {
             "id": 164,
             "call_id": "CA3bee744f91732337f6de19628650b015",
