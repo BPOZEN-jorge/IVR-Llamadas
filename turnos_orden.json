@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Cristian David Acosta Montoya",
-            "alias": "Manuel Vasquez",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Cristian David Acosta Montoya",
+            "alias": "Manuel Vasquez",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 170,
+            "call_id": "CAc6884b7bdd39f667dee8428f5f01165a",
+            "telefono": "674377968",
+            "nombre_real": "Cristian David Acosta Montoya",
+            "alias": "Manuel Vasquez",
+            "fecha_hora": "2026-10-29 04:48:42"
+        },
         {
             "id": 169,
             "call_id": "CAfdf2d3d73ebae75cd2c700d897117ac7",
