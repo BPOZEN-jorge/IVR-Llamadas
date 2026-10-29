@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 161,
+            "call_id": "CA50ea3e04c1638bc47b74e83278e0836a",
+            "telefono": "695825821",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "fecha_hora": "2026-10-29 04:09:41"
+        },
         {
             "id": 160,
             "call_id": "CA7ddb6f89fbb61438ccb94bdbf28e9021",
