@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Angie Vanessa García",
-            "alias": "Maria Antonia García",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 168,
+            "call_id": "CA680ff04f4517e6997fb4e7619b1837cd",
+            "telefono": "+34665801163",
+            "nombre_real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "fecha_hora": "2026-10-29 04:43:17"
+        },
         {
             "id": 167,
             "call_id": "CA3299f747d143c6d4fa64a7820b4abde9",
