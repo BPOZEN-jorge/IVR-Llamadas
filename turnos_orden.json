@@ -2,62 +2,62 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 166,
+            "call_id": "CA52de3539a38d4c6b4ba57917b3f41655",
+            "telefono": "637279986",
+            "nombre_real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "fecha_hora": "2026-10-29 04:35:29"
+        },
         {
             "id": 165,
             "call_id": "CA99fcaebe216a8eaa81950963fd6061d8",
