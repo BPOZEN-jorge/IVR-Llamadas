@@ -2,104 +2,104 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Manuela villegas Giraldo",
-            "alias": "Manuela Villegas",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 13,
+            "posicion": 12,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 14,
+            "posicion": 13,
             "real": "Cristian David Acosta Montoya",
             "alias": "Manuel Vasquez",
             "activo": true
         },
         {
-            "posicion": 15,
+            "posicion": 14,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "activo": true
         },
         {
-            "posicion": 16,
+            "posicion": 15,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": true
         },
         {
-            "posicion": 17,
+            "posicion": 16,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
+            "activo": true
+        },
+        {
+            "posicion": 17,
+            "real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 177,
+            "call_id": "CAcac6e9953afde919755be30e051452bf",
+            "telefono": "+34624790863",
+            "nombre_real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "fecha_hora": "2026-10-29 05:27:47"
+        },
         {
             "id": 176,
             "call_id": "CAac01da9642c49fee1b3d184417842385",
