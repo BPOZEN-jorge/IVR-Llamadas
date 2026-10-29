@@ -8,14 +8,14 @@
         },
         {
             "posicion": 2,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
-            "activo": false
+            "real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "activo": true
         },
         {
             "posicion": 3,
-            "real": "Sara Gómez Bayona",
-            "alias": "Sara Gómez",
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
             "activo": false
         },
         {
@@ -16663,6 +16663,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-29 04:03:31",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "posicion_previa": 3,
+            "motivo": "Inicio de Turno",
+            "registrado_por": "Jose Molina"
+        },
         {
             "fecha_hora": "2026-10-29 04:03:02",
             "tipo": "REACTIVADO",
