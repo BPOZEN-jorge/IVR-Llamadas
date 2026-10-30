@@ -2,74 +2,74 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Dayana Botero Rojas",
-            "alias": "Isabel Botero",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": true
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
+            "activo": true
+        },
+        {
+            "posicion": 12,
+            "real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 191,
+            "call_id": "CAebf3d2a57bc87dce8e06e1d2353fc813",
+            "telefono": "619827639",
+            "nombre_real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
+            "fecha_hora": "2026-10-30 04:59:59"
+        },
         {
             "id": 190,
             "call_id": "CA0766dfbf2dcc8d9ba65332cc238ea85c",
