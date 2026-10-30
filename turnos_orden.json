@@ -2,74 +2,74 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
-            "activo": true
-        },
-        {
-            "posicion": 2,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": true
         },
         {
-            "posicion": 3,
+            "posicion": 2,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "activo": true
         },
         {
-            "posicion": 4,
+            "posicion": 3,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": true
         },
         {
-            "posicion": 5,
+            "posicion": 4,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "activo": true
         },
         {
-            "posicion": 6,
+            "posicion": 5,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": true
         },
         {
-            "posicion": 7,
+            "posicion": 6,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": true
         },
         {
-            "posicion": 8,
+            "posicion": 7,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": true
         },
         {
-            "posicion": 9,
+            "posicion": 8,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": true
         },
         {
-            "posicion": 10,
+            "posicion": 9,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 11,
+            "posicion": 10,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": true
         },
         {
-            "posicion": 12,
+            "posicion": 11,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
+            "activo": true
+        },
+        {
+            "posicion": 12,
+            "real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
             "activo": true
         },
         {
@@ -224,6 +224,14 @@
         }
     ],
     "historial": [
+        {
+            "id": 185,
+            "call_id": "CA94fa828e546d17958248fe550db96fe1",
+            "telefono": "699 86 17 58",
+            "nombre_real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
+            "fecha_hora": "2026-10-30 04:10:15"
+        },
         {
             "id": 184,
             "call_id": "CA58aadc4e92764ca36231b93cfe9e3c0c",
