@@ -16856,6 +16856,15 @@
     ],
     "cambios_estado": [
         {
+            "fecha_hora": "2026-10-30 03:56:50",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_previa": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-10-29 15:48:25",
             "tipo": "INACTIVO",
             "nombre_real": "Angie Valeria Quirama Hernández",
@@ -21491,5 +21500,5 @@
             "registrado_por": "Jorge"
         }
     ],
-    "ultimo_reset_diario": "2026-10-29"
+    "ultimo_reset_diario": "2026-10-30"
 }
