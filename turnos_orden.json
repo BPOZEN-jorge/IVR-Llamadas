@@ -62,26 +62,26 @@
         },
         {
             "posicion": 11,
+            "real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "activo": true
+        },
+        {
+            "posicion": 12,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": false
         },
         {
-            "posicion": 12,
+            "posicion": 13,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 13,
+            "posicion": 14,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
-            "activo": false
-        },
-        {
-            "posicion": 14,
-            "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-02 05:00:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "posicion_previa": 14,
+            "motivo": "Inicia Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-02 04:07:33",
             "tipo": "REACTIVADO",
