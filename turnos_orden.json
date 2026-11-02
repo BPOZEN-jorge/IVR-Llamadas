@@ -152,62 +152,62 @@
         },
         {
             "posicion": 26,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
+        },
+        {
+            "posicion": 27,
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 28,
+            "real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
+            "activo": true
+        },
+        {
+            "posicion": 29,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": false
         },
         {
-            "posicion": 27,
+            "posicion": 30,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 28,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "activo": false
-        },
-        {
-            "posicion": 29,
+            "posicion": 31,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 30,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen",
-            "activo": false
-        },
-        {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "activo": false
         },
         {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 34,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 34,
+            "posicion": 35,
             "real": "Janis Henao Vasco",
             "alias": "María José",
-            "activo": false
-        },
-        {
-            "posicion": 35,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
             "activo": false
         },
         {
@@ -16935,6 +16935,33 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-02 06:08:32",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
+            "posicion_previa": 35,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-02 06:08:32",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 30,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-02 06:08:32",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 28,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-02 06:03:05",
             "tipo": "REACTIVADO",
