@@ -134,32 +134,32 @@
         },
         {
             "posicion": 23,
+            "real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "activo": true
+        },
+        {
+            "posicion": 24,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 25,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 26,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "activo": false
         },
         {
-            "posicion": 26,
+            "posicion": 27,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
-            "activo": false
-        },
-        {
-            "posicion": 27,
-            "real": "Gustavo Adolfo Barrientos Serna",
-            "alias": "Gustavo",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-02 05:08:10",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "posicion_previa": 27,
+            "motivo": "Inicia Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-02 05:03:45",
             "tipo": "REACTIVADO",
