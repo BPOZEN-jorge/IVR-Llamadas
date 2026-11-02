@@ -206,20 +206,20 @@
         },
         {
             "posicion": 35,
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "activo": true
+        },
+        {
+            "posicion": 36,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 36,
+            "posicion": 37,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
-            "activo": false
-        },
-        {
-            "posicion": 37,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
             "activo": false
         }
     ],
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-02 07:14:08",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 37,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-02 06:34:34",
             "tipo": "REACTIVADO",
