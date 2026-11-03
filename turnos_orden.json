@@ -122,98 +122,98 @@
         },
         {
             "posicion": 21,
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "activo": true
+        },
+        {
+            "posicion": 22,
+            "real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "activo": true
+        },
+        {
+            "posicion": 23,
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "activo": true
+        },
+        {
+            "posicion": 24,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
+        },
+        {
+            "posicion": 25,
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 26,
+            "real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero",
+            "activo": true
+        },
+        {
+            "posicion": 27,
+            "real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "activo": true
+        },
+        {
+            "posicion": 28,
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 29,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 30,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 31,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 25,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban",
-            "activo": false
-        },
-        {
-            "posicion": 26,
-            "real": "Gustavo Adolfo Barrientos Serna",
-            "alias": "Gustavo",
-            "activo": false
-        },
-        {
-            "posicion": 27,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
-            "activo": false
-        },
-        {
-            "posicion": 28,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "activo": false
-        },
-        {
-            "posicion": 29,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen",
-            "activo": false
-        },
-        {
-            "posicion": 30,
+            "posicion": 32,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 31,
-            "real": "Libia Paola Romero Cantillo",
-            "alias": "Paola Romero",
-            "activo": false
-        },
-        {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 34,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 34,
+            "posicion": 35,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 35,
+            "posicion": 36,
             "real": "Janis Henao Vasco",
             "alias": "María José",
-            "activo": false
-        },
-        {
-            "posicion": 36,
-            "real": "Yesly Marilyn Carrero Rivera",
-            "alias": "Marilyn Carrero",
             "activo": false
         },
         {
@@ -16935,6 +16935,69 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-03 06:04:35",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "posicion_previa": 36,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-03 06:04:35",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero",
+            "posicion_previa": 31,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-03 06:04:35",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 29,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-03 06:04:35",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 28,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-03 06:04:35",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "posicion_previa": 27,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-03 06:04:35",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "posicion_previa": 26,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-03 06:04:35",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 25,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-03 05:00:57",
             "tipo": "REACTIVADO",
