@@ -40,36 +40,36 @@
             "posicion": 7,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 8,
+            "real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "activo": true
+        },
+        {
+            "posicion": 9,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": false
         },
         {
-            "posicion": 9,
+            "posicion": 10,
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "activo": false
         },
         {
-            "posicion": 10,
+            "posicion": 11,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": false
         },
         {
-            "posicion": 11,
+            "posicion": 12,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
-            "activo": false
-        },
-        {
-            "posicion": 12,
-            "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez",
             "activo": false
         },
         {
@@ -16935,6 +16935,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-04 04:06:23",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "posicion_previa": 12,
+            "motivo": "Inicia turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 04:06:23",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "posicion_previa": 7,
+            "motivo": "Inicia turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-04 04:03:58",
             "tipo": "REACTIVADO",
