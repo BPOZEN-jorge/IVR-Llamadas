@@ -116,20 +116,20 @@
         },
         {
             "posicion": 20,
-            "real": "Andrea Mileidy londoño Bedoya",
-            "alias": "Andrea Valverde",
-            "activo": false
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "activo": true
         },
         {
             "posicion": 21,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
-            "activo": false
+            "real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela",
+            "activo": true
         },
         {
             "posicion": 22,
-            "real": "Claudia Marcela Manco Vargas",
-            "alias": "Marcela",
+            "real": "Andrea Mileidy londoño Bedoya",
+            "alias": "Andrea Valverde",
             "activo": false
         },
         {
@@ -16935,6 +16935,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-04 05:06:52",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela",
+            "posicion_previa": 22,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:06:52",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 21,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-04 05:04:55",
             "tipo": "REACTIVADO",
