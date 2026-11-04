@@ -50,92 +50,92 @@
         },
         {
             "posicion": 9,
+            "real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "activo": true
+        },
+        {
+            "posicion": 10,
+            "real": "Viviana Pacheco Córdoba",
+            "alias": "Viviana Gómez",
+            "activo": true
+        },
+        {
+            "posicion": 11,
+            "real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "activo": true
+        },
+        {
+            "posicion": 12,
+            "real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "activo": true
+        },
+        {
+            "posicion": 13,
+            "real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "activo": true
+        },
+        {
+            "posicion": 14,
+            "real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "activo": true
+        },
+        {
+            "posicion": 15,
+            "real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "activo": true
+        },
+        {
+            "posicion": 16,
+            "real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "activo": true
+        },
+        {
+            "posicion": 17,
+            "real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "activo": true
+        },
+        {
+            "posicion": 18,
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "activo": true
+        },
+        {
+            "posicion": 19,
+            "real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "activo": true
+        },
+        {
+            "posicion": 20,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": false
         },
         {
-            "posicion": 10,
-            "real": "Sara Gómez Bayona",
-            "alias": "Sara Gómez",
-            "activo": false
-        },
-        {
-            "posicion": 11,
-            "real": "Viviana Pacheco Córdoba",
-            "alias": "Viviana Gómez",
-            "activo": false
-        },
-        {
-            "posicion": 12,
+            "posicion": 21,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": false
         },
         {
-            "posicion": 13,
-            "real": "Paula Andrea Guzman Jaramillo",
-            "alias": "Paula",
-            "activo": false
-        },
-        {
-            "posicion": 14,
-            "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López",
-            "activo": false
-        },
-        {
-            "posicion": 15,
-            "real": "Manuela villegas Giraldo",
-            "alias": "Manuela Villegas",
-            "activo": false
-        },
-        {
-            "posicion": 16,
-            "real": "Oscar José Llanos Mendinueta",
-            "alias": "Oscar",
-            "activo": false
-        },
-        {
-            "posicion": 17,
-            "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez",
-            "activo": false
-        },
-        {
-            "posicion": 18,
+            "posicion": 22,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "activo": false
         },
         {
-            "posicion": 19,
-            "real": "Angie Vanessa García",
-            "alias": "Maria Antonia García",
-            "activo": false
-        },
-        {
-            "posicion": 20,
+            "posicion": 23,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
-            "activo": false
-        },
-        {
-            "posicion": 21,
-            "real": "María Karolina Viana Cancio",
-            "alias": "Karolina",
-            "activo": false
-        },
-        {
-            "posicion": 22,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban",
-            "activo": false
-        },
-        {
-            "posicion": 23,
-            "real": "Gustavo Adolfo Barrientos Serna",
-            "alias": "Gustavo",
             "activo": false
         },
         {
@@ -16935,6 +16935,105 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "posicion_previa": 23,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 22,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "posicion_previa": 21,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "posicion_previa": 19,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "posicion_previa": 17,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "posicion_previa": 16,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "posicion_previa": 15,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "posicion_previa": 14,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "posicion_previa": 13,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Viviana Pacheco Córdoba",
+            "alias": "Viviana Gómez",
+            "posicion_previa": 11,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 05:04:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "posicion_previa": 10,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-04 04:06:23",
             "tipo": "REACTIVADO",
