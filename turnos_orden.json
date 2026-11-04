@@ -142,30 +142,30 @@
             "posicion": 24,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 26,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
-            "activo": false
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
         },
         {
             "posicion": 27,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "activo": false
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "activo": true
         },
         {
             "posicion": 28,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen",
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
             "activo": false
         },
         {
@@ -16935,6 +16935,42 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-04 06:04:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 28,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 06:04:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 27,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 06:04:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
+            "posicion_previa": 25,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-04 06:04:24",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Andrea Mileidy londoño Bedoya",
+            "alias": "Andrea Valverde",
+            "posicion_previa": 24,
+            "motivo": "Inició Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-04 05:42:18",
             "tipo": "REACTIVADO",
