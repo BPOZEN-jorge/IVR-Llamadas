@@ -108,6 +108,7 @@ def obtener_repositorio_github():
 # ASIGNACIONES DESDE EL TURNERO ATC (REPO [github].repo_atc)
 # ==========================================
 FILE_ATC = "atc_ventas_ruleta.json"   # En el repo de ATC: historial de asignaciones que hacen los ATC
+REPO_ATC_POR_DEFECTO = "BPOZEN-jorge/ATC-Llamadas"
 TIPOS_ASIGNACION = {                  # Tipo en ATC -> cómo se le muestra al asesor
     "Transferido (turno)": "Turno",
     "Siguiente en Ruleta": "Turno",
@@ -160,11 +161,15 @@ def leer_rapido(repo_name: str, file_path: str, max_edad: float = 1.0):
 
 
 def asignaciones_atc(nombre_real: str | None = None, fecha: str | None = None) -> list | None:
-    """Clientes que los ATC asignaron (más recientes primero). None si falta [github].repo_atc."""
-    repo_atc = st.secrets.get("github", {}).get("repo_atc", "")
-    if not repo_atc:
+    """
+    Clientes que los ATC asignaron (más recientes primero), del repo [github].repo_atc o ATC-Llamadas.
+    None si no se pudo leer (token, red o GitHub caído): la vista muestra un aviso en vez de caerse.
+    """
+    repo_atc = st.secrets.get("github", {}).get("repo_atc") or REPO_ATC_POR_DEFECTO
+    try:
+        historial = (leer_rapido(repo_atc, FILE_ATC) or {}).get("historial", [])
+    except Exception:  # noqa: BLE001
         return None
-    historial = (leer_rapido(repo_atc, FILE_ATC) or {}).get("historial", [])
     filas = [h for h in historial if h.get("tipo") in TIPOS_ASIGNACION]
     if nombre_real:
         filas = [h for h in filas if h.get("agente_ventas_real") == nombre_real]
@@ -1483,7 +1488,8 @@ if opcion_vista == "🛡️ Vista Administrador":
                                       max_value=obtener_fecha_hora_colombia().date(), key="fecha_asig_adm")
             filas_adm = asignaciones_atc(fecha=fecha_adm.strftime("%Y-%m-%d"))
             if filas_adm is None:
-                st.warning("⚠️ Falta `repo_atc` en la sección [github] de los secrets.")
+                st.warning("⚠️ No se pudieron leer las asignaciones de ATC (revisa el token de GitHub y "
+                           "`repo_atc` en los secrets). Se reintenta al recargar.")
             elif not filas_adm:
                 st.info("No hay asignaciones ese día.")
             else:
@@ -1515,7 +1521,7 @@ def panel_mis_asignaciones(nombre_real: str, fecha: str):
     """Se actualiza solo: en cuanto un ATC le asigna un cliente, aparece aquí con un aviso."""
     filas = asignaciones_atc(nombre_real, fecha)
     if filas is None:
-        st.warning("⚠️ Falta `repo_atc` en la sección [github] de los secrets: no se pueden leer las asignaciones.")
+        st.warning("⚠️ No se pudieron leer las asignaciones en este momento. Se reintenta en unos segundos.")
         return
 
     turnos_ivr = (leer_rapido(st.secrets["github"]["repo"], FILE_TURNOS) or {}).get("turnos", [])
