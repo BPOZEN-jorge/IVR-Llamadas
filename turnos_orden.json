@@ -140,38 +140,38 @@
         },
         {
             "posicion": 24,
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 25,
+            "real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero",
+            "activo": true
+        },
+        {
+            "posicion": 26,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 27,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 26,
+            "posicion": 28,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": false
         },
         {
-            "posicion": 27,
+            "posicion": 29,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
-            "activo": false
-        },
-        {
-            "posicion": 28,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen",
-            "activo": false
-        },
-        {
-            "posicion": 29,
-            "real": "Libia Paola Romero Cantillo",
-            "alias": "Paola Romero",
             "activo": false
         },
         {
@@ -16935,6 +16935,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-05 06:22:34",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero",
+            "posicion_previa": 29,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 06:22:34",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 28,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-05 05:14:50",
             "tipo": "REACTIVADO",
