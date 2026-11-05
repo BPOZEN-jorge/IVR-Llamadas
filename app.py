@@ -1,10 +1,13 @@
+import hmac
 import json
 import random
+import threading
 import time as time_lib
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
+import requests
 import streamlit as st
 from github import Github, GithubException
 
@@ -99,6 +102,87 @@ def obtener_repositorio_github():
         st.error("⚠️ Configuración incompleta de GitHub en los secretos (`st.secrets`).")
         st.stop()
     return _conectar_repo(token, repo_name)
+
+
+# ==========================================
+# ASIGNACIONES DESDE EL TURNERO ATC (REPO [github].repo_atc)
+# ==========================================
+FILE_ATC = "atc_ventas_ruleta.json"   # En el repo de ATC: historial de asignaciones que hacen los ATC
+TIPOS_ASIGNACION = {                  # Tipo en ATC -> cómo se le muestra al asesor
+    "Transferido (turno)": "Turno",
+    "Siguiente en Ruleta": "Turno",
+    "Reasignado al Mismo Agente": "Cliente recurrente",
+}
+REFRESCO_ASIGNACIONES = 3             # Segundos entre actualizaciones de "Mis asignaciones"
+MAX_INTENTOS_PIN_ASESOR = 5
+
+
+@st.cache_resource(show_spinner=False)
+def _cache_lecturas() -> dict:
+    return {"lock": threading.Lock(), "items": {}}
+
+
+def leer_rapido(repo_name: str, file_path: str, max_edad: float = 1.0):
+    """
+    Lectura para MOSTRAR, compartida entre todas las sesiones, con petición condicional (ETag):
+    si el archivo no cambió, GitHub responde 304 y esa consulta NO gasta el límite de la API.
+    """
+    cache = _cache_lecturas()
+    clave = f"{repo_name}/{file_path}"
+    with cache["lock"]:
+        item = cache["items"].get(clave)
+        if item and time_lib.time() - item["t"] < max_edad:
+            return item["data"]
+        gh = st.secrets.get("github", {})
+        headers = {
+            "Authorization": f"Bearer {gh.get('token', '')}",
+            "Accept": "application/vnd.github.raw+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        }
+        if item:
+            headers["If-None-Match"] = item["etag"]
+        try:
+            r = requests.get(f"https://api.github.com/repos/{repo_name}/contents/{file_path}",
+                             params={"ref": gh.get("branch", "main")}, headers=headers, timeout=15)
+        except requests.RequestException:
+            if item:
+                return item["data"]  # sin conexión momentánea: se muestra lo último conocido
+            raise
+        if r.status_code == 304 and item:
+            item["t"] = time_lib.time()
+            return item["data"]
+        if r.status_code == 404:
+            return None
+        r.raise_for_status()
+        data = r.json()
+        cache["items"][clave] = {"etag": r.headers.get("ETag", ""), "data": data, "t": time_lib.time()}
+        return data
+
+
+def asignaciones_atc(nombre_real: str | None = None, fecha: str | None = None) -> list | None:
+    """Clientes que los ATC asignaron (más recientes primero). None si falta [github].repo_atc."""
+    repo_atc = st.secrets.get("github", {}).get("repo_atc", "")
+    if not repo_atc:
+        return None
+    historial = (leer_rapido(repo_atc, FILE_ATC) or {}).get("historial", [])
+    filas = [h for h in historial if h.get("tipo") in TIPOS_ASIGNACION]
+    if nombre_real:
+        filas = [h for h in filas if h.get("agente_ventas_real") == nombre_real]
+    if fecha:
+        filas = [h for h in filas if str(h.get("fecha_hora", "")).startswith(fecha)]
+    return filas
+
+
+def asesor_por_pin(pin: str) -> str | None:
+    """El PIN de IVR identifica al asesor (secrets [pins])."""
+    pin_clean = (pin or "").strip()
+    if not pin_clean:
+        return None
+    encontrado = None
+    for nombre, correcto in st.secrets.get("pins", {}).items():
+        if hmac.compare_digest(pin_clean.encode(), str(correcto).strip().encode()):
+            encontrado = nombre
+    return encontrado
 
 
 import base64
@@ -1005,7 +1089,9 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
 aplicar_reset_diario_si_corresponde()
 
 st.sidebar.title("📌 Portal de Turnos")
-opcion_vista = st.sidebar.radio("Navegación:", ["🎡 Fila de Turnos (Ruleta)", "🛡️ Vista Administrador"])
+opcion_vista = st.sidebar.radio(
+    "Navegación:", ["🎡 Fila de Turnos (Ruleta)", "📋 Mis asignaciones ATC", "🛡️ Vista Administrador"]
+)
 
 # ------------------------------------------
 # VISTA 1: FILA DE TURNOS (RULETA)
@@ -1077,12 +1163,13 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.session_state.admin_logged = False
             st.rerun()
 
-        tab_gestion, tab_saltos_admin, tab_historial, tab_log_saltos, tab_auditoria_ivr = st.tabs([
+        tab_gestion, tab_saltos_admin, tab_historial, tab_log_saltos, tab_auditoria_ivr, tab_asignaciones_atc = st.tabs([
             "⚙️ Gestión de la Fila",
             "⏭️ Saltos Manuales (Admin)",
             "📊 Historial de Llamadas",
             "📜 Log de Saltos y Mapeo Temporal",
             "🤖 Auditoría Devoluciones IVR",
+            "📞 Asignaciones ATC",
         ])
 
         # ------------------------------------------
@@ -1429,3 +1516,115 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     )
             else:
                 st.info("👈 Adjunta los dos archivos CSV de Aircall (Inbound y Outbound) para ejecutar la auditoría.")
+
+        # ------------------------------------------
+        # TAB 6: ASIGNACIONES QUE HICIERON LOS ATC
+        # ------------------------------------------
+        with tab_asignaciones_atc:
+            st.subheader("📞 Clientes asignados desde el turnero ATC")
+            fecha_adm = st.date_input("Día:", value=obtener_fecha_hora_colombia().date(),
+                                      max_value=obtener_fecha_hora_colombia().date(), key="fecha_asig_adm")
+            filas_adm = asignaciones_atc(fecha=fecha_adm.strftime("%Y-%m-%d"))
+            if filas_adm is None:
+                st.warning("⚠️ Falta `repo_atc` en la sección [github] de los secrets.")
+            elif not filas_adm:
+                st.info("No hay asignaciones ese día.")
+            else:
+                df_asig = pd.DataFrame([{
+                    "Hora": str(h.get("fecha_hora", ""))[11:16],
+                    "Asesor": h.get("agente_ventas_alias", ""),
+                    "Nombre Real": h.get("agente_ventas_real", ""),
+                    "Coordinador": h.get("coordinador", ""),
+                    "Teléfono": h.get("telefono", ""),
+                    "Tipo": TIPOS_ASIGNACION.get(h.get("tipo"), h.get("tipo")),
+                    "ATC": h.get("agente_atc", ""),
+                } for h in filas_adm]).astype(str)
+                st.metric("Clientes asignados", len(df_asig))
+                st.dataframe(df_asig, use_container_width=True, hide_index=True)
+                st.download_button(
+                    label="📥 Descargar asignaciones (CSV)",
+                    data=df_asig.to_csv(index=False).encode("utf-8"),
+                    file_name=f"asignaciones_atc_{fecha_adm.strftime('%Y%m%d')}.csv",
+                    mime="text/csv",
+                    use_container_width=True,
+                )
+
+
+# ------------------------------------------
+# VISTA 3: MIS ASIGNACIONES ATC (ASESOR CON SU PIN)
+# ------------------------------------------
+@st.fragment(run_every=REFRESCO_ASIGNACIONES)
+def panel_mis_asignaciones(nombre_real: str, fecha: str):
+    """Se actualiza solo: en cuanto un ATC le asigna un cliente, aparece aquí con un aviso."""
+    filas = asignaciones_atc(nombre_real, fecha)
+    if filas is None:
+        st.warning("⚠️ Falta `repo_atc` en la sección [github] de los secrets: no se pueden leer las asignaciones.")
+        return
+
+    turnos_ivr = (leer_rapido(st.secrets["github"]["repo"], FILE_TURNOS) or {}).get("turnos", [])
+    activo = next((bool(t.get("activo", True)) for t in turnos_ivr if t.get("real") == nombre_real), False)
+    st.caption("🟢 Estás **activo**: recibes turnos." if activo else "🔴 Estás **inactivo**: no recibes turnos.")
+
+    claves = [f"{h.get('fecha_hora')}|{h.get('telefono')}|{h.get('id')}" for h in filas]
+    vistas = st.session_state.get("asignaciones_vistas")
+    if vistas is None:
+        st.session_state["asignaciones_vistas"] = set(claves)  # primera carga: sin avisos
+    else:
+        for h, k in zip(filas, claves):
+            if k not in vistas:
+                st.toast(f"📞 Nuevo cliente asignado: {h.get('telefono', '')}", icon="🆕")
+                vistas.add(k)
+
+    st.metric("Clientes asignados", len(filas))
+    if not filas:
+        st.info("Aún no tienes clientes asignados ese día.")
+    else:
+        ultimo = filas[0]
+        st.success(f"🆕 **Último asignado:** `{ultimo.get('telefono', '')}` a las "
+                   f"{str(ultimo.get('fecha_hora', ''))[11:16]} · ATC {ultimo.get('agente_atc', '')}")
+        st.dataframe(pd.DataFrame([{
+            "Hora": str(h.get("fecha_hora", ""))[11:16],
+            "Teléfono": h.get("telefono", ""),
+            "Tipo": TIPOS_ASIGNACION.get(h.get("tipo"), h.get("tipo")),
+            "ATC": h.get("agente_atc", ""),
+        } for h in filas]).astype(str), use_container_width=True, hide_index=True)
+    st.caption(f"Actualizado: {obtener_hora_colombia_str()[11:]} · se refresca cada {REFRESCO_ASIGNACIONES} s")
+
+
+if opcion_vista == "📋 Mis asignaciones ATC":
+    st.title("📋 Mis asignaciones (ATC)")
+    asesor = st.session_state.get("asesor_logueado")
+
+    if not asesor:
+        st.caption("Ingresa tu PIN para ver los clientes que te asignan desde ATC.")
+        intentos_pin = st.session_state.get("intentos_pin_asesor", 0)
+        if intentos_pin >= MAX_INTENTOS_PIN_ASESOR:
+            st.error("🔒 Demasiados PIN incorrectos. Recarga la página para intentarlo de nuevo.")
+        else:
+            with st.form("form_pin_asesor", clear_on_submit=True):
+                pin_asesor = st.text_input("🔑 Tu PIN de 4 dígitos:", type="password", max_chars=4)
+                ver = st.form_submit_button("Ver mis asignaciones", type="primary", use_container_width=True)
+            if ver:
+                nombre = asesor_por_pin(pin_asesor)
+                if nombre:
+                    st.session_state.update(asesor_logueado=nombre, intentos_pin_asesor=0, asignaciones_vistas=None)
+                    st.rerun()
+                st.session_state["intentos_pin_asesor"] = intentos_pin + 1
+                restantes = MAX_INTENTOS_PIN_ASESOR - intentos_pin - 1
+                if restantes <= 0:
+                    st.rerun()
+                st.error(f"❌ PIN incorrecto. Intentos restantes: {restantes}")
+    else:
+        alias = next((u["alias"] for u in USUARIOS_INICIALES if u["real"] == asesor), asesor)
+        c_nombre, c_salir = st.columns([4, 1])
+        with c_nombre:
+            st.subheader(f"👤 {alias}")
+            st.caption(asesor)
+        with c_salir:
+            if st.button("🚪 Salir", use_container_width=True):
+                st.session_state.pop("asesor_logueado", None)
+                st.session_state.pop("asignaciones_vistas", None)
+                st.rerun()
+        fecha_sel = st.date_input("Día:", value=obtener_fecha_hora_colombia().date(),
+                                  max_value=obtener_fecha_hora_colombia().date(), key="fecha_mis_asig")
+        panel_mis_asignaciones(asesor, fecha_sel.strftime("%Y-%m-%d"))
