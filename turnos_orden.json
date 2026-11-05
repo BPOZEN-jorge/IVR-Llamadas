@@ -116,44 +116,44 @@
         },
         {
             "posicion": 20,
+            "real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "activo": true
+        },
+        {
+            "posicion": 21,
+            "real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "activo": true
+        },
+        {
+            "posicion": 22,
+            "real": "Juan Sebastian Serna Sepulveda",
+            "alias": "Juan Sebastian",
+            "activo": true
+        },
+        {
+            "posicion": 23,
+            "real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
+            "activo": true
+        },
+        {
+            "posicion": 24,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
             "activo": false
         },
         {
-            "posicion": 21,
-            "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López",
-            "activo": false
-        },
-        {
-            "posicion": 22,
-            "real": "Oscar José Llanos Mendinueta",
-            "alias": "Oscar",
-            "activo": false
-        },
-        {
-            "posicion": 23,
+            "posicion": 25,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 24,
-            "real": "Juan Sebastian Serna Sepulveda",
-            "alias": "Juan Sebastian",
-            "activo": false
-        },
-        {
-            "posicion": 25,
+            "posicion": 26,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
-            "activo": false
-        },
-        {
-            "posicion": 26,
-            "real": "Dayana Botero Rojas",
-            "alias": "Isabel Botero",
             "activo": false
         },
         {
@@ -16935,6 +16935,42 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-05 05:14:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
+            "posicion_previa": 26,
+            "motivo": "Inicia turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 05:14:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Sebastian Serna Sepulveda",
+            "alias": "Juan Sebastian",
+            "posicion_previa": 24,
+            "motivo": "Inicia turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 05:14:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "posicion_previa": 22,
+            "motivo": "Inicia turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 05:14:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "posicion_previa": 21,
+            "motivo": "Inicia turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-05 05:13:00",
             "tipo": "REACTIVADO",
