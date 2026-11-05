@@ -1089,55 +1089,12 @@ def analizar_devoluciones_ivr_y_saltos(file1, file2, rama_filtro="", widget_filt
 aplicar_reset_diario_si_corresponde()
 
 st.sidebar.title("📌 Portal de Turnos")
-opcion_vista = st.sidebar.radio(
-    "Navegación:", ["🎡 Fila de Turnos (Ruleta)", "📋 Mis asignaciones ATC", "🛡️ Vista Administrador"]
-)
+opcion_vista = st.sidebar.radio("Navegación:", ["📋 Mis asignaciones ATC", "🛡️ Vista Administrador"])
 
 # ------------------------------------------
-# VISTA 1: FILA DE TURNOS (RULETA)
+# VISTA: ADMINISTRADOR
 # ------------------------------------------
-if opcion_vista == "🎡 Fila de Turnos (Ruleta)":
-    st.title("🔄 Control de Turnos y Llamadas")
-    st.caption(f"Hora Colombia: `{obtener_hora_colombia_str()}`")
-    st.caption("Ingresa el ID de la llamada, el Teléfono y tu PIN secreto de 4 dígitos para completar tu turno.")
-
-    turnos_actuales = obtener_lista_turnos()
-    activos_vista = [t for t in turnos_actuales if t.get("activo", True)]
-    actual = activos_vista[0] if activos_vista else None
-
-    if actual:
-        st.markdown("---")
-        col_turn_1, col_turn_2 = st.columns([2, 3])
-
-        with col_turn_1:
-            st.metric(label="🎯 TURNO ACTUAL (ATENDIENDO)", value=actual["alias"])
-            st.write(f"👤 **Nombre Real:** {actual['real']}")
-
-        with col_turn_2:
-            st.subheader("📞 Completar Turno Actual")
-            with st.form("form_avanzar_turno", clear_on_submit=True):
-                col_f1, col_f2 = st.columns(2)
-                with col_f1:
-                    call_id_input = st.text_input("ID de la Llamada:", placeholder="Ej: CALL-9876543")
-                with col_f2:
-                    telefono_input = st.text_input("Teléfono del Cliente:", placeholder="Ej: 3001234567")
-                pin_input = st.text_input("🔑 PIN Secreto (4 dígitos):", type="password", max_chars=4, placeholder="****")
-                submit_salto = st.form_submit_button("Avanzar Turno ➡️", use_container_width=True, type="primary")
-
-            if submit_salto:
-                exito, mensaje = registrar_salto_turno(call_id_input, telefono_input, pin_input)
-                if exito:
-                    st.success(mensaje)
-                    st.rerun()
-                else:
-                    st.error(mensaje)
-    else:
-        st.error("⚠️ Todos los agentes están marcados como inactivos en este momento.")
-
-# ------------------------------------------
-# VISTA 2: ADMINISTRADOR
-# ------------------------------------------
-elif opcion_vista == "🛡️ Vista Administrador":
+if opcion_vista == "🛡️ Vista Administrador":
     st.title("🛡️ Panel de Control - Administrador")
 
     if "admin_logged" not in st.session_state:
@@ -1551,7 +1508,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
 
 
 # ------------------------------------------
-# VISTA 3: MIS ASIGNACIONES ATC (ASESOR CON SU PIN)
+# VISTA: MIS ASIGNACIONES ATC (ASESOR CON SU PIN)
 # ------------------------------------------
 @st.fragment(run_every=REFRESCO_ASIGNACIONES)
 def panel_mis_asignaciones(nombre_real: str, fecha: str):
