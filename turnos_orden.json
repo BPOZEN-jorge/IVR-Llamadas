@@ -152,62 +152,62 @@
         },
         {
             "posicion": 26,
+            "real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "activo": true
+        },
+        {
+            "posicion": 27,
+            "real": "Luis Alberto Lozano Ibarra",
+            "alias": "Luis Lozano",
+            "activo": true
+        },
+        {
+            "posicion": 28,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
+        },
+        {
+            "posicion": 29,
+            "real": "Omar David Barboza Carbonero",
+            "alias": "Omar",
+            "activo": true
+        },
+        {
+            "posicion": 30,
+            "real": "Janis Henao Vasco",
+            "alias": "María José",
+            "activo": true
+        },
+        {
+            "posicion": 31,
+            "real": "Tatiana Magreth Acevedo Marín",
+            "alias": "Tatiana",
+            "activo": true
+        },
+        {
+            "posicion": 32,
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "activo": true
+        },
+        {
+            "posicion": 33,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
             "activo": false
         },
         {
-            "posicion": 27,
+            "posicion": 34,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 28,
+            "posicion": 35,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
-            "activo": false
-        },
-        {
-            "posicion": 29,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "activo": false
-        },
-        {
-            "posicion": 30,
-            "real": "Tatiana Magreth Acevedo Marín",
-            "alias": "Tatiana",
-            "activo": false
-        },
-        {
-            "posicion": 31,
-            "real": "Luis Alberto Lozano Ibarra",
-            "alias": "Luis Lozano",
-            "activo": false
-        },
-        {
-            "posicion": 32,
-            "real": "Janis Henao Vasco",
-            "alias": "María José",
-            "activo": false
-        },
-        {
-            "posicion": 33,
-            "real": "Omar David Barboza Carbonero",
-            "alias": "Omar",
-            "activo": false
-        },
-        {
-            "posicion": 34,
-            "real": "Carlos Alberto Herrera Cardeño",
-            "alias": "Carlos Herrera / Alberto Fernandez",
-            "activo": false
-        },
-        {
-            "posicion": 35,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
             "activo": false
         },
         {
@@ -16935,6 +16935,69 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-05 07:34:54",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "posicion_previa": 35,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 07:34:54",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Tatiana Magreth Acevedo Marín",
+            "alias": "Tatiana",
+            "posicion_previa": 34,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 07:34:54",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Janis Henao Vasco",
+            "alias": "María José",
+            "posicion_previa": 34,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 07:34:54",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Omar David Barboza Carbonero",
+            "alias": "Omar",
+            "posicion_previa": 34,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 07:34:54",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 31,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 07:34:54",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Luis Alberto Lozano Ibarra",
+            "alias": "Luis Lozano",
+            "posicion_previa": 32,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-05 07:34:54",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "posicion_previa": 34,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-05 06:22:34",
             "tipo": "REACTIVADO",
