@@ -64,7 +64,7 @@
             "posicion": 11,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 12,
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-06 04:05:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "posicion_previa": 11,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-06 04:05:35",
             "tipo": "REACTIVADO",
