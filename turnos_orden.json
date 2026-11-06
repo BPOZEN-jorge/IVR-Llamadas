@@ -134,20 +134,20 @@
         },
         {
             "posicion": 23,
+            "real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
+            "activo": true
+        },
+        {
+            "posicion": 24,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 25,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
-            "activo": false
-        },
-        {
-            "posicion": 25,
-            "real": "Dayana Botero Rojas",
-            "alias": "Isabel Botero",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-06 05:15:00",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
+            "posicion_previa": 25,
+            "motivo": "Inicio Turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-06 05:14:15",
             "tipo": "REACTIVADO",
