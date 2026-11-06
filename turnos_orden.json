@@ -142,66 +142,66 @@
             "posicion": 24,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
-            "real": "Tomas Castaño Gómez",
-            "alias": "Tomas",
-            "activo": false
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
         },
         {
             "posicion": 26,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 27,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 28,
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "activo": true
+        },
+        {
+            "posicion": 29,
+            "real": "Tomas Castaño Gómez",
+            "alias": "Tomas",
+            "activo": false
+        },
+        {
+            "posicion": 30,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 29,
+            "posicion": 31,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 30,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "activo": false
-        },
-        {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 34,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
-            "activo": false
-        },
-        {
-            "posicion": 34,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
             "activo": false
         },
         {
@@ -16935,6 +16935,51 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-06 06:04:18",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "posicion_previa": 34,
+            "motivo": "Inició turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-06 06:04:18",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Libia Paola Romero Cantillo",
+            "alias": "Paola Romero",
+            "posicion_previa": 28,
+            "motivo": "Inició turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-06 06:04:18",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 27,
+            "motivo": "Inició turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-06 06:04:18",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 30,
+            "motivo": "Inició turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-06 06:04:18",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 24,
+            "motivo": "Inició turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-06 05:15:00",
             "tipo": "REACTIVADO",
