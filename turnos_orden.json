@@ -2,218 +2,218 @@
     "turnos": [
         {
             "posicion": 1,
-            "real": "Cristian David Acosta Montoya",
-            "alias": "Manuel Vasquez",
-            "activo": false
+            "real": "Mateo Cano Hincapié",
+            "alias": "Antonio de la villa",
+            "activo": true
         },
         {
             "posicion": 2,
-            "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez",
-            "activo": false
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "activo": true
         },
         {
             "posicion": 3,
-            "real": "Paula Andrea Guzman Jaramillo",
-            "alias": "Paula",
-            "activo": false
+            "real": "Cristian David Acosta Montoya",
+            "alias": "Manuel Vasquez",
+            "activo": true
         },
         {
             "posicion": 4,
-            "real": "Yesly Marilyn Carrero Rivera",
-            "alias": "Marilyn Carrero",
-            "activo": false
+            "real": "Andrea Mileidy londoño Bedoya",
+            "alias": "Andrea Valverde",
+            "activo": true
         },
         {
             "posicion": 5,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López",
-            "activo": false
+            "real": "Johana Osorio Bedoya",
+            "alias": "Johana Sanchez",
+            "activo": true
         },
         {
             "posicion": 6,
-            "real": "Sara Gómez Bayona",
-            "alias": "Sara Gómez",
-            "activo": false
+            "real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "activo": true
         },
         {
             "posicion": 7,
-            "real": "Brayan Andrey Bustamante",
-            "alias": "Marcos Garcia",
-            "activo": false
+            "real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "activo": true
         },
         {
             "posicion": 8,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 9,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 10,
-            "real": "Mateo Cano Hincapié",
-            "alias": "Antonio de la villa",
-            "activo": false
+            "real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "activo": true
         },
         {
             "posicion": 11,
-            "real": "Iris Sabiana Cano Cano",
-            "alias": "Maria Cano",
-            "activo": false
+            "real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "activo": true
         },
         {
             "posicion": 12,
+            "real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "activo": false
+        },
+        {
+            "posicion": 13,
+            "real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "activo": false
+        },
+        {
+            "posicion": 14,
+            "real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "activo": false
+        },
+        {
+            "posicion": 15,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": false
         },
         {
-            "posicion": 13,
+            "posicion": 16,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": false
         },
         {
-            "posicion": 14,
+            "posicion": 17,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "activo": false
         },
         {
-            "posicion": 15,
-            "real": "Johana Osorio Bedoya",
-            "alias": "Johana Sanchez",
-            "activo": false
-        },
-        {
-            "posicion": 16,
+            "posicion": 18,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": false
         },
         {
-            "posicion": 17,
+            "posicion": 19,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "activo": false
         },
         {
-            "posicion": 18,
+            "posicion": 20,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "activo": false
         },
         {
-            "posicion": 19,
+            "posicion": 21,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "activo": false
         },
         {
-            "posicion": 20,
+            "posicion": 22,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "activo": false
         },
         {
-            "posicion": 21,
+            "posicion": 23,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 24,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 25,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 26,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 27,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": false
         },
         {
-            "posicion": 26,
+            "posicion": 28,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": false
         },
         {
-            "posicion": 27,
+            "posicion": 29,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": false
         },
         {
-            "posicion": 28,
-            "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez",
-            "activo": false
-        },
-        {
-            "posicion": 29,
+            "posicion": 30,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 30,
+            "posicion": 31,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 34,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "activo": false
         },
         {
-            "posicion": 34,
+            "posicion": 35,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 35,
+            "posicion": 36,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
-            "activo": false
-        },
-        {
-            "posicion": 36,
-            "real": "Andrea Mileidy londoño Bedoya",
-            "alias": "Andrea Valverde",
             "activo": false
         },
         {
@@ -16935,6 +16935,105 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Valeria Quirama Hernández",
+            "alias": "Valeria Hernandez",
+            "posicion_previa": 29,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesly Marilyn Carrero Rivera",
+            "alias": "Marilyn Carrero",
+            "posicion_previa": 12,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 13,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "posicion_previa": 12,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "posicion_previa": 13,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "posicion_previa": 10,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Johana Osorio Bedoya",
+            "alias": "Johana Sanchez",
+            "posicion_previa": 16,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Andrea Mileidy londoño Bedoya",
+            "alias": "Andrea Valverde",
+            "posicion_previa": 36,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Cristian David Acosta Montoya",
+            "alias": "Manuel Vasquez",
+            "posicion_previa": 3,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "posicion_previa": 6,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-09 04:10:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Mateo Cano Hincapié",
+            "alias": "Antonio de la villa",
+            "posicion_previa": 10,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-09 03:58:59",
             "tipo": "RESET_DIARIO",
