@@ -152,75 +152,75 @@
         },
         {
             "posicion": 26,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
-            "activo": true
-        },
-        {
-            "posicion": 27,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": true
         },
         {
-            "posicion": 28,
+            "posicion": 27,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": true
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": true
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "activo": true
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": true
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": true
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "activo": true
         },
         {
-            "posicion": 35,
+            "posicion": 34,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "activo": true
         },
         {
-            "posicion": 36,
+            "posicion": 35,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": true
         },
         {
-            "posicion": 37,
+            "posicion": 36,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "activo": true
+        },
+        {
+            "posicion": 37,
+            "real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
+            "activo": false
         }
     ],
     "historial": [
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-09 06:39:32",
+            "tipo": "INACTIVO",
+            "nombre_real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
+            "posicion_previa": 26,
+            "motivo": "No asiste",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-09 06:33:25",
             "tipo": "REACTIVADO",
