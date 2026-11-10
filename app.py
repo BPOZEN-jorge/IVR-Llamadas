@@ -9,6 +9,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 import requests
 import streamlit as st
+from ciclo_diario import HORA_ACTIVACION, aplicar_ciclo_diario
 from github import Github, GithubException
 
 # ==========================================
@@ -658,59 +659,33 @@ def registrar_llegada(nombre_real: str, registrado_por: str) -> tuple[bool, str]
 # ==========================================
 def aplicar_reset_diario_si_corresponde():
     """
-    Streamlit no tiene tareas programadas, así que el reset se aplica en la PRIMERA carga
-    de la app después de las 00:00 hora Colombia. El resultado es el mismo: todos quedan
-    inactivos y se van activando por llegada; el orden de activación define la posición.
-    La fecha del último reset se guarda en turnos_orden.json ("ultimo_reset_diario").
+    Ciclo diario (ciclo_diario.py): 00:00 todos inactivos y 03:00 todos activos (hora Colombia).
+    Lo hace la tarea programada de GitHub; esto es el respaldo: si aún no se hizo, lo aplica la primera
+    carga de la app. Se revisa una vez por sesión en cada tramo del día (antes y después de las 03:00).
     """
-    hoy = obtener_fecha_hora_colombia().strftime("%Y-%m-%d")
-    if st.session_state.get("reset_diario_verificado") == hoy:
+    ahora = obtener_fecha_hora_colombia()
+    tramo = f"{ahora:%Y-%m-%d}-{'activacion' if ahora.hour >= HORA_ACTIVACION else 'reset'}"
+    if st.session_state.get("reset_diario_verificado") == tramo:
         return
-    resultado = ejecutar_con_reintentos(lambda: _reset_diario(hoy))
-    if resultado is True or resultado is None:  # None = ya estaba hecho hoy
-        st.session_state.reset_diario_verificado = hoy  # si falló, se reintenta en la próxima carga
+    resultado = ejecutar_con_reintentos(_reset_diario)
+    if resultado is True or resultado is None:  # None = ya estaba hecho
+        st.session_state.reset_diario_verificado = tramo  # si falló, se reintenta en la próxima carga
 
 
-def _reset_diario(hoy: str):
-    """Devuelve False solo si no se pudo guardar; con conflicto se repite leyendo de nuevo."""
+def _reset_diario():
+    """Devuelve None si no había nada que hacer, False si no se pudo guardar; con conflicto se repite."""
     data_turnos = leer_json_github(FILE_TURNOS, _default_turnos())
-    ultimo = data_turnos.get("ultimo_reset_diario")
-
-    if ultimo is None:
-        # Primera vez con esta versión: no desactiva a nadie hoy, empieza a contar desde mañana.
-        data_turnos["ultimo_reset_diario"] = hoy
-        return escribir_json_github(FILE_TURNOS, data_turnos, f"Inicializar reset diario ({hoy})",
-                                    sha_esperado=sha_leido(FILE_TURNOS))
-    if ultimo < hoy:
-        fila_previa = _ordenar_fila(data_turnos.get("turnos", USUARIOS_INICIALES))
-        snapshot = _snapshot_fila(fila_previa)
-        fila_nueva = [dict(t, activo=False) for t in fila_previa]
-        data_turnos["turnos"] = _renumerar(fila_nueva)
-        data_turnos["ultimo_reset_diario"] = hoy
-        data_turnos.setdefault("cambios_estado", []).insert(0, {
-            "fecha_hora": obtener_hora_colombia_str(),
-            "tipo": TIPO_RESET_DIARIO,
-            "nombre_real": "TODOS",
-            "alias": "TODOS",
-            "posicion_previa": "",
-            "motivo": "Reset automático 00:00 (hora Colombia)",
-            "registrado_por": "Sistema",
-        })
-        if not escribir_json_github(FILE_TURNOS, data_turnos, f"Auto: Reset diario 00:00 - todos inactivos ({hoy})",
-                                    sha_esperado=sha_leido(FILE_TURNOS)):
-            return False
-        guardar_evento_log_salto({
-            "tipo": TIPO_RESET_DIARIO,
-            "fecha_hora": obtener_hora_colombia_str(),
-            "call_id": "",
-            "telefono": "",
-            "nombre_real": "TODOS",
-            "alias": "TODOS",
-            "posicion_al_saltar": "",
-            "motivo": "Reset automático 00:00 (hora Colombia)",
-            "registrado_por": "Sistema",
-            "orden_previo_snapshot": snapshot,
-        })
+    acciones = aplicar_ciclo_diario(data_turnos, obtener_fecha_hora_colombia())
+    if not acciones:
+        return None
+    data_turnos["turnos"] = _renumerar(_ordenar_fila(data_turnos.get("turnos", USUARIOS_INICIALES)))
+    nombres = {"reset": "reset 00:00 (todos inactivos)",
+               "activacion": f"activación {HORA_ACTIVACION:02d}:00 (todos activos)",
+               "inicializar": "activación automática programada desde mañana"}
+    texto = " y ".join(nombres.get(a, a) for a in acciones)
+    if not escribir_json_github(FILE_TURNOS, data_turnos, f"Auto: ciclo diario - {texto}",
+                                sha_esperado=sha_leido(FILE_TURNOS)):
+        return False
     return True
 
 
@@ -821,7 +796,8 @@ if opcion_vista == "🛡️ Vista Administrador":
             st.markdown("---")
             st.subheader("🚪 Registrar Llegada")
             st.caption(
-                "A las 00:00 (hora Colombia) todos quedan inactivos. Activa a cada persona cuando llegue: "
+                f"A las 00:00 (hora Colombia) todos quedan inactivos y a las {HORA_ACTIVACION:02d}:00 se activan todos "
+                "automáticamente. Usa esto para activar a alguien que estaba inactivo: "
                 "a igualdad de asignaciones, **va primero quien se activó antes**."
             )
             inactivos_admin = [t for t in turnos_admin_vista if not t.get("activo", True)]

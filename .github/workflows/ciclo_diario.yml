@@ -1,0 +1,39 @@
+name: Ciclo diario del turnero (00:00 inactivos, 03:00 activos)
+
+# Hora Colombia = UTC-5. GitHub puede demorar unos minutos en arrancar las tareas programadas;
+# si se demora, la app aplica lo mismo en su primera carga (ciclo_diario.py es el mismo código).
+on:
+  schedule:
+    - cron: "0 5 * * *"   # 00:00 Colombia: todos inactivos
+    - cron: "0 8 * * *"   # 03:00 Colombia: todos activos
+  workflow_dispatch:       # para ejecutarla a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ciclo-diario
+  cancel-in-progress: false
+
+jobs:
+  ciclo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Aplicar ciclo y guardar
+        run: |
+          git config user.name "BPOZEN-jorge"
+          git config user.email "jorge.valle@bpozen.co"
+          for intento in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python ciclo_diario.py || exit 1
+            if git diff --quiet; then echo "Nada que guardar"; exit 0; fi
+            git commit -qam "Auto: ciclo diario $(TZ=America/Bogota date '+%Y-%m-%d %H:%M')"
+            if git push -q origin HEAD:main; then exit 0; fi
+            echo "La app guardó al mismo tiempo; reintento $intento"
+            sleep $((intento * 5))
+          done
+          exit 1
