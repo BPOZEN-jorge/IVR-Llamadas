@@ -64,138 +64,138 @@
             "posicion": 11,
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 12,
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "activo": true
+        },
+        {
+            "posicion": 13,
+            "real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "activo": true
+        },
+        {
+            "posicion": 14,
+            "real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "activo": true
+        },
+        {
+            "posicion": 15,
+            "real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "activo": true
+        },
+        {
+            "posicion": 16,
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "activo": true
+        },
+        {
+            "posicion": 17,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": false
         },
         {
-            "posicion": 13,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
-            "activo": false
-        },
-        {
-            "posicion": 14,
+            "posicion": 18,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 15,
+            "posicion": 19,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": false
         },
         {
-            "posicion": 16,
+            "posicion": 20,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": false
         },
         {
-            "posicion": 17,
+            "posicion": 21,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": false
         },
         {
-            "posicion": 18,
+            "posicion": 22,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "activo": false
         },
         {
-            "posicion": 19,
-            "real": "Paula Andrea Guzman Jaramillo",
-            "alias": "Paula",
-            "activo": false
-        },
-        {
-            "posicion": 20,
-            "real": "Gustavo Adolfo Barrientos Serna",
-            "alias": "Gustavo",
-            "activo": false
-        },
-        {
-            "posicion": 21,
+            "posicion": 23,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 24,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 25,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 24,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban",
-            "activo": false
-        },
-        {
-            "posicion": 25,
+            "posicion": 26,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 26,
+            "posicion": 27,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": false
         },
         {
-            "posicion": 27,
+            "posicion": 28,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 28,
+            "posicion": 29,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": false
         },
         {
-            "posicion": 29,
+            "posicion": 30,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "activo": false
         },
         {
-            "posicion": 30,
+            "posicion": 31,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
-            "activo": false
-        },
-        {
-            "posicion": 33,
-            "real": "María Karolina Viana Cancio",
-            "alias": "Karolina",
             "activo": false
         },
         {
@@ -16935,6 +16935,60 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-10 05:01:51",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 17,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-10 05:01:51",
+            "tipo": "REACTIVADO",
+            "nombre_real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "posicion_previa": 33,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-10 05:01:51",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "posicion_previa": 21,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-10 05:01:51",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "posicion_previa": 20,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-10 05:01:51",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 24,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-10 05:01:51",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "posicion_previa": 11,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-10 04:14:46",
             "tipo": "REACTIVADO",
