@@ -104,20 +104,20 @@
         },
         {
             "posicion": 18,
+            "real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "activo": true
+        },
+        {
+            "posicion": 19,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": false
         },
         {
-            "posicion": 19,
+            "posicion": 20,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
-            "activo": false
-        },
-        {
-            "posicion": 20,
-            "real": "Manuela villegas Giraldo",
-            "alias": "Manuela Villegas",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-10 05:35:23",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "posicion_previa": 20,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-10 05:02:58",
             "tipo": "REACTIVADO",
