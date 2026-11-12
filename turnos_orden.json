@@ -158,44 +158,44 @@
         },
         {
             "posicion": 27,
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "activo": true
+        },
+        {
+            "posicion": 28,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
+        },
+        {
+            "posicion": 29,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 28,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban",
-            "activo": false
-        },
-        {
-            "posicion": 29,
+            "posicion": 30,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 30,
+            "posicion": 31,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": false
         },
         {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
-            "activo": false
-        },
-        {
-            "posicion": 33,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
             "activo": false
         },
         {
@@ -16935,6 +16935,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-12 06:15:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 33,
+            "motivo": "Inició turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-12 06:15:50",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 28,
+            "motivo": "Inició turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-12 06:14:35",
             "tipo": "REACTIVADO",
