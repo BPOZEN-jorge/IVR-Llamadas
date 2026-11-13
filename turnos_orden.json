@@ -152,50 +152,50 @@
         },
         {
             "posicion": 26,
+            "real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "activo": true
+        },
+        {
+            "posicion": 27,
+            "real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "activo": true
+        },
+        {
+            "posicion": 28,
+            "real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "activo": true
+        },
+        {
+            "posicion": 29,
+            "real": "Omar David Barboza Carbonero",
+            "alias": "Omar",
+            "activo": true
+        },
+        {
+            "posicion": 30,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 27,
-            "real": "Angie Vanessa García",
-            "alias": "Maria Antonia García",
-            "activo": false
-        },
-        {
-            "posicion": 28,
+            "posicion": 31,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 29,
+            "posicion": 32,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": false
         },
         {
-            "posicion": 30,
+            "posicion": 33,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
-            "activo": false
-        },
-        {
-            "posicion": 31,
-            "real": "Brayan Andrey Bustamante",
-            "alias": "Marcos Garcia",
-            "activo": false
-        },
-        {
-            "posicion": 32,
-            "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez",
-            "activo": false
-        },
-        {
-            "posicion": 33,
-            "real": "Omar David Barboza Carbonero",
-            "alias": "Omar",
             "activo": false
         },
         {
@@ -16935,6 +16935,42 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-13 08:45:25",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Omar David Barboza Carbonero",
+            "alias": "Omar",
+            "posicion_previa": 33,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-13 08:45:25",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "posicion_previa": 32,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-13 08:45:25",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Brayan Andrey Bustamante",
+            "alias": "Marcos Garcia",
+            "posicion_previa": 31,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-13 08:45:25",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "posicion_previa": 27,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-13 06:03:03",
             "tipo": "REACTIVADO",
