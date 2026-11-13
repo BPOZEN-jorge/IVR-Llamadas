@@ -122,98 +122,98 @@
         },
         {
             "posicion": 21,
+            "real": "Viviana Pacheco Córdoba",
+            "alias": "Viviana Gómez",
+            "activo": true
+        },
+        {
+            "posicion": 22,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 23,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 24,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 25,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 26,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": false
         },
         {
-            "posicion": 26,
+            "posicion": 27,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": false
         },
         {
-            "posicion": 27,
+            "posicion": 28,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 28,
+            "posicion": 29,
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "activo": false
         },
         {
-            "posicion": 29,
+            "posicion": 30,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": false
         },
         {
-            "posicion": 30,
+            "posicion": 31,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "activo": false
         },
         {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 34,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "activo": false
         },
         {
-            "posicion": 34,
+            "posicion": 35,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "activo": false
         },
         {
-            "posicion": 35,
+            "posicion": 36,
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
-            "activo": false
-        },
-        {
-            "posicion": 36,
-            "real": "Viviana Pacheco Córdoba",
-            "alias": "Viviana Gómez",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-13 05:01:05",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Viviana Pacheco Córdoba",
+            "alias": "Viviana Gómez",
+            "posicion_previa": 36,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina"
+        },
         {
             "fecha_hora": "2026-11-13 05:00:51",
             "tipo": "REACTIVADO",
