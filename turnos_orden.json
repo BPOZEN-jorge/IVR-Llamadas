@@ -134,32 +134,32 @@
         },
         {
             "posicion": 23,
+            "real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "activo": true
+        },
+        {
+            "posicion": 24,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 25,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 26,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 26,
+            "posicion": 27,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
-            "activo": false
-        },
-        {
-            "posicion": 27,
-            "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-13 05:12:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "posicion_previa": 27,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina"
+        },
         {
             "fecha_hora": "2026-11-13 05:02:46",
             "tipo": "REACTIVADO",
