@@ -128,20 +128,20 @@
         },
         {
             "posicion": 22,
+            "real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
+            "activo": true
+        },
+        {
+            "posicion": 23,
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 24,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
-            "activo": false
-        },
-        {
-            "posicion": 24,
-            "real": "Alisson Correa Gaviria",
-            "alias": "Alisson",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-13 05:02:46",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
+            "posicion_previa": 24,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina"
+        },
         {
             "fecha_hora": "2026-11-13 05:01:05",
             "tipo": "REACTIVADO",
