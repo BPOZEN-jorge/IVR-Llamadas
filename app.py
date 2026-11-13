@@ -46,11 +46,9 @@ USUARIOS_INICIALES = [
     {"posicion": 7, "real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez"},
     {"posicion": 8, "real": "Claudia Marcela Manco Vargas", "alias": "Marcela"},
     {"posicion": 9, "real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez"},
-    {"posicion": 10, "real": "Dayana Botero Rojas", "alias": "Isabel Botero"},
     {"posicion": 11, "real": "Evelin Acevedo Cortés", "alias": "Gabriela"},
     {"posicion": 12, "real": "Gustavo Adolfo Barrientos Serna", "alias": "Gustavo"},
     {"posicion": 13, "real": "Iris Sabiana Cano Cano", "alias": "Maria Cano"},
-    {"posicion": 14, "real": "Janis Henao Vasco", "alias": "María José"},
     {"posicion": 15, "real": "Johana Osorio Bedoya", "alias": "Johana Sanchez"},
     {"posicion": 16, "real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban"},
     {"posicion": 17, "real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian"},
@@ -66,7 +64,6 @@ USUARIOS_INICIALES = [
     {"posicion": 29, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula"},
     {"posicion": 30, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez"},
     {"posicion": 31, "real": "Sara Gómez Bayona", "alias": "Sara Gómez"},
-    {"posicion": 33, "real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana"},
     {"posicion": 34, "real": "Tomas Castaño Gómez", "alias": "Tomas"},
     {"posicion": 35, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez"},
     {"posicion": 36, "real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez"},
@@ -115,14 +112,14 @@ COORDINADOR_POR_AGENTE = {
     "Alisson Correa Gaviria": "Paula", "Ana Maria Sanchez Gamboa": "Paula", "Andrea Mileidy londoño Bedoya": "Paula",
     "Angie Valeria Quirama Hernández": "Victor", "Angie Vanessa García": "Jose", "Brayan Andrey Bustamante": "Paula",
     "Carlos Alberto Herrera Cardeño": "Jose", "Claudia Marcela Manco Vargas": "Paula",
-    "Cristian David Acosta Montoya": "Jose", "Dayana Botero Rojas": "Jose", "Evelin Acevedo Cortés": "Victor",
-    "Gustavo Adolfo Barrientos Serna": "Victor", "Iris Sabiana Cano Cano": "Paula", "Janis Henao Vasco": "Victor",
+    "Cristian David Acosta Montoya": "Jose", "Evelin Acevedo Cortés": "Victor",
+    "Gustavo Adolfo Barrientos Serna": "Victor", "Iris Sabiana Cano Cano": "Paula",
     "Johana Osorio Bedoya": "Paula", "Juan Esteban Acevedo Garces": "Jose", "Juan Sebastian Serna Sepulveda": "Paula",
     "Karen Herrera Gonzalez": "Victor", "Libia Paola Romero Cantillo": "Victor", "Linda Liceth Pérez Pineda": "Paula",
     "Luis Alberto Lozano Ibarra": "Paula", "Manuela villegas Giraldo": "Jose", "María Karolina Viana Cancio": "Victor",
     "Mateo Cano Hincapié": "Jose", "Omar David Barboza Carbonero": "Paula", "Oscar José Llanos Mendinueta": "Jose",
     "Paula Andrea Guzman Jaramillo": "Paula", "Rosa Elvira Agamez López": "Paula", "Sara Gómez Bayona": "Jose",
-    "Tatiana Magreth Acevedo Marín": "Victor", "Tomas Castaño Gómez": "Paula", "Viviana Pacheco Córdoba": "Victor",
+    "Tomas Castaño Gómez": "Paula", "Viviana Pacheco Córdoba": "Victor",
     "Yarlen Biviana Son Cedeño": "Paula", "Yarnedis Cecilia Urrutia Pérez": "Jose", "Yeismer Miranda Ramirez": "Victor",
     "Yesica Paola Lopez Arango": "Victor", "Yesly Marilyn Carrero Rivera": "Victor",
 }
@@ -437,10 +434,14 @@ def obtener_lista_turnos() -> list:
 
 
 def _limpiar_turnos(turnos: list) -> list:
-    """Deja solo los campos que se persisten. Si no hay 'activo' se asume activo."""
+    """
+    Deja solo los campos que se persisten y solo a quienes están hoy en el equipo de ventas
+    (USUARIOS_INICIALES): quien sale del equipo no vuelve a la fila. Si no hay 'activo' se asume activo.
+    """
+    equipo = {u["real"] for u in USUARIOS_INICIALES}
     return [
         {"posicion": t["posicion"], "real": t["real"], "alias": t["alias"], "activo": bool(t.get("activo", True))}
-        for t in turnos
+        for t in turnos if t["real"] in equipo
     ]
 
 
