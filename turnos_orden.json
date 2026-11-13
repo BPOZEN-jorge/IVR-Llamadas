@@ -80,14 +80,14 @@
         },
         {
             "posicion": 14,
-            "real": "Dayana Botero Rojas",
-            "alias": "Isabel Botero",
-            "activo": false
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "activo": true
         },
         {
             "posicion": 15,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban",
+            "real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
             "activo": false
         },
         {
@@ -16935,6 +16935,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-13 04:54:17",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 15,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina"
+        },
         {
             "fecha_hora": "2026-11-13 03:52:47",
             "tipo": "REACTIVADO",
