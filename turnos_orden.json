@@ -4,25 +4,25 @@
             "posicion": 1,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 2,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 3,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 4,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 5,
@@ -16918,6 +16918,15 @@
     ],
     "cambios_estado": [
         {
+            "fecha_hora": "2026-11-14 00:13:01",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "posicion_previa": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-11-13 13:34:49",
             "tipo": "INACTIVO",
             "nombre_real": "Yesica Paola Lopez Arango",
@@ -27583,6 +27592,6 @@
             "registrado_por": "Jorge"
         }
     ],
-    "ultimo_reset_diario": "2026-11-13",
+    "ultimo_reset_diario": "2026-11-14",
     "ultima_activacion_automatica": "2026-11-13"
 }
