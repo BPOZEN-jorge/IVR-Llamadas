@@ -158,51 +158,51 @@
         },
         {
             "posicion": 27,
-            "real": "Evelin Acevedo Cortés",
-            "alias": "Gabriela",
-            "activo": true
-        },
-        {
-            "posicion": 28,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "activo": true
         },
         {
-            "posicion": 29,
+            "posicion": 28,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": true
         },
         {
-            "posicion": 30,
+            "posicion": 29,
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "activo": true
         },
         {
-            "posicion": 31,
+            "posicion": 30,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "activo": true
         },
         {
-            "posicion": 32,
+            "posicion": 31,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": true
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "activo": true
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "activo": true
+        },
+        {
+            "posicion": 34,
+            "real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "activo": false
         }
     ],
     "historial": [
@@ -16917,6 +16917,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-16 06:32:22",
+            "tipo": "INACTIVO",
+            "nombre_real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "posicion_previa": 27,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-16 03:14:55",
             "tipo": "REACTIVADO",
