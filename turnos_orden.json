@@ -68,140 +68,140 @@
         },
         {
             "posicion": 12,
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "activo": true
+        },
+        {
+            "posicion": 13,
+            "real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "activo": true
+        },
+        {
+            "posicion": 14,
+            "real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
+            "activo": true
+        },
+        {
+            "posicion": 15,
+            "real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "activo": true
+        },
+        {
+            "posicion": 16,
+            "real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "activo": true
+        },
+        {
+            "posicion": 17,
+            "real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "activo": true
+        },
+        {
+            "posicion": 18,
+            "real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "activo": true
+        },
+        {
+            "posicion": 19,
+            "real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "activo": true
+        },
+        {
+            "posicion": 20,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 13,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban",
-            "activo": false
-        },
-        {
-            "posicion": 14,
+            "posicion": 21,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": false
         },
         {
-            "posicion": 15,
-            "real": "Oscar José Llanos Mendinueta",
-            "alias": "Oscar",
-            "activo": false
-        },
-        {
-            "posicion": 16,
-            "real": "Alisson Correa Gaviria",
-            "alias": "Alisson",
-            "activo": false
-        },
-        {
-            "posicion": 17,
+            "posicion": 22,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 18,
+            "posicion": 23,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "activo": false
         },
         {
-            "posicion": 19,
-            "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez",
-            "activo": false
-        },
-        {
-            "posicion": 20,
+            "posicion": 24,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 21,
+            "posicion": 25,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 26,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 27,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 28,
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 29,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 26,
-            "real": "Paula Andrea Guzman Jaramillo",
-            "alias": "Paula",
-            "activo": false
-        },
-        {
-            "posicion": 27,
+            "posicion": 30,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "activo": false
         },
         {
-            "posicion": 28,
+            "posicion": 31,
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "activo": false
         },
         {
-            "posicion": 29,
-            "real": "Gustavo Adolfo Barrientos Serna",
-            "alias": "Gustavo",
-            "activo": false
-        },
-        {
-            "posicion": 30,
+            "posicion": 32,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "activo": false
         },
         {
-            "posicion": 31,
-            "real": "María Karolina Viana Cancio",
-            "alias": "Karolina",
-            "activo": false
-        },
-        {
-            "posicion": 32,
+            "posicion": 33,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 34,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
-            "activo": false
-        },
-        {
-            "posicion": 34,
-            "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López",
             "activo": false
         }
     ],
@@ -16917,6 +16917,78 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yesica Paola Lopez Arango",
+            "alias": "Yesica López",
+            "posicion_previa": 34,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "posicion_previa": 31,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Gustavo Adolfo Barrientos Serna",
+            "alias": "Gustavo",
+            "posicion_previa": 29,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Paula Andrea Guzman Jaramillo",
+            "alias": "Paula",
+            "posicion_previa": 26,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "posicion_previa": 19,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
+            "posicion_previa": 16,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "posicion_previa": 15,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 05:21:57",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 13,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-19 04:18:46",
             "tipo": "INACTIVO",
