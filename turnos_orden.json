@@ -116,80 +116,80 @@
         },
         {
             "posicion": 20,
+            "real": "Juan Sebastian Serna Sepulveda",
+            "alias": "Juan Sebastian",
+            "activo": true
+        },
+        {
+            "posicion": 21,
+            "real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela",
+            "activo": true
+        },
+        {
+            "posicion": 22,
+            "real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "activo": true
+        },
+        {
+            "posicion": 23,
+            "real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "activo": true
+        },
+        {
+            "posicion": 24,
+            "real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "activo": true
+        },
+        {
+            "posicion": 25,
+            "real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "activo": true
+        },
+        {
+            "posicion": 26,
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 27,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 21,
+            "posicion": 28,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 29,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 23,
-            "real": "Juan Sebastian Serna Sepulveda",
-            "alias": "Juan Sebastian",
-            "activo": false
-        },
-        {
-            "posicion": 24,
+            "posicion": 30,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 25,
-            "real": "Claudia Marcela Manco Vargas",
-            "alias": "Marcela",
-            "activo": false
-        },
-        {
-            "posicion": 26,
-            "real": "Iris Sabiana Cano Cano",
-            "alias": "Maria Cano",
-            "activo": false
-        },
-        {
-            "posicion": 27,
-            "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez",
-            "activo": false
-        },
-        {
-            "posicion": 28,
-            "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez",
-            "activo": false
-        },
-        {
-            "posicion": 29,
+            "posicion": 31,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 30,
+            "posicion": 32,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
-            "activo": false
-        },
-        {
-            "posicion": 31,
-            "real": "Evelin Acevedo Cortés",
-            "alias": "Gabriela",
-            "activo": false
-        },
-        {
-            "posicion": 32,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen",
             "activo": false
         },
         {
@@ -16917,6 +16917,69 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-19 06:24:53",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 32,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 06:24:53",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "posicion_previa": 31,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 06:24:53",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "posicion_previa": 28,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 06:24:53",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarlen Biviana Son Cedeño",
+            "alias": "Maria Rodriguez",
+            "posicion_previa": 27,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 06:24:53",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Iris Sabiana Cano Cano",
+            "alias": "Maria Cano",
+            "posicion_previa": 26,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 06:24:53",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela",
+            "posicion_previa": 25,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-19 06:24:53",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Sebastian Serna Sepulveda",
+            "alias": "Juan Sebastian",
+            "posicion_previa": 23,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-19 05:21:57",
             "tipo": "REACTIVADO",
