@@ -172,24 +172,24 @@
             "posicion": 29,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 30,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
-            "activo": false
+            "real": "Luis Alberto Lozano Ibarra",
+            "alias": "Luis Lozano",
+            "activo": true
         },
         {
             "posicion": 31,
-            "real": "Luis Alberto Lozano Ibarra",
-            "alias": "Luis Lozano",
-            "activo": false
+            "real": "Omar David Barboza Carbonero",
+            "alias": "Omar",
+            "activo": true
         },
         {
             "posicion": 32,
-            "real": "Omar David Barboza Carbonero",
-            "alias": "Omar",
+            "real": "Rosa Elvira Agamez López",
+            "alias": "Flor Lopez",
             "activo": false
         },
         {
@@ -16917,6 +16917,33 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-23 06:33:00",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Omar David Barboza Carbonero",
+            "alias": "Omar",
+            "posicion_previa": 32,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-23 06:33:00",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Luis Alberto Lozano Ibarra",
+            "alias": "Luis Lozano",
+            "posicion_previa": 31,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-23 06:33:00",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "posicion_previa": 29,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-23 06:01:15",
             "tipo": "REACTIVADO",
