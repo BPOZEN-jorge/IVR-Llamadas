@@ -164,32 +164,32 @@
         },
         {
             "posicion": 28,
+            "real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "activo": true
+        },
+        {
+            "posicion": 29,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 29,
+            "posicion": 30,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": false
         },
         {
-            "posicion": 30,
+            "posicion": 31,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": false
         },
         {
-            "posicion": 31,
+            "posicion": 32,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
-            "activo": false
-        },
-        {
-            "posicion": 32,
-            "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez",
             "activo": false
         },
         {
@@ -16917,6 +16917,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-24 11:38:13",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Linda Liceth Pérez Pineda",
+            "alias": "Linda Pérez / Elena Pérez",
+            "posicion_previa": 32,
+            "motivo": "Activa",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-11-24 06:36:28",
             "tipo": "REACTIVADO",
