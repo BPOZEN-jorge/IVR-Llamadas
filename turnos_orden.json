@@ -40,18 +40,18 @@
             "posicion": 7,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 8,
-            "real": "Carlos Alberto Herrera Cardeño",
-            "alias": "Carlos Herrera / Alberto Fernandez",
-            "activo": false
+            "real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "activo": true
         },
         {
             "posicion": 9,
-            "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López",
+            "real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
@@ -16917,6 +16917,24 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-24 04:05:44",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "posicion_previa": 9,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-24 04:05:44",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Mateo Cano Hincapié",
+            "alias": "Antonio de la villa",
+            "posicion_previa": 7,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-24 04:04:41",
             "tipo": "INACTIVO",
