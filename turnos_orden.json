@@ -104,86 +104,86 @@
         },
         {
             "posicion": 18,
+            "real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "activo": true
+        },
+        {
+            "posicion": 19,
+            "real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "activo": true
+        },
+        {
+            "posicion": 20,
+            "real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "activo": true
+        },
+        {
+            "posicion": 21,
+            "real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "activo": true
+        },
+        {
+            "posicion": 22,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
-            "posicion": 19,
+            "posicion": 23,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "activo": false
         },
         {
-            "posicion": 20,
+            "posicion": 24,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "activo": false
         },
         {
-            "posicion": 21,
+            "posicion": 25,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "activo": false
         },
         {
-            "posicion": 22,
+            "posicion": 26,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "activo": false
         },
         {
-            "posicion": 23,
+            "posicion": 27,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "activo": false
         },
         {
-            "posicion": 24,
+            "posicion": 28,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "activo": false
         },
         {
-            "posicion": 25,
+            "posicion": 29,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "activo": false
         },
         {
-            "posicion": 26,
-            "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez",
-            "activo": false
-        },
-        {
-            "posicion": 27,
+            "posicion": 30,
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "activo": false
         },
         {
-            "posicion": 28,
+            "posicion": 31,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
-            "activo": false
-        },
-        {
-            "posicion": 29,
-            "real": "Evelin Acevedo Cortés",
-            "alias": "Gabriela",
-            "activo": false
-        },
-        {
-            "posicion": 30,
-            "real": "Karen Herrera Gonzalez",
-            "alias": "Karen",
-            "activo": false
-        },
-        {
-            "posicion": 31,
-            "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda",
             "activo": false
         },
         {
@@ -16917,6 +16917,42 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-24 05:57:45",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Yeismer Miranda Ramirez",
+            "alias": "Leo Miranda",
+            "posicion_previa": 31,
+            "motivo": "Victor",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-24 05:57:45",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Karen Herrera Gonzalez",
+            "alias": "Karen",
+            "posicion_previa": 30,
+            "motivo": "Victor",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-24 05:57:45",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Evelin Acevedo Cortés",
+            "alias": "Gabriela",
+            "posicion_previa": 29,
+            "motivo": "Victor",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-24 05:57:45",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Ana Maria Sanchez Gamboa",
+            "alias": "Maria Sanchez",
+            "posicion_previa": 26,
+            "motivo": "Victor",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-24 05:04:00",
             "tipo": "REACTIVADO",
