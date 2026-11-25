@@ -116,32 +116,32 @@
         },
         {
             "posicion": 20,
-            "real": "Carlos Alberto Herrera Cardeño",
-            "alias": "Carlos Herrera / Alberto Fernandez",
-            "activo": false
+            "real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "activo": true
         },
         {
             "posicion": 21,
-            "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban",
-            "activo": false
+            "real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "activo": true
         },
         {
             "posicion": 22,
-            "real": "Manuela villegas Giraldo",
-            "alias": "Manuela Villegas",
-            "activo": false
+            "real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "activo": true
         },
         {
             "posicion": 23,
-            "real": "Angie Vanessa García",
-            "alias": "Maria Antonia García",
-            "activo": false
+            "real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "activo": true
         },
         {
             "posicion": 24,
-            "real": "Oscar José Llanos Mendinueta",
-            "alias": "Oscar",
+            "real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
             "activo": false
         },
         {
@@ -16917,6 +16917,42 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-25 05:06:42",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "posicion_previa": 24,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-25 05:06:42",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "posicion_previa": 23,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-25 05:06:42",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Manuela villegas Giraldo",
+            "alias": "Manuela Villegas",
+            "posicion_previa": 22,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
+        {
+            "fecha_hora": "2026-11-25 05:06:42",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "posicion_previa": 21,
+            "motivo": "Inicio turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-25 05:04:39",
             "tipo": "REACTIVADO",
