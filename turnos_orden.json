@@ -190,7 +190,7 @@
             "posicion": 32,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 33,
@@ -16917,6 +16917,15 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-26 09:27:34",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "posicion_previa": 32,
+            "motivo": "inició turno",
+            "registrado_por": "Victor"
+        },
         {
             "fecha_hora": "2026-11-26 07:25:37",
             "tipo": "REACTIVADO",
