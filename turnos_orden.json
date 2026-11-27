@@ -176,44 +176,44 @@
         },
         {
             "posicion": 30,
+            "real": "Julián Andrés Osorio Aristizabal",
+            "alias": "Julián Osorio",
+            "activo": true
+        },
+        {
+            "posicion": 31,
+            "real": "Kelly Jhoana Salas Ibarguen",
+            "alias": "Kelly Salas",
+            "activo": true
+        },
+        {
+            "posicion": 32,
+            "real": "Stefany Vanegas Arbelaez",
+            "alias": "Stefany Vanegas",
+            "activo": true
+        },
+        {
+            "posicion": 33,
             "real": "Mateo Cano Hincapié",
             "alias": "Antonio de la villa",
             "activo": false
         },
         {
-            "posicion": 31,
+            "posicion": 34,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": false
         },
         {
-            "posicion": 32,
+            "posicion": 35,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 36,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
-            "activo": false
-        },
-        {
-            "posicion": 34,
-            "real": "Julián Andrés Osorio Aristizabal",
-            "alias": "Julián Osorio",
-            "activo": false
-        },
-        {
-            "posicion": 35,
-            "real": "Kelly Jhoana Salas Ibarguen",
-            "alias": "Kelly Salas",
-            "activo": false
-        },
-        {
-            "posicion": 36,
-            "real": "Stefany Vanegas Arbelaez",
-            "alias": "Stefany Vanegas",
             "activo": false
         }
     ],
@@ -16929,6 +16929,33 @@
         }
     ],
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-11-27 11:31:13",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Stefany Vanegas Arbelaez",
+            "alias": "Stefany Vanegas",
+            "posicion_previa": 36,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-27 11:31:13",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Kelly Jhoana Salas Ibarguen",
+            "alias": "Kelly Salas",
+            "posicion_previa": 35,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
+        {
+            "fecha_hora": "2026-11-27 11:31:13",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Julián Andrés Osorio Aristizabal",
+            "alias": "Julián Osorio",
+            "posicion_previa": 34,
+            "motivo": "Inicio de turno",
+            "registrado_por": "Jose Jeffry Molina Hernández"
+        },
         {
             "fecha_hora": "2026-11-27 07:55:10",
             "tipo": "REACTIVADO",
