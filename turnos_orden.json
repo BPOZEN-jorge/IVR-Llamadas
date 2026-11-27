@@ -182,26 +182,38 @@
         },
         {
             "posicion": 31,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
-            "activo": false
-        },
-        {
-            "posicion": 32,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "activo": false
         },
         {
-            "posicion": 33,
+            "posicion": 32,
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "activo": false
         },
         {
-            "posicion": 34,
+            "posicion": 33,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
+            "activo": false
+        },
+        {
+            "posicion": 34,
+            "real": "Julián Andrés Osorio Aristizabal",
+            "alias": "Julián Osorio",
+            "activo": false
+        },
+        {
+            "posicion": 35,
+            "real": "Kelly Jhoana Salas Ibarguen",
+            "alias": "Kelly Salas",
+            "activo": false
+        },
+        {
+            "posicion": 36,
+            "real": "Stefany Vanegas Arbelaez",
+            "alias": "Stefany Vanegas",
             "activo": false
         }
     ],

@@ -52,7 +52,9 @@ USUARIOS_INICIALES = [
     {"posicion": 15, "real": "Johana Osorio Bedoya", "alias": "Johana Sanchez"},
     {"posicion": 16, "real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban"},
     {"posicion": 17, "real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian"},
+    {"posicion": 18, "real": "Julián Andrés Osorio Aristizabal", "alias": "Julián Osorio"},
     {"posicion": 19, "real": "Karen Herrera Gonzalez", "alias": "Karen"},
+    {"posicion": 20, "real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas"},
     {"posicion": 21, "real": "Libia Paola Romero Cantillo", "alias": "Paola Romero"},
     {"posicion": 22, "real": "Linda Liceth Pérez Pineda", "alias": "Linda Pérez / Elena Pérez"},
     {"posicion": 23, "real": "Luis Alberto Lozano Ibarra", "alias": "Luis Lozano"},
@@ -62,8 +64,8 @@ USUARIOS_INICIALES = [
     {"posicion": 27, "real": "Omar David Barboza Carbonero", "alias": "Omar"},
     {"posicion": 28, "real": "Oscar José Llanos Mendinueta", "alias": "Oscar"},
     {"posicion": 29, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula"},
-    {"posicion": 30, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez"},
     {"posicion": 31, "real": "Sara Gómez Bayona", "alias": "Sara Gómez"},
+    {"posicion": 33, "real": "Stefany Vanegas Arbelaez", "alias": "Stefany Vanegas"},
     {"posicion": 34, "real": "Tomas Castaño Gómez", "alias": "Tomas"},
     {"posicion": 35, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez"},
     {"posicion": 36, "real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez"},
@@ -118,10 +120,12 @@ COORDINADOR_POR_AGENTE = {
     "Karen Herrera Gonzalez": "Victor", "Libia Paola Romero Cantillo": "Victor", "Linda Liceth Pérez Pineda": "Paula",
     "Luis Alberto Lozano Ibarra": "Paula", "Manuela villegas Giraldo": "Jose", "María Karolina Viana Cancio": "Victor",
     "Mateo Cano Hincapié": "Jose", "Omar David Barboza Carbonero": "Paula", "Oscar José Llanos Mendinueta": "Jose",
-    "Paula Andrea Guzman Jaramillo": "Paula", "Rosa Elvira Agamez López": "Paula", "Sara Gómez Bayona": "Jose",
+    "Paula Andrea Guzman Jaramillo": "Paula", "Sara Gómez Bayona": "Jose",
     "Tomas Castaño Gómez": "Paula", "Viviana Pacheco Córdoba": "Victor",
     "Yarlen Biviana Son Cedeño": "Paula", "Yarnedis Cecilia Urrutia Pérez": "Jose", "Yeismer Miranda Ramirez": "Victor",
     "Yesica Paola Lopez Arango": "Victor", "Yesly Marilyn Carrero Rivera": "Victor",
+    "Julián Andrés Osorio Aristizabal": "Jose", "Kelly Jhoana Salas Ibarguen": "Jose",
+    "Stefany Vanegas Arbelaez": "Jose",
 }
 TIPOS_ASIGNACION = {                  # Tipo en ATC -> cómo se le muestra al asesor
     "Transferido (turno)": "Turno",
@@ -439,10 +443,18 @@ def _limpiar_turnos(turnos: list) -> list:
     (USUARIOS_INICIALES): quien sale del equipo no vuelve a la fila. Si no hay 'activo' se asume activo.
     """
     equipo = {u["real"] for u in USUARIOS_INICIALES}
-    return [
+    limpios = [
         {"posicion": t["posicion"], "real": t["real"], "alias": t["alias"], "activo": bool(t.get("activo", True))}
         for t in turnos if t["real"] in equipo
     ]
+    # Quien entra al equipo y aún no está en la fila se agrega al final, inactivo (lo activa el admin).
+    existentes = {t["real"] for t in limpios}
+    ultima = max((t["posicion"] for t in limpios), default=0)
+    for u in USUARIOS_INICIALES:
+        if u["real"] not in existentes:
+            ultima += 1
+            limpios.append({"posicion": ultima, "real": u["real"], "alias": u["alias"], "activo": False})
+    return limpios
 
 
 def _renumerar(turnos: list) -> list:
